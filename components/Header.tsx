@@ -1,28 +1,17 @@
-import React, {useContext} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import Link from 'next/link';
-import Categories from "./Categories";
-
-
-const categories : Array<{name: string, slug: string}> = [
-    {
-        name: 'React',
-        slug: 'react'
-    },
-    {
-        name: 'Webdev',
-        slug: 'webdev'
-    },
-    {
-        name: 'Dummy',
-        slug: 'dummy'
-    }
-];
+import Categories, { Category } from "./Categories";
+import { getCategories } from "../services";
+import { StateContext } from "../pages/_app";
 
 interface HeaderProps {
 
 }
 
 const Header = ({}:HeaderProps) : JSX.Element => {
+
+    const { categories } = useContext(StateContext);
+    console.log("Header Categories: ", categories);
 
     return (
         <div className="container mx-auto px-10 mb-8">
@@ -34,7 +23,7 @@ const Header = ({}:HeaderProps) : JSX.Element => {
                     <Link href="/">
 
                         <span className="cursoe-pointer font-bold text-4xl text-white">
-                            Console.blog
+                            {`Console.blog()`}
                         </span>
                     </Link>
 
@@ -42,9 +31,9 @@ const Header = ({}:HeaderProps) : JSX.Element => {
 
                 <div className="hidden md:float-left md:contents">
 
-                    {categories.map((category, index) => ( 
+                    {categories.map((category: Category, index) => ( 
                         <Link key={category.slug} href={`/category/${category.slug}`} >
-                            <span className="md:float-right mt-2 align-middle text-white ml-4 font-semibold curoser-pointer">
+                            <span className="md:float-right mt-2 align-middle text-white ml-4 font-semibold cursor-pointer">
                                 {category.name}
                             </span>
                         </Link> 
