@@ -22,7 +22,7 @@ const Categories  = (props: CategoriesProps): JSX.Element => {
         <div className='bg-white shadow-lg rounded-lg p-8 mb-8 '>
 
             <h3 className='text-xl mb-8 border-b pb-4'>
-                Categories
+                Popular Tags
             </h3>
 
             {categories.map((category:Category) => (
@@ -32,7 +32,7 @@ const Categories  = (props: CategoriesProps): JSX.Element => {
                     <Link className='txt-md' href={`/category/${category.slug}`}>
 
                         <span className='cursor-pointer'>
-                            {category.name}
+                            {`#${category.name}`}
                         </span>
                         
                     </Link>

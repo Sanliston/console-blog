@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { PostCard, Categories, PostWidget } from '../components/';
 import { Category } from '../components/Categories';
+import FeaturedPosts from '../components/FeaturedPosts';
 import {getCategories, getPosts } from '../services'; 
 
 interface HomeProps {
@@ -32,6 +33,8 @@ const Home: NextPage<HomeProps> = ({ posts }: HomeProps): JSX.Element => {
           <title>{`Console.blog();`}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
+
+        <FeaturedPosts posts={posts}/>
 
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-12'>
 

@@ -27,6 +27,7 @@ export const getPosts = async () : Promise<[]> => {
                     url
                 }
                 createdAt
+                featuredPost
                 slug
                 title
                 id
@@ -41,6 +42,8 @@ export const getPosts = async () : Promise<[]> => {
     return results.postsConnection.edges; 
 
 }
+
+
 
 export const getRecentPosts = async (): Promise<[]> => {
 
@@ -170,7 +173,6 @@ export const getComments = async (slug: string): Promise<[]> => {
 
     const query = gql`
         query GetComments ($slug: String!) {
-
             comments(
                 where: {
                     post: {

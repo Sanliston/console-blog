@@ -17,7 +17,8 @@ export interface Post {
             url: string
           }
         },
-        createdAt: string
+        createdAt: string,
+        categories: []
     }
 }
 
@@ -88,6 +89,19 @@ const PostCard = ({ post }: Post): JSX.Element => {
               Read more
             </span>
           </Link>
+        </div>
+
+        <div className='flex flex-row flex-wrap w-full h-auto pt-10 mt-10 items-center justify-center'>
+
+          {post.categories.map((category:any)=>(
+
+              <Link href={`/category/${category.slug}`} key={category.slug}>
+                  <span className="relative cursor-pointer absolute px-3 py-1 mx-2 bg-gray-300 text-white rounded-full text-sm">
+                      {`#${category.name}`}
+                  </span>
+              </Link>
+          ))}
+
         </div>
 
     </div>
