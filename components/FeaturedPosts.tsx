@@ -43,13 +43,9 @@ const FeaturedPosts = ({posts}: FeaturedPostsProps):JSX.Element => {
 
     useEffect(()=>{
 
-        console.log("posts: ", posts);
-
         //call featured posts here
-        let filteredPosts = posts.filter((post:any)=> post.node.featuredPost);
+        let filteredPosts = posts.filter((post:any)=> post.featuredPost);
         setFeaturedPosts(filteredPosts);
-
-        console.log("Featured posts: ", featuredPosts);
 
     }, []);
 
@@ -80,44 +76,44 @@ const FeaturedPosts = ({posts}: FeaturedPostsProps):JSX.Element => {
                 customRightArrow={arrowRight} 
                 responsive={responsive} 
                 itemClass="px-2 h-[450px]"
-                autoPlaySpeed={3000}
+                autoPlaySpeed={9000}
                 autoPlay={false}
                 >
 
                 {featuredPosts.map((post: any, index: number)=>(
                     
 
-                    <div className="relative h-[450px]" key={post.node.id}>
+                    <div className="relative h-[450px]" key={post.id}>
                         <div 
                             className="absolute rounded-lg bg-center bg-no-repeat bg-cover shadow-md inline-block w-full h-[450px]" 
-                            style={{ backgroundImage: `url('${post.node.featuredImage.url}')` }} 
+                            style={{ backgroundImage: `url('${post.featuredImage.url}')` }} 
                             />
 
-                        <div className="absolute rounded-lg bg-center bg-gradient-to-b opacity-50 from-gray-400 via-gray-700 to-black w-full h-[450px]" />
+                        <div className="absolute rounded-lg bg-center bg-gradient-to-b opacity-50 from-[#4A5A6A]/[0.8] via-[#4A5A6A]/[0.5] to-black w-full h-[450px]" />
                         <div className="flex flex-col rounded-lg p-4 items-center justify-center absolute w-full h-full">
-                        <Link href={`/post/${post.node.slug}`}>
+                        <Link href={`/post/${post.slug}`}>
 
                             <div className="flex flex-col rounded-lg p-4 items-center justify-center w-full h-full cursor-pointer">
                                 <p className="text-white mb-4 text-shadow font-semibold text-xs">
-                                        {moment(post.node.createdAt).format('MMM DD, YYYY')}
+                                        {moment(post.createdAt).format('MMM DD, YYYY')}
                                     </p>
 
                                     <p className="text-white mb-4 text-shadow font-semibold text-2xl text-center">
-                                        {post.node.title}
+                                        {post.title}
                                     </p>
 
                                     <div className="flex items-center absolute bottom-[130px] w-full justify-center">
                                         <Image
                                         unoptimized
-                                        alt={post.node.author.name}
+                                        alt={post.author.name}
                                         height="30px"
                                         width="30px"
                                         className="align-middle drop-shadow-lg rounded-full"
-                                        src={post.node.author.photo.url}
+                                        src={post.author.photo.url}
                                         />
 
                                         <p className="inline align-middle text-white text-shadow ml-2 font-medium">
-                                            {post.node.author.name}
+                                            {post.author.name}
                                         </p>
                                 </div>
                             </div>
@@ -126,9 +122,9 @@ const FeaturedPosts = ({posts}: FeaturedPostsProps):JSX.Element => {
 
                             <div className='absolute bottom-5 flex flex-row flex-wrap w-full h-20 items-center justify-center'>
 
-                                {post.node.categories.map((category:any)=>(
+                                {post.categories.map((category:any)=>(
 
-                                    <Link href={`/category/${category.slug}`} key={category.slug}>
+                                    <Link href={`/tags/${category.slug}`} key={category.slug}>
                                         <span className="relative transition duration-150 cursor-pointer absolute px-3 py-1 text-bold mx-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm">
                                             {`#${category.name}`}
                                         </span>

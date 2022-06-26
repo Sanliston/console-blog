@@ -58,7 +58,7 @@ const CommentsForm = ( {slug} : CommentsFormProps ) : JSX.Element => {
     }
 
     return (
-        <div className='bg-white shadow-lg rounded-lg p-8 pb-12 mb-8'>
+        <div className='bg-[#4A5A6A]/[0.3] text-white rounded-lg p-8 pb-12 mb-8'>
 
             <h3 className='text-xl mb-8 font-semibold border-b pb-4'>
                 Comment

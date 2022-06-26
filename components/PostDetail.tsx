@@ -34,7 +34,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                 return <h3 key={index} className="text-xl font-semibold mb-4">{modifiedText.map((item:any, i:number) => <React.Fragment key={i}>{item}</React.Fragment>)}</h3>;
 
             case 'paragraph':
-                return <p key={index} className="mb-8">{modifiedText.map((item:any, i:number) => <React.Fragment key={i}>{item}</React.Fragment>)}</p>;
+                return <p key={index} className="mb-8 font-light">{modifiedText.map((item:any, i:number) => <React.Fragment key={i}>{item}</React.Fragment>)}</p>;
 
             case 'heading-four':
                 return <h4 key={index} className="text-md font-semibold mb-4">{modifiedText.map((item:any, i:number) => <React.Fragment key={i}>{item}</React.Fragment>)}</h4>;
@@ -47,6 +47,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                         height={obj.height}
                         width={obj.width}
                         src={obj.src}
+                        className='shadow-lg rounded-lg'
                     />
                 );
             default:
@@ -55,9 +56,9 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
     }
 
     return (
-        <div className='bg-white shadow-lg rounded-lg lg:p-8 pb-12 mb-8'>
+        <div className='bg-[#4A5A6A]/[0.3] rounded-lg lg:p-0 pb-12 mb-8 mt-[150px] text-white/[0.8]'>
 
-            <div className='relative overflow-hidden shadow-d mb-6'>
+            <div className='relative overflow-hidden shadow-d mb-6 shadow-lg'>
 
                 <img 
                 
@@ -67,7 +68,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                 />
             </div>
 
-            <div className='px-4 lg:px-0'>
+            <div className='p-4 lg:p-8'>
 
                 <div className='flex items-center mb-8 w-full'>
 
@@ -81,13 +82,13 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                             src={post.author.photo.url}
                         />
 
-                        <p className='inline align-middle text-gray-700 ml-3 text-lg'>
+                        <p className='inline align-middle text-white/[0.6] ml-3 text-lg'>
                             {post.author.name}
                         </p>
 
                     </div>
 
-                    <div className='font-medium text-gray-700 flex flex-row align-center justify-center m-5'>
+                    <div className='font-medium text-white/[0.6] flex flex-row align-center justify-center m-5'>
                         <FiCalendar className='mt-[3px] mr-3' />
                         <span className=''>
                             {moment(post.createdAt).format('MMM DD, YYYY')}
@@ -96,7 +97,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
 
                 </div>
 
-                <h1 className='mb-8 text-3xl'> {post.title}</h1>
+                <h1 className='mb-8 text-3xl text-white'> {post.title}</h1>
 
                 {post.content.raw.children.map((typeObj: any, index:number)=>{
 

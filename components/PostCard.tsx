@@ -24,17 +24,16 @@ export interface Post {
 
 const PostCard = ({ post }: Post): JSX.Element => {
 
-  console.log('post: ', post);
   return (
-    <div className='bg-white shadow-lg rounded-lg p-0 lg:pb-20 pb-12 mb-8 '>
+    <div className='bg-[#4A5A6A]/[0.3] flex flex-col items-center text-white rounded-lg p-0 lg:pb-20 pb-12 mb-8 '>
         
         {/*Image div */}
-        <div className='relative overflow-hidden shadow-md pb-80 px-0 mb-6 rounded-tl-lg rounded-tr-lg'>
+        <div className='relative overflow-hidden h-80 w-full lg:h-[400px] pb-80 px-0 mb-6 rounded-tl-lg rounded-tr-lg'>
 
           <img 
             src={post.featuredImage?.url} 
             alt={post.title}
-            className='object-top absolute h-80 w-full object-cover shadow-lg rounded-t-lg'
+            className='object-top relative h-80 lg:h-[400px] w-full object-cover rounded-t-lg'
             >
           
           </img>
@@ -63,13 +62,13 @@ const PostCard = ({ post }: Post): JSX.Element => {
               src={post.author.photo.url}
             />
 
-            <p className='inline align-middle text-gray-700 ml-3 text-lg'>
+            <p className='inline align-middle text-white/[0.5] ml-3 text-lg'>
               {post.author.name}
             </p>
 
           </div>
 
-          <div className='font-medium text-gray-700 flex flex-row align-center justify-center m-5'>
+          <div className='font-medium text-white/[0.5] flex flex-row align-center justify-center m-5'>
             <FiCalendar className='mt-[3px] mr-3' />
             <span className=''>
               {moment(post.createdAt).format('MMM DD, YYYY')}
@@ -79,24 +78,24 @@ const PostCard = ({ post }: Post): JSX.Element => {
 
         </div>
 
-        <p className='text-center text-lg text-gray-700 font-normal px-4 lg:px-20 mb-8'>
+        <p className='text-center text-lg text-white/[0.8] font-light px-4 lg:px-20 mb-8'>
           {post.excerpt}
         </p>
 
         <div className='text-center'>
           <Link href={`/post/${post.slug}`}>
-            <span className='transition duration-300 transform hover:-translate-y-1 inline-block bg-pink-600 text-lg font-medium rounded-full text-white px-8 py-3 cursor-pointer'>
+            <span className='transition duration-300 transform hover:-translate-y-1 inline-block bg-black/[0.3] text-lg font-light rounded-full text-white/[0.5] px-8 py-3 cursor-pointer'>
               Read more
             </span>
           </Link>
         </div>
 
-        <div className='flex flex-row flex-wrap w-full h-auto pt-10 mt-10 items-center justify-center'>
+        <div className=' self-center flex flex-row flex-wrap w-[80%] h-auto pt-10 mt-10 items-center justify-center border-t-[1px] border-white/[0.3]'>
 
           {post.categories.map((category:any)=>(
 
-              <Link href={`/category/${category.slug}`} key={category.slug}>
-                  <span className="relative cursor-pointer absolute px-3 py-1 mx-2 bg-gray-300 text-white rounded-full text-sm">
+              <Link href={`/tags/${category.slug}`} key={category.slug}>
+                  <span className="relative cursor-pointer absolute px-3 py-1 mx-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm">
                       {`#${category.name}`}
                   </span>
               </Link>
