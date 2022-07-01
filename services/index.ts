@@ -271,3 +271,26 @@ export const getTagPost = async (slug:string) : Promise<[]> => {
     return result.postsConnection.edges;
   };
   
+  export const getCollections = async (): Promise<[]> => {
+
+    const query = gql`
+        query GetCollections () {
+            collections(
+                orderBy: createdAt_ASC
+                last: 5
+            ) {
+                title,
+                description,
+                slug,
+                subtitle,
+                image {
+                    url
+                }
+            }
+        }
+    `;
+
+    const result = await request(graphqlAPI, query);
+    return result.collections;
+
+}

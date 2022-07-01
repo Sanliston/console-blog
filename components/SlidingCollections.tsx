@@ -2,12 +2,29 @@ import Link from 'next/link';
 import React, {useState, useEffect, useRef} from 'react';
 import * as ReactDOM from 'react-dom';
 import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
+import { FiArrowDownCircle } from "react-icons/fi";
+import { getCollections } from '../services';
+import { truncate } from '../utils/utils';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 
-const SlidingCollections = ():JSX.Element => {
+interface SlidingCollectionsInterface  {
+    collectionsProp: [],
+    scrollRef: React.RefObject<HTMLDivElement>
+}
+
+const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInterface):JSX.Element => {
     const [collections, setCollections] = useState<[] | any>([]);
     const [parentBackgroundImage, setParentBackgroundImage] = useState('https://media.graphassets.com/PE2C3O7SLAs15PHcLvpA');
+    const [featuredCollectionsPosition, setFeaturedCollectionsPosition] = useState({top:0, left: 0});
+
     const parentRef = useRef<HTMLDivElement>(null);
     const innerContainerRef = useRef<HTMLDivElement>(null);
+    const widgetRef = useRef<HTMLDivElement>(null); //ref for second widget in list, to be used as reference
+    const isFirstRender = useRef(true);
+
+    const {scrollX, scrollY} = useWindowScrollPositions(); 
+    const {windowHeight, windowWidth } = useWindowDimensions(); 
 
     let dummyCollections = [
 
@@ -46,20 +63,44 @@ const SlidingCollections = ():JSX.Element => {
     ];
 
     useEffect(()=>{
+        console.log('collection results: ', collectionsProp);
 
-        setCollections(dummyCollections.map((collection: any, index:number)=>{
+            setCollections(collectionsProp.map((collection: any, index:number)=>{
 
-            collection.cleanup = false; 
-            return collection; 
-        }));
+                collection.cleanup = false; 
+                return collection; 
+            }));
         
     }, []);
+
+    useEffect(()=>{
+
+        if(isFirstRender.current && collections.length > 0){
+            focusCollection(0);
+            isFirstRender.current = false; 
+        }
+
+    }, [collections]);
+
+    useEffect(()=>{
+
+        let top = widgetRef.current?.offsetTop;
+        let left = widgetRef.current?.offsetLeft; 
+
+        setFeaturedCollectionsPosition({
+            top: typeof top !== 'undefined' ? top : 0,
+            left: typeof left !== 'undefined' ? left : 0
+        });
+
+    }, [widgetRef.current])
 
 
     const focusCollection = (targetIndex:number) => {
 
+        console.log('featuredRef: ', widgetRef);
+
         //grab the target background image
-        var backgroundImage = collections[targetIndex].backgroundImage; 
+        var backgroundImage = collections[targetIndex].image.url; 
         let buriedCollections: []| any = [];
         let updatedCollections = collections.map((collection:any, index:number)=>{
 
@@ -143,8 +184,8 @@ const SlidingCollections = ():JSX.Element => {
     }
 
     //experiment with setting this to fixed when you get the chance
-    const focusedStyle = 'absolute focused-animation-transition featured-collection-widget w-full h-full duration-10';
-    const unfocusedStyle = 'absolute animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] flex flex-col items-sart justify-end';
+    const focusedStyle = 'fixed focused-animation-transition featured-collection-widget w-full h-full';
+    const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 absolute animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
 
 
@@ -154,31 +195,36 @@ const SlidingCollections = ():JSX.Element => {
 
             let marginBottom = params.marginBottom; //150; 
             let marginLeft = params.marginLeft; //10; 
-            let offset = params.offset
+            let offset = params.offset;
 
             return (
 
                 <div
                     key={collection.slug}
                     className={
-                            ' bg-cover overflow-hidden '
+                            'collection-image bg-cover overflow-hidden '
                             + (collection.focused ? 
                                 focusedStyle : 
                                 collection.cleanup ? '' : unfocusedStyle)
                             + (collection.cleanup ? cleanupStyle : '') 
-                            + (collection.focused ? '' :' custom-animation-delay : '+index*300+50+'ms ' )}
+                            + (collection.focused ? '' :' custom-animation-delay : '+index*300+50+'ms ' )
+                            + (scrollY > windowHeight*0.5 ? ' collection-filter ': '')
+                        }
                             
                     style={{
-                        backgroundImage: `url('${collection.backgroundImage}')`,
+                        backgroundImage: `url('${collection.image.url}')`,
                         left: collection.focused ? 
                             '0px' : 
                             (parentRef!.current!.clientWidth - offset + index*(270+marginLeft)) + 'px',
                         bottom: collection.focused ? '0px' : marginBottom+10+'px',
                         opacity: collection.focused ? 1 : 0,
                         '--custom-delay': index*200+50+'ms '
+
                     } as React.CSSProperties}
 
-                    onClick={()=>focusCollection(index)}
+                    ref = {index == 1 ? widgetRef : null}
+
+                    onClick={collection.focused ? ()=>{} : ()=>focusCollection(index)}
                 >
 
                     <div
@@ -199,17 +245,36 @@ const SlidingCollections = ():JSX.Element => {
 
                                 className={
                                     ' flex flex-col h-full w-full items-start justify-center'
-                                    + (collection.focused ? ' collection-background-info-show ': '')
+                                    + (collection.focused && scrollY < windowHeight*0.5 ? ' collection-background-info-show ': '')
+                                    + (scrollY > windowHeight*0.5 ? ' collection-background-info-hide ': ' opacity-0')
                                 }
 
                                 >
 
                                 <div
-                                    className={'text-white text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches'+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    className={
+                                        'text-white/[0.4] mb-0 text-[20px] lg:text-[20px] xl:text-[30px] 2xl:text-[40px] font-bold font-labelle'+ (collection.focused ? ' collection-background-info-show ': '')
+                                    }
 
                                     style={{
                                         //for animating disappearing when focused
     
+                                        '--custom-delay': 10+'ms ',
+                                        opacity: collection.focused ? 0 : 1,
+                                    } as React.CSSProperties}
+                                    >
+
+                                    Featured Collection
+
+                                </div>
+
+                                <div
+                                    className={'text-white mb-0 text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches'+ (collection.focused ? ' collection-background-info-show ': '')}
+
+                                    style={{
+                                        //for animating disappearing when focused
+    
+                                        '--custom-delay': 100+'ms ',
                                         opacity: collection.focused ? 0 : 1,
                                     } as React.CSSProperties}
                                     >
@@ -219,17 +284,24 @@ const SlidingCollections = ():JSX.Element => {
                                 </div>
 
                                 <div
-                                    className='w-[100px] h-[1px] bg-white my-5'
+                                    className={'w-[100px] h-[1px] bg-white mb-[30px]'+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    style={{
+                                        //for animating disappearing when focused
+    
+                                        '--custom-delay': 150+'ms ',
+                                        opacity: collection.focused ? 0 : 1,
+                                    } as React.CSSProperties}
+                                    
                                 >
 
                                 </div>
 
                                 <div
-                                    className={'text-white text-md font-light delay-400 mb-5 '+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    className={'text-white text-md font-light delay-400 mb-5 max-w-[300px] '+ (collection.focused ? ' collection-background-info-show ': '')}
 
                                     style={{
                                         //for animating disappearing when focused
-    
+                                        '--custom-delay': 200+'ms ',
                                         opacity: collection.focused ? 0 : 1,
                                     } as React.CSSProperties}
                                 >
@@ -239,11 +311,11 @@ const SlidingCollections = ():JSX.Element => {
                                 </div>
 
                                 <div
-                                    className={'text-white text-sm lg:text-md xl:text-md font-light delay-800 mb-5'+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    className={'text-white text-sm lg:text-md xl:text-md font-light delay-800 mb-5 max-w-[40vw]'+ (collection.focused ? ' collection-background-info-show ': '')}
 
                                     style={{
                                         //for animating disappearing when focused
-    
+                                        '--custom-delay': 250+'ms ',
                                         opacity: collection.focused ? 0 : 1,
                                     } as React.CSSProperties}
                                 >
@@ -254,7 +326,14 @@ const SlidingCollections = ():JSX.Element => {
 
 
                                 <Link href={`/collections/${collection.slug}`}>
-                                    <div className='button border-2 rounded-full cursor-pointer px-5 py-3 bg-transparent text-white text-xs xl:text-xs 2xl:text-sm'>
+                                    <div 
+                                        className={'button border-2 rounded-full cursor-pointer px-5 py-3 bg-transparent text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
+                                        style={{
+                                            //for animating disappearing when focused
+                                            '--custom-delay': 300+'ms ',
+                                            opacity: collection.focused ? 1 : 0,
+                                        } as React.CSSProperties}
+                                        >
                                         <span>
                                             Discover Collection
                                         </span>
@@ -279,13 +358,14 @@ const SlidingCollections = ():JSX.Element => {
                             opacity: collection.focused ? 0 : 1,
                         } as React.CSSProperties}
                         > 
-                        <div className='text-white text-xs lg:text-xs xl:text-md font-light 2xl:pt-[250px] xl:pt-[200px] lg:pt-[130px] pt-[50px]'> 
-                            {collection.subtitle}
-                        </div>
-
-                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold'> 
+                        
+                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold 2xl:pt-[250px] xl:pt-[200px] lg:pt-[130px] pt-[50px]'> 
                             {collection.title}
                         </div> 
+
+                        <div className='text-white text-xs lg:text-xs xl:text-md font-light'> 
+                            {truncate(collection.subtitle, 100)}
+                        </div>
                     </div>
                     
 
@@ -300,9 +380,11 @@ const SlidingCollections = ():JSX.Element => {
 
     return (
         <div 
-            className='relative overflow-x-hidden overflow-y-visible bg-cover min-h-[100vh] min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""]'
+            className={'relative overflow-x-hidden overflow-y-visible bg-cover min-h-[100vh] min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
+                    
+                }
             style={{
-                backgroundImage: `url('${parentBackgroundImage}')`
+                backgroundImage: `url('${parentBackgroundImage}')`,
             }}
             ref={parentRef}
             >
@@ -314,7 +396,7 @@ const SlidingCollections = ():JSX.Element => {
                 >
                 {getLayout({
                     marginLeft: -90,
-                    marginBottom: 70,
+                    marginBottom: 120,
                     offset: 700
                 })}
             </div>
@@ -341,8 +423,24 @@ const SlidingCollections = ():JSX.Element => {
                 })}
             </div>
 
+
             <div
-                    className=' text-white nav-buttons absolute flex flex-row space-x-[60px] w-[300px] right-[20vw] bottom-[70px] text-xs xl:text-xs 2xl:text-sm'
+                
+                className={'transition-all duration-1000 absolute text-white/[0.4] mb-0 text-[20px] lg:text-[40px] xl:text-[60px] 2xl:text-[80px] font-bold font-staatliches'}
+
+                style={{
+                    top: featuredCollectionsPosition.top > 0 ? (featuredCollectionsPosition.top - 150)+ 'px' : '33vh',
+                    left: featuredCollectionsPosition.left > 0 ? featuredCollectionsPosition.left + 'px' : 'auto',
+                    right: featuredCollectionsPosition.left > 0 ? 'auto' : '150px'
+                }}
+                >
+
+                Featured Collections
+
+            </div>
+
+            <div
+                    className=' text-white nav-buttons absolute flex flex-row space-x-[60px] w-[300px] right-[20vw] bottom-[90px] text-xs xl:text-xs 2xl:text-sm'
                 >
 
                     <div
@@ -361,6 +459,15 @@ const SlidingCollections = ():JSX.Element => {
                         
                         <TiArrowRightThick />
                     </div>
+
+            </div>
+
+            <div
+                className={'absolute cursor-pointer bottom-[20px] hover:text-white animate-bounce right-[46vw] text-white/[0.6] mb-0 text-[30px] xl:text-[50px] font-bold font-staatliches'}
+                onClick={()=>scrollRef!.current?.scrollIntoView({behavior: 'smooth'})}
+                >
+
+                <FiArrowDownCircle />
 
             </div>
             

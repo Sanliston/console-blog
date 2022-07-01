@@ -11,7 +11,7 @@ interface AppState {
 }
 
 const initialState = {
-  categories: []
+  categories: [],
 }; //don't pass anonymous objects into context
 
 export const StateContext = React.createContext(initialState);
@@ -32,9 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <StateContext.Provider value={appState}> 
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
     </StateContext.Provider>
   )
 }

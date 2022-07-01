@@ -70,6 +70,12 @@ const FeaturedPosts = ({posts}: FeaturedPostsProps):JSX.Element => {
     return(
         <div className='mb-8'>
 
+            <div
+                className='text-[40px] py-10 font-staatliches text-white'
+            >
+                Featured Posts
+            </div>
+
 
             <Carousel 
                 infinite customLeftArrow={arrowLeft} 
@@ -83,13 +89,13 @@ const FeaturedPosts = ({posts}: FeaturedPostsProps):JSX.Element => {
                 {featuredPosts.map((post: any, index: number)=>(
                     
 
-                    <div className="relative h-[450px]" key={post.id}>
+                    <div className="relative h-[450px] drop-shadow-lg" key={post.id}>
                         <div 
                             className="absolute rounded-lg bg-center bg-no-repeat bg-cover shadow-md inline-block w-full h-[450px]" 
                             style={{ backgroundImage: `url('${post.featuredImage.url}')` }} 
                             />
 
-                        <div className="absolute rounded-lg bg-center bg-gradient-to-b opacity-50 from-[#4A5A6A]/[0.8] via-[#4A5A6A]/[0.5] to-black w-full h-[450px]" />
+                        <div className="absolute rounded-lg bg-center bg-gradient-to-b from-black/[0.3] to-black/[0.6] w-full h-[450px]" />
                         <div className="flex flex-col rounded-lg p-4 items-center justify-center absolute w-full h-full">
                         <Link href={`/post/${post.slug}`}>
 
