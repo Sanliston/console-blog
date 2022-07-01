@@ -208,7 +208,6 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                                 collection.cleanup ? '' : unfocusedStyle)
                             + (collection.cleanup ? cleanupStyle : '') 
                             + (collection.focused ? '' :' custom-animation-delay : '+index*300+50+'ms ' )
-                            + (scrollY > windowHeight*0.5 ? ' collection-filter ': '')
                         }
                             
                     style={{
@@ -380,8 +379,8 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
 
     return (
         <div 
-            className={'relative overflow-x-hidden overflow-y-visible bg-cover min-h-[100vh] min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
-                    
+            className={'fixed overflow-x-hidden overflow-y-visible bg-cover min-h-[100vh] min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
+                + (scrollY > windowHeight*0.5 ? ' collection-filter ': '')
                 }
             style={{
                 backgroundImage: `url('${parentBackgroundImage}')`,
