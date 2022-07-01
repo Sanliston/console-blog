@@ -5,9 +5,11 @@ import { BsCloudMoonFill } from "react-icons/bs";
 import { searchPosts } from '../services';
 import { truncate } from '../utils/utils';
 
+interface LandingHeroInterface {
+    featuredPosts: []
+}
 
-
-const LandingHero = (): JSX.Element => {
+const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
 
     const [posts, setPosts] = useState([]);
     const [initialPosts, setInitialPosts] = useState([]);
@@ -15,10 +17,16 @@ const LandingHero = (): JSX.Element => {
     const [morePosts, setMorePosts] = useState(false);
     const [moreInitialPosts, setMoreInitialPosts] = useState(false);
     const [lastQuery, setLastQuery] = useState('');
+    const [userSearched, setUserSearched] = useState(false);
 
     const searchEl = useRef<HTMLInputElement>(null);
 
     const submitSearch = (force:boolean = false) => {
+
+        //flag that user has now searched
+        if(!userSearched){
+            setUserSearched(true);
+        }
 
         const searchQuery:string = searchEl!.current!.value; 
 
@@ -71,18 +79,18 @@ const LandingHero = (): JSX.Element => {
 
     useEffect(()=>{
         //initial search on component load
-        searchPosts('bo', 4).then((searchResults:any)=>{
+         
 
-            if(searchResults.length > 3){
-                setMoreInitialPosts(true);
-            }else{
-                setMoreInitialPosts(false);
-            }
+        if(featuredPosts.length > 3){
+            setMoreInitialPosts(true);
+        }else{
+            setMoreInitialPosts(false);
+        }
 
-            console.log('initial posts: ', searchResults);
+        console.log('initial posts: ', featuredPosts);
 
-            setInitialPosts(searchResults.filter((post:any, index:number)=>index < 3));
-        });
+        setInitialPosts(featuredPosts.filter((post:any, index:number)=>index < 3));
+        
     }, [])
 
     return (
@@ -134,7 +142,9 @@ const LandingHero = (): JSX.Element => {
 
                             {posts.length > 0 ?
                             
+                            
                                 <div className='flex flex-col items-center justify-start w-full pt-[50px]'>
+
                                     <span className='text-white text-2xl font-semibold pb-5'>
                                         Articles matching your search:  
                                     </span>
@@ -200,6 +210,20 @@ const LandingHero = (): JSX.Element => {
                                 ''
                             }
 
+                            {userSearched && posts.length == 0 ?
+
+                                <div className='flex flex-col items-center justify-start w-full pt-[20px]'> 
+                                    <span className='text-white text-2xl'>
+                                        No results
+                                    </span>
+                                </div>
+                                
+                                :
+
+                                ''
+                            }
+                            
+
 
                             {initialPosts.length > 0 && posts.length == 0 ?
                                 
@@ -253,13 +277,17 @@ const LandingHero = (): JSX.Element => {
                                         ))}
                                     </div>
 
-                                    {morePosts && 
+                                    {moreInitialPosts ? 
 
-                                        <Link href={{ pathname: '/search', query: { searchQuery: lastQuery } }}>
+                                        <Link href={{ pathname: '/search', query: { searchQuery: 'featured' } }}>
                                             <div className='transition-all duration-500 cursor-pointer button bg-white text-gray p-3 hover:px-10 px-6 rounded-full'> 
                                                 View More
                                             </div>
                                         </Link>
+
+                                        :
+
+                                        ''
                                         
                                     }
                                     

@@ -39,7 +39,7 @@ const MenuWidget = (): JSX.Element=> {
     <div className='rounded-lg p-8 mb-8'>
 
       <h3 className='text-xl mb-8 border-b pb-4 text-white'>
-        {/* {'Menu'} */}
+        {'Menu'}
       </h3>
       
       {menuItems.map((item: any)=>(

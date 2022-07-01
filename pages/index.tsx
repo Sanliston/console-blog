@@ -28,6 +28,7 @@ console.blog = (userName: string) => {
 const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Element => {
 
   const searchRef = useRef(null);
+  const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
   
 
   return (
@@ -42,17 +43,31 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           <SlidingCollections collectionsProp={collections} scrollRef={searchRef} />
         </div>
 
-        <div ref={searchRef} className='w-full  min-h-[1200px] md:min-h-[1500px] lg:min-h-[1800px] h-auto top-[0px] lg:top-[100vh] z-0' style={{minWidth: '100vw'}}>
-          <LandingHero />
+        <div ref={searchRef} className='w-full  min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto top-[0px] lg:top-[100vh] z-0' style={{minWidth: '100vw'}}>
+          <LandingHero featuredPosts={featuredPosts as []}/>
         </div>
-        
 
         <div style={{minWidth: '100vw'}} className='relative bg-[#282e34] z-5'>
+
+          <div
+              className='divider mb-[100px] w-full flex flex-row items-center justify-center text-[40px] py-5 font-staatliches text-white'
+            >
+                <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
+
+                </div>
+
+                <span className='px-3'>
+                  Latest Posts
+                </span>
+
+                <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
+
+                </div>
+                  
+          </div>
+
           <div className='container mx-auto px-0 mb-8 bg-[#282e34]'>
-            <FeaturedPosts posts={posts}/>
-
             
-
             <div className='grid grid-cols-1 lg:grid-cols-5 gap-1 pt-[10]'>
 
               <div className='hidden lg:block lg:col-span-1  col-span-1'>
@@ -66,11 +81,6 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
               </div>
 
               <div className="lg:col-span-3  col-span-1 px-2 lg:px-0">
-                <div
-                      className='text-[40px] py-10 font-staatliches text-white'
-                    >
-                        Latest Posts
-                </div>
                 {posts.map((post:any, index) => <PostCard post={post} key={post.title}/>)}
               </div>
 
