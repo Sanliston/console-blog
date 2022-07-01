@@ -11,3 +11,5 @@ export {default as featuredPosts} from './FeaturedPosts';
 export {default as Loader } from './Loader';
 export {default as LandingHero } from './LandingHero';
 export {default as MenuWidget } from './MenuWidget';
+export {default as FeaturedCollections} from './FeaturedCollections';
+export {default as SlidingCollections } from './SlidingCollections';

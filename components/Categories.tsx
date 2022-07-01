@@ -29,7 +29,7 @@ const Categories  = (props: CategoriesProps): JSX.Element => {
 
                     <Link className='txt-md' href={`/tags/${category.slug}`}>
 
-                        <span className='cursor-pointer'>
+                        <span className='cursor-pointer px-3 py-1 mx-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm'>
                             {`#${category.name}`}
                         </span>
                         

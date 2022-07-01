@@ -13,7 +13,7 @@ const entityMap: entityType = {
     '=': '&#x3D;'
   };
   
-const escapeHtml = (str: string): string => {
+export const escapeHtml = (str: string): string => {
     return String(str).replace(
         /[&<>"'`=\/]/g, 
         (s: string) => {
@@ -22,14 +22,12 @@ const escapeHtml = (str: string): string => {
     );
 }
 
-const sanitizeString = (str: string): string => {
+export const sanitizeString = (str: string): string => {
 
     return escapeHtml(str);
 }
 
-const truncate = (input:string, limit:number):string => {
+export const truncate = (input:string, limit:number):string => {
 
     return input.length > limit ? `${input.substring(0, limit)}...` : input; 
 }
-
-export { sanitizeString, escapeHtml, truncate}

@@ -2,9 +2,10 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { PostCard, Categories, PostWidget, LandingHero, MenuWidget } from '../components/';
+import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections } from '../components/';
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
+import TestFeatured from '../components/TestFeature';
 import {getCategories, getPosts } from '../services'; 
 
 interface HomeProps {
@@ -33,7 +34,19 @@ const Home: NextPage<HomeProps> = ({ posts }: HomeProps): JSX.Element => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <div className='w-full  min-h-[50vh] h-auto lg:h-[150vh] min-h-[2250px] top-[0px]' style={{minWidth: '100vw'}}>
+        <div 
+                className='w-full top-0 fixed min-h-[2300px]  z-0 landing-hero pb-15 mb-15 bg-cover'
+
+                style={{ backgroundImage: `url('/images/gerald-berliner-blur.jpg')` }} 
+                >
+                
+        </div>
+
+        <div className='hidden lg:block relative w-full h-0 lg:min-h-[100vh] lg:h-auto top-[0px] z-5 ' style={{minWidth: '100vw'}}>
+          <SlidingCollections />
+        </div>
+
+        <div className='w-full  min-h-[2300px] h-auto top-[0px] lg:top-[100vh] z-0' style={{minWidth: '100vw'}}>
           <LandingHero />
         </div>
         
