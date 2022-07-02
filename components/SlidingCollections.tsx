@@ -185,7 +185,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
 
     //experiment with setting this to fixed when you get the chance
     const focusedStyle = 'fixed focused-animation-transition featured-collection-widget w-full h-full';
-    const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 absolute animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] flex flex-col items-sart justify-end';
+    const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 absolute animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
 
 
@@ -243,7 +243,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                             <div
 
                                 className={
-                                    ' flex flex-col h-full w-full items-start justify-center'
+                                    ' flex flex-col h-full w-full items-start md:justify-start pt-[15vh] lg:pt-0 lg:justify-center'
                                     + (collection.focused && scrollY < windowHeight*0.5 ? ' collection-background-info-show ': '')
                                     + (scrollY > windowHeight*0.5 ? ' collection-background-info-hide ': ' opacity-0')
                                 }
@@ -388,6 +388,18 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
             ref={parentRef}
             >
 
+
+            
+            <div 
+                className='hidden transition-all md:flex lg:hidden xl:hidden 2xl:hidden flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: -110,
+                    marginBottom: 150,
+                    offset: 650
+                })}
+            </div>
 
             <div 
                 className='hidden transition-all lg:flex xl:hidden 2xl:hidden flex-row overflow-hidden'
