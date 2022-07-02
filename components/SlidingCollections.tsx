@@ -185,7 +185,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
 
     //experiment with setting this to fixed when you get the chance
     const focusedStyle = 'fixed focused-animation-transition featured-collection-widget w-full h-full';
-    const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 absolute animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] flex flex-col items-sart justify-end';
+    const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 absolute animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] w-[150px] h-[150px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
 
 
@@ -243,7 +243,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                             <div
 
                                 className={
-                                    ' flex flex-col h-full w-full items-start md:justify-start pt-[15vh] lg:pt-0 lg:justify-center'
+                                    ' flex flex-col h-full w-full items-start md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center'
                                     + (collection.focused && scrollY < windowHeight*0.5 ? ' collection-background-info-show ': '')
                                     + (scrollY > windowHeight*0.5 ? ' collection-background-info-hide ': ' opacity-0')
                                 }
@@ -252,7 +252,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
 
                                 <div
                                     className={
-                                        'text-white/[0.4] mb-0 text-[20px] lg:text-[20px] xl:text-[30px] 2xl:text-[40px] font-bold font-labelle'+ (collection.focused ? ' collection-background-info-show ': '')
+                                        'text-white/[0.4] mb-0 text-[16px] md:text-[20px] lg:text-[20px] xl:text-[30px] 2xl:text-[40px] font-bold font-labelle'+ (collection.focused ? ' collection-background-info-show ': '')
                                     }
 
                                     style={{
@@ -268,7 +268,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                                 </div>
 
                                 <div
-                                    className={'text-white mb-0 text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches'+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    className={'text-white mb-0 text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches'+ (collection.focused ? ' collection-background-info-show ': '')}
 
                                     style={{
                                         //for animating disappearing when focused
@@ -283,7 +283,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                                 </div>
 
                                 <div
-                                    className={'w-[100px] h-[1px] bg-white mb-[30px]'+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    className={'w-[100px] h-[1px] bg-white mb-[5px] md:mb-[30px]'+ (collection.focused ? ' collection-background-info-show ': '')}
                                     style={{
                                         //for animating disappearing when focused
     
@@ -296,7 +296,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                                 </div>
 
                                 <div
-                                    className={'text-white text-md font-light delay-400 mb-5 max-w-[300px] '+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    className={'text-white text-xs md:text-md font-light delay-400 mb-5 max-w-[300px] '+ (collection.focused ? ' collection-background-info-show ': '')}
 
                                     style={{
                                         //for animating disappearing when focused
@@ -310,7 +310,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                                 </div>
 
                                 <div
-                                    className={'text-white text-sm lg:text-md xl:text-md font-light delay-800 mb-5 max-w-[40vw]'+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    className={'hidden md:block text-white text-xs md:text-sm lg:text-md xl:text-md font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'+ (collection.focused ? ' collection-background-info-show ': '')}
 
                                     style={{
                                         //for animating disappearing when focused
@@ -320,6 +320,20 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                                 >
 
                                     {collection.description}
+
+                                </div>
+
+                                <div
+                                    className={' md:hidden text-white text-xs md:text-sm lg:text-md xl:text-md font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'+ (collection.focused ? ' collection-background-info-show ': '')}
+
+                                    style={{
+                                        //for animating disappearing when focused
+                                        '--custom-delay': 250+'ms ',
+                                        opacity: collection.focused ? 0 : 1,
+                                    } as React.CSSProperties}
+                                >
+
+                                    {truncate(collection.description, 200)}
 
                                 </div>
 
@@ -358,7 +372,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                         } as React.CSSProperties}
                         > 
                         
-                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold 2xl:pt-[250px] xl:pt-[200px] lg:pt-[130px] pt-[50px]'> 
+                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold 2xl:pt-[250px] xl:pt-[200px] lg:pt-[130px] sm-short:pt-0 pt-[50px]'> 
                             {collection.title}
                         </div> 
 
@@ -388,7 +402,27 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
             ref={parentRef}
             >
 
+            <div 
+                className='hidden sm-short:flex sm:hidden transition-all md:hidden lg:hidden xl:hidden 2xl:hidden flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: -115,
+                    marginBottom: 100,
+                    offset: 510
+                })}
+            </div>
 
+            <div 
+                className='transition-all sm:flex sm-short:hidden md:hidden lg:hidden xl:hidden 2xl:hidden flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: -110,
+                    marginBottom: 150,
+                    offset: 510
+                })}
+            </div>
             
             <div 
                 className='hidden transition-all md:flex lg:hidden xl:hidden 2xl:hidden flex-row overflow-hidden'
@@ -437,7 +471,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
 
             <div
                 
-                className={'transition-all duration-1000 absolute text-white/[0.4] mb-0 text-[20px] lg:text-[40px] xl:text-[60px] 2xl:text-[80px] font-bold font-staatliches'}
+                className={'hidden md:block transition-all duration-1000 absolute text-white/[0.4] mb-0 text-[20px] lg:text-[40px] xl:text-[60px] 2xl:text-[80px] font-bold font-staatliches'}
 
                 style={{
                     top: featuredCollectionsPosition.top > 0 ? (featuredCollectionsPosition.top - 150)+ 'px' : '33vh',
@@ -451,7 +485,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
             </div>
 
             <div
-                    className=' text-white nav-buttons absolute flex flex-row space-x-[60px] w-[300px] right-[20vw] bottom-[90px] text-xs xl:text-xs 2xl:text-sm'
+                    className='hidden text-white nav-buttons absolute md:flex flex-row space-x-[60px] w-[300px] right-[20vw] bottom-[90px] text-xs xl:text-xs 2xl:text-sm'
                 >
 
                     <div

@@ -9,6 +9,11 @@ module.exports = {
 
         backgroundAlpha: 'rgb(var(--color-primary) / 0.5',
       },
+      screens: {
+        'sm-short': {
+          'raw': '(max-height: 745px)'
+        }
+      }
     },
   },
   plugins: [],
