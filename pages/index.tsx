@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections } from '../components/';
+import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectiosWidget } from '../components/';
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
@@ -33,14 +33,14 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
   return (
 
-      <div className="container mx-auto px-0 mb-8 top-[0px]" style={{minWidth: '100vw'}}>
+      <div className="container mx-auto px-0 top-[0px]" style={{minWidth: '100vw'}}>
         <Head>
           <title>{`Console.blog();`}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <div className=' block relative w-full min-h-[120vh] lg:min-h-[100vh] lg:h-auto top-[0px] z-5 ' style={{minWidth: '100vw'}}>
-          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} />
+          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' />
         </div>
 
         <div ref={searchRef} className='w-full  min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto top-[150vh] lg:top-[100vh] z-0' style={{minWidth: '100vw'}}>
@@ -50,7 +50,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
         <div style={{minWidth: '100vw'}} className='relative bg-[#282e34] z-5'>
 
           <div
-              className='divider mb-[100px] w-full flex flex-row items-center justify-center text-[40px] py-5 font-staatliches text-white'
+              className='divider mb-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
             >
                 <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
 
@@ -74,7 +74,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
                 <div className="lg:sticky relative top-[100px]">
 
-                  <MenuWidget />
+                  <CollectiosWidget />
 
                 </div>
 
@@ -84,11 +84,11 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                 {posts.map((post:any, index) => <PostCard post={post} key={post.title}/>)}
               </div>
 
-              <div className='lg:col-span-1  col-span-1'>
+              <div className='lg:col-span-1 col-span-1 bg-[#282e34]'>
 
               
 
-                <div className="lg:sticky relative top-[100px]">
+                <div className="lg:sticky relative lg:top-[100px]">
 
                   <PostWidget />
                   <Categories />

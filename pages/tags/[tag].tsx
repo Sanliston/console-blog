@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 
-import { getCategories, getTagPost } from '../../services';
+import { getCategories, getTagPosts } from '../../services';
 import { PostCard, Categories, Loader, MenuWidget } from '../../components';
 import { StateContext } from '../_app';
 import Link from 'next/link';
@@ -77,7 +77,7 @@ export default TagPost;
 export async function getStaticProps({ params }:any) {
 
     console.log("params: ", params);
-  const posts = await getTagPost(params.tag);
+  const posts = await getTagPosts(params.tag);
 
   return {
     props: { posts, tag: params.tag },

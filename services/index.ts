@@ -234,7 +234,7 @@ export const getComments = async (slug: string): Promise<[]> => {
 
 }
 
-export const getTagPost = async (slug:string) : Promise<[]> => {
+export const getTagPosts = async (slug:string) : Promise<[]> => {
     const query = gql`
       query GetCategoryPost($slug: String!) {
         postsConnection(where: {categories_some: {slug: $slug}}) {
@@ -271,13 +271,13 @@ export const getTagPost = async (slug:string) : Promise<[]> => {
     return result.postsConnection.edges;
   };
   
-  export const getCollections = async (): Promise<[]> => {
+  export const getCollections = async (max:number = 4): Promise<[]> => {
 
     const query = gql`
-        query GetCollections () {
+        query GetCollections ($max: Int!) {
             collections(
                 orderBy: createdAt_ASC
-                last: 5
+                last: $max
             ) {
                 title,
                 description,
@@ -290,7 +290,80 @@ export const getTagPost = async (slug:string) : Promise<[]> => {
         }
     `;
 
-    const result = await request(graphqlAPI, query);
+    const result = await request(graphqlAPI, query, {max});
     return result.collections;
 
 }
+
+export const getCollection = async (slug:string): Promise<{}> => {
+
+    const query = gql`
+        query GetCollection ($slug: String!) {
+            collection(
+                where: {slug: $slug}
+            ) {
+                title,
+                description,
+                slug,
+                subtitle,
+                image {
+                    url
+                },
+                posts {
+                    title
+                    featuredImage {
+                        url
+                    }
+                    createdAt
+                    excerpt
+                    author {
+                        name
+                        photo {
+                            url
+                        }
+                    }
+                    slug 
+                    categories {
+                        name
+                        slug
+                    }
+                    
+                }
+            }
+        }
+    `;
+
+    const result = await request(graphqlAPI, query, {slug});
+
+    console.log("getCollection result: ", result);
+    return result.collection;
+
+}
+
+// export const getCollectionPosts = async (slug:string) : Promise<[]> => {
+//     const query = gql`
+//       query GetCollectionPosts($slug: String!) {
+//             posts(
+//                 where: {
+//                     categories_some: {
+//                         slug: $slug
+//                     }
+//                 }
+                
+//                 orderBy: createdAt_DESC
+//                 last: 10
+//             ) {
+//                 title
+//                 featuredImage {
+//                     url
+//                 }
+//                 createdAt
+//                 slug 
+//             }
+//       }
+//     `;
+  
+//     const result = await request(graphqlAPI, query, { slug });
+  
+//     return result.posts;
+//   };

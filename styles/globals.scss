@@ -244,6 +244,15 @@ a {
   animation-delay: var(--custom-delay);
 }
 
+.image-blur {
+  //this is a solution to having low-res images while still not looking pixelated 
+  filter: blur(5px);
+}
+
+.no-blur {
+  filter: blur(0px); 
+}
+
 
 //svg animations
 .icons {

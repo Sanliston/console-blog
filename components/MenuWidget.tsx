@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import Link from 'next/link';
 import { getRecentPosts, getSimilarPosts } from '../services';
-import {FaHome, FaColumns, FaRobot, FaFeather, FaQuestionCircle} from "react-icons/fa";
+import {FaHome, FaColumns, FaRobot, FaFeather, FaQuestionCircle, FaLayerGroup } from "react-icons/fa";
 
 
 const MenuWidget = (): JSX.Element=> {
@@ -18,6 +18,11 @@ const MenuWidget = (): JSX.Element=> {
             path: "/tags",
             icon: <FaColumns />
         },
+        {
+          name: "Collections",
+          path: "/collections",
+          icon: <FaLayerGroup />
+      },
         {
             name: "About",
             path: "/about",

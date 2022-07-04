@@ -10,12 +10,13 @@ import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 
 interface SlidingCollectionsInterface  {
     collectionsProp: [],
-    scrollRef: React.RefObject<HTMLDivElement>
+    scrollRef: React.RefObject<HTMLDivElement>,
+    title: string
 }
 
-const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInterface):JSX.Element => {
+const SlidingCollections = ({collectionsProp, scrollRef, title}: SlidingCollectionsInterface):JSX.Element => {
     const [collections, setCollections] = useState<[] | any>([]);
-    const [parentBackgroundImage, setParentBackgroundImage] = useState('https://media.graphassets.com/PE2C3O7SLAs15PHcLvpA');
+    const [parentBackgroundImage, setParentBackgroundImage] = useState('https://media.graphassets.com/XpiinIIuT0i52JKc1ijM');
     const [featuredCollectionsPosition, setFeaturedCollectionsPosition] = useState({top:0, left: 0});
 
     const parentRef = useRef<HTMLDivElement>(null);
@@ -184,7 +185,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
     }
 
     //experiment with setting this to fixed when you get the chance
-    const focusedStyle = 'fixed focused-animation-transition featured-collection-widget w-full h-full';
+    const focusedStyle = 'fixed focused-animation-transition featured-collection-widget w-full h-full ';
     const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 absolute animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] w-[150px] h-[150px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
 
@@ -228,7 +229,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
 
                     <div
                         
-                        className={(collection.focused ? ' overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] ': 'max-h-[0px] max-w-full') + ' focused-info bg-gradient-to-b from-black/[0.6] to-transparent'}
+                        className={(collection.focused ? ' no-blur overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] ': 'max-h-[0px] max-w-full') + ' focused-info bg-gradient-to-b from-black/[0.6] to-transparent'}
                             
                         style={{
                             //for animating disappearing when focused
@@ -310,7 +311,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                                 </div>
 
                                 <div
-                                    className={'hidden md:block text-white text-xs md:text-sm lg:text-md xl:text-md font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'+ (collection.focused ? ' collection-background-info-show ': '')}
+                                    className={'hidden md:block text-white text-xs md:text-sm lg:text-md xl:text-lg font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'+ (collection.focused ? ' collection-background-info-show ': '')}
 
                                     style={{
                                         //for animating disappearing when focused
@@ -372,7 +373,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                         } as React.CSSProperties}
                         > 
                         
-                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold 2xl:pt-[250px] xl:pt-[200px] lg:pt-[130px] sm-short:pt-0 pt-[50px]'> 
+                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold 2xl:pt-[180px] xl:pt-[160px] lg:pt-[80px] sm-short:pt-0 pt-[30px]'> 
                             {collection.title}
                         </div> 
 
@@ -480,7 +481,7 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                 }}
                 >
 
-                Featured Collections
+                {title}
 
             </div>
 
@@ -489,8 +490,17 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                 >
 
                     <div
-                        className='transition-all duration-300 button px-5 py-2 border-2 xl:border-[3px] rounded-full cursor-pointer flex flex-row hover:bg-white hover:text-black/[0.5] hover:border-3'
-                        onClick={()=>focusCollection(collections.length - 1)}
+                        className={
+                            'transition-all duration-300 button px-5 py-2 border-2 xl:border-[3px] rounded-full cursor-pointer flex flex-row hover:bg-white hover:text-black/[0.5] hover:border-3'
+                            + (collections.length > 0 && collections[0].image.url == parentBackgroundImage ? ' opacity-1': ' opacity-[0.1]')
+                        }
+                        onClick={()=>{
+
+                            if(collections.length > 0 && collections[0].image.url == parentBackgroundImage){
+                                focusCollection(collections.length - 1)
+                            }
+                            
+                        }}
                     >
                         <TiArrowLeftThick />
                         
@@ -498,8 +508,21 @@ const SlidingCollections = ({collectionsProp, scrollRef}: SlidingCollectionsInte
                     </div>
 
                     <div
-                        className='transition-all duration-300 button px-5 py-2 border-2 xl:border-[3px] rounded-full cursor-pointer flex flex-row hover:bg-white hover:text-black/[0.5] hover:border-3'
-                        onClick={()=>focusCollection(1)}
+                        className={
+                            'transition-all duration-300 button px-5 py-2 border-2 xl:border-[3px] rounded-full cursor-pointer flex flex-row hover:bg-white hover:text-black/[0.5] hover:border-3'
+                            + (collections.length > 0 && collections[0].image.url == parentBackgroundImage ? ' opacity-1': ' opacity-[0.1]')
+                        }
+                        onClick={()=>{
+
+                            //when transition finishes collection at [0] should have same background
+                            //as the container
+                            //only change if collection at [0] has same background as container
+                            if(collections.length > 0 && collections[0].image.url == parentBackgroundImage){
+                               focusCollection(1) 
+                            }
+                            
+                        
+                        }}
                     >
                         
                         <TiArrowRightThick />

@@ -13,3 +13,4 @@ export {default as LandingHero } from './LandingHero';
 export {default as MenuWidget } from './MenuWidget';
 export {default as FeaturedCollections} from './FeaturedCollections';
 export {default as SlidingCollections } from './SlidingCollections';
+export {default as CollectiosWidget} from './CollectionsWidget'; 
