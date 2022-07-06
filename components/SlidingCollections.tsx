@@ -11,10 +11,11 @@ import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 interface SlidingCollectionsInterface  {
     collectionsProp: [],
     scrollRef: React.RefObject<HTMLDivElement>,
-    title: string
+    title: string,
+    featured: boolean
 }
 
-const SlidingCollections = ({collectionsProp, scrollRef, title}: SlidingCollectionsInterface):JSX.Element => {
+const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: SlidingCollectionsInterface):JSX.Element => {
     const [collections, setCollections] = useState<[] | any>([]);
     const [parentBackgroundImage, setParentBackgroundImage] = useState('https://media.graphassets.com/XpiinIIuT0i52JKc1ijM');
     const [featuredCollectionsPosition, setFeaturedCollectionsPosition] = useState({top:0, left: 0});
@@ -264,7 +265,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title}: SlidingCollecti
                                     } as React.CSSProperties}
                                     >
 
-                                    Featured Collection
+                                    {`${featured ? 'Featured ': ''}Collection`}
 
                                 </div>
 
@@ -339,20 +340,42 @@ const SlidingCollections = ({collectionsProp, scrollRef, title}: SlidingCollecti
                                 </div>
 
 
-                                <Link href={`/collections/${collection.slug}`}>
-                                    <div 
-                                        className={'button border-2 rounded-full cursor-pointer px-5 py-3 bg-transparent text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
-                                        style={{
-                                            //for animating disappearing when focused
-                                            '--custom-delay': 300+'ms ',
-                                            opacity: collection.focused ? 1 : 0,
-                                        } as React.CSSProperties}
-                                        >
-                                        <span>
-                                            Discover Collection
-                                        </span>
-                                    </div>
-                                </Link>
+                                <div className='flex flex-row items-center flex-wrap'>
+
+                                    <Link href={`/collections/${collection.slug}`}>
+                                        <div 
+                                            className={'button border-2 rounded-full cursor-pointer px-5 py-3 m-1 bg-transparent text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
+                                            style={{
+                                                //for animating disappearing when focused
+                                                '--custom-delay': 300+'ms ',
+                                                opacity: collection.focused ? 1 : 0,
+                                            } as React.CSSProperties}
+                                            >
+                                            <span>
+                                                Discover Collection
+                                            </span>
+                                        </div>
+                                    </Link>
+
+                                    {featured && 
+                                        <Link href={`/collections`}>
+                                            <div 
+                                                className={'button border-2 rounded-full cursor-pointer px-5 py-3 m-1 bg-transparent text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
+                                                style={{
+                                                    //for animating disappearing when focused
+                                                    '--custom-delay': 300+'ms ',
+                                                    opacity: collection.focused ? 1 : 0,
+                                                } as React.CSSProperties}
+                                                >
+                                                <span>
+                                                    View All
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    }
+                                    
+                                </div>
+                                
                             </div>  
                         }
                         

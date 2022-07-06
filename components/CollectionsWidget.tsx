@@ -12,7 +12,7 @@ const CollectionsWidget = (): JSX.Element=> {
         getCollections(10).then((results)=>{
             setCollections(results);
         });
-    });
+    }, []); //forgot the [] and it cost me 300,000 API calls - while developing for an hour!
 
   return (
     <div className='rounded-lg p-8 mb-8'>
