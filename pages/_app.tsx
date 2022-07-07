@@ -6,27 +6,37 @@ import { Layout } from '../components';
 import {getCategories } from '../services';
 import { Category } from '../components/Categories';
 interface AppState {
-  categories: [Category];
+  categories: [] | never[]
+  menu: boolean
   [key:string]: any
 }
 
-const initialState = {
+const initialState: AppState = {
   categories: [],
+  menu: false,
 }; //don't pass anonymous objects into context
 
 export const StateContext = React.createContext(initialState);
 
 function MyApp({ Component, pageProps }: AppProps) {
 
-  const [appState, setAppState ] = useState(initialState);
+  const [appState, setAppState ] = useState<AppState>(initialState);
 
   //getCategories
   useEffect(()=>{
     getCategories().then((result) => {
       
-      setAppState({...appState, categories: result});
+      setAppState({
+          ...appState, 
+          categories: result,
+          setAppState: setAppState
+        }
+      );
+
+      console.log("appSate: ", appState);
     
     });
+
   }, []);
 
 

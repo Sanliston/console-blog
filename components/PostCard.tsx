@@ -41,7 +41,7 @@ const PostCard = ({ post }: Post): JSX.Element => {
 
         {/* title*/}
         <h1 className='transition duration-300 text-center mb-8 cursor-pointer
-          hover:text-pink-600 text-3xl
+           text-2xl font-bold
         '>
 
           <Link href={`/post/${post.slug}`}>
@@ -62,13 +62,13 @@ const PostCard = ({ post }: Post): JSX.Element => {
               src={post.author.photo.url}
             />
 
-            <p className='inline align-middle text-white/[0.5] ml-3 text-lg'>
+            <p className='inline align-middle text-white/[0.5] ml-3 text-sm'>
               {post.author.name}
             </p>
 
           </div>
 
-          <div className='font-medium text-white/[0.5] flex flex-row align-center justify-center m-5'>
+          <div className='font-medium text-sm text-white/[0.5] flex flex-row align-center justify-center m-5'>
             <FiCalendar className='mt-[3px] mr-3' />
             <span className=''>
               {moment(post.createdAt).format('MMM DD, YYYY')}
@@ -78,13 +78,13 @@ const PostCard = ({ post }: Post): JSX.Element => {
 
         </div>
 
-        <p className='text-center text-lg text-white/[0.8] font-light px-4 lg:px-20 mb-8'>
+        <p className='text-center text-md text-white/[0.8] font-light px-4 lg:px-20 mb-8'>
           {post.excerpt}
         </p>
 
         <div className='text-center'>
           <Link href={`/post/${post.slug}`}>
-            <span className='transition duration-300 transform hover:-translate-y-1 inline-block bg-black/[0.3] text-lg font-light rounded-full text-white/[0.5] px-8 py-3 cursor-pointer'>
+            <span className='transition duration-300 transform inline-block bg-black/[0.3] hover:bg-white/[0.6] hover:text-black/[0.7] text-md font-light rounded-full text-white/[0.5] px-8 py-2 cursor-pointer'>
               Read more
             </span>
           </Link>

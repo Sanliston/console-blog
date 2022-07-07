@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import * as ReactDOM from 'react-dom';
 import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
 import { FiArrowDownCircle } from "react-icons/fi";
@@ -7,6 +7,7 @@ import { getCollections } from '../services';
 import { truncate } from '../utils/utils';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
+import { StateContext } from '../pages/_app';
 
 interface SlidingCollectionsInterface  {
     collectionsProp: [],
@@ -27,6 +28,8 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: Slidi
 
     const {scrollX, scrollY} = useWindowScrollPositions(); 
     const {windowHeight, windowWidth } = useWindowDimensions(); 
+
+    const {menu} = useContext(StateContext);
 
     let dummyCollections = [
 
@@ -396,7 +399,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: Slidi
                         } as React.CSSProperties}
                         > 
                         
-                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold 2xl:pt-[180px] xl:pt-[160px] lg:pt-[80px] sm-short:pt-0 pt-[30px]'> 
+                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold 2xl:pt-[180px] xl:pt-[160px] lg:pt-[80px] sm-short:pt-0'> 
                             {collection.title}
                         </div> 
 
@@ -418,7 +421,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: Slidi
     return (
         <div 
             className={'fixed overflow-x-hidden overflow-y-visible bg-cover min-h-[100vh] min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
-                + (scrollY > windowHeight*0.5 ? ' collection-filter ': '')
+                + (scrollY > windowHeight*0.5 || menu ? ' blur-filter ': ' trans-500')
                 }
             style={{
                 backgroundImage: `url('${parentBackgroundImage}')`,

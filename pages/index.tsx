@@ -1,12 +1,13 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectiosWidget } from '../components/';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget } from '../components/';
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
 import {getCategories, getCollections, getPosts } from '../services'; 
+import { StateContext } from './_app';
 
 interface HomeProps {
   posts: [],
@@ -29,11 +30,14 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
   const searchRef = useRef(null);
   const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
+  const {menu} = useContext(StateContext);
   
 
   return (
 
-      <div className="container mx-auto px-0 top-[0px]" style={{minWidth: '100vw'}}>
+      <div className={"container mx-auto px-0 top-[0px]"} style={{minWidth: '100vw'}}
+      
+      >
         <Head>
           <title>{`Console.blog();`}</title>
           <link rel="icon" href="/favicon.ico" />
@@ -47,7 +51,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           <LandingHero featuredPosts={featuredPosts as []}/>
         </div>
 
-        <div style={{minWidth: '100vw'}} className='relative bg-[#282e34] z-5'>
+        <div style={{minWidth: '100vw'}} className={'relative bg-[#282e34] z-5'+(menu? ' blur-filter ': ' trans-500')}>
 
           <div
               className='divider mb-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
@@ -74,7 +78,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
                 <div className="lg:sticky relative top-[100px]">
 
-                  <CollectiosWidget />
+                  <CollectionsWidget />
 
                 </div>
 

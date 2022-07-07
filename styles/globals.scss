@@ -224,6 +224,57 @@ a {
   filter: blur(10px);
 }
 
+.blur-filter {
+  filter: blur(10px);
+  transition: 500ms; 
+}
+
+.trans-500 {
+  transition: 500ms;
+}
+
+.trans-100 {
+  transition: 100ms;
+}
+
+@keyframes display-menu-item {
+  from {
+      transform: translateX(-100px);
+      opacity: 0; 
+    }
+  to {
+    transform: translateX(0px);
+    opacity: 1; 
+  }
+}
+
+@keyframes hide-menu-item {
+  from {
+      transform: translateX(0px);
+      opacity: 1; 
+    }
+  to {
+    transform: translateX(-100px);
+    opacity: 0; 
+  }
+}
+
+.menu-item-show {
+  animation: display-menu-item .3s 1;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(.71,-0.04,.33,1.34);
+  will-change: opacity;
+  animation-delay: var(--custom-delay);
+}
+
+.menu-item-hide {
+  animation: hide-menu-item .3s 1;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(.71,-0.04,.33,1.34);
+  will-change: opacity;
+  animation-delay: var(--custom-delay);
+}
+
 //search results
 @keyframes display-search-result {
   from {
@@ -265,7 +316,7 @@ a {
 .ham {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 400ms;
+  transition: transform 600ms;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -279,7 +330,7 @@ a {
 }
 .line {
   fill:none;
-  transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+  transition: stroke-dasharray 600ms, stroke-dashoffset 600ms;
   //stroke:white;
   stroke-width:5.5;
   stroke-linecap:round;

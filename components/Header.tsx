@@ -15,31 +15,27 @@ interface HeaderProps {
 
 const Header = ({}:HeaderProps) : JSX.Element => {
 
-    const { categories } = useContext(StateContext);
+    const { categories, menu } = useContext(StateContext);
     const {scrollX, scrollY} = useWindowScrollPositions(); 
     const {windowHeight, windowWidth } = useWindowDimensions(); 
-    const [menu, setMenu] = useState(false);
     
-    const toggleMenu = () => {
-
-        console.log('menu toggled');
-        setMenu(!menu);
-    }
     return (
         <div className="container  fixed top-[0px] t-0 z-10 mb-8 w-full " style={{minWidth: '100vw'}}>
             
             <div className={
                 "transition-all duration-700 w-full px-[10vw] h-[80px] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 " 
-                + ( scrollY > 30 ? ' backdrop-blur-md bg-[#282e34]/[0.6]' : '')
+                + ( scrollY > windowHeight ? ' backdrop-blur-md bg-[#282e34]/[0.6]' : '')
                 }>
 
-                <div className="fixed top-[20px] left-[30px] md:left-[60px] z-[50] text-white"
+                <div className={"fixed transition-all duration-300 left-[30px] md:left-[60px] z-[50] text-white"
+                        +(scrollY < windowHeight && scrollY > 20 ? ' top-[27px]': ' top-[20px]')
+                    }
                 >
-                    <Burger3 click={toggleMenu}/>
+                    <Burger3 />
                 </div>
 
                 <div className={
-                    "fixed h-[100vh] w-0 overflow-hidden bouncy-animation pt-[60px] max-w-[500px] top-0 left-0 transition-all duration-500 shadow-lg z-[40] bg-black/[0.9] "
+                    "fixed h-[100vh] w-0 overflow-hidden bouncy-animation pt-[60px] max-w-[500px] top-0 left-0 transition-all duration-500 shadow-lg z-[40] bg-[#282e34]/[0.9] border-r-[10px] border-white/[0.7]"
                     +(menu ? ' w-[100vw] pl-10 left-0' : ' left-[-20px]')
                     
                     }
@@ -50,12 +46,12 @@ const Header = ({}:HeaderProps) : JSX.Element => {
 
                 </div>
 
-                <div className="lg:col-span-3 lg:col-start-1 col-span-1 flex items-center justify-start">
+                <div className="lg:col-span-5 col-span-1 flex items-center justify-center ">
 
                     <Link href="/">
 
                         <div className={"transition-all duration-500 absolute absolute flex flex-row items-end justify-start cursor-pointer font-bold text-2xl text-white top-5  " 
-                                    
+                                    + (scrollY < windowHeight && scrollY > 20 ? ' rounded-full backdrop-blur-md bg-[#282e34]/[0.8] px-[100px] py-2  ': '' )
                                     }>
                             <BsCloudMoonFill className={" transition-all duration-500 text-4xl mb-3 text-white "}/>
 
@@ -68,7 +64,7 @@ const Header = ({}:HeaderProps) : JSX.Element => {
 
                 </div>
 
-                <div className={
+                {/* <div className={
                     " absolute right-[10vw] transition-all duration-500 hidden md:flex md:flex-row justify-center items-center top-5  rounded-full w-[200px]"
                     
                     + ( scrollY > 30 ? ' px-10 py-4 opacity-1' : '')
@@ -82,7 +78,7 @@ const Header = ({}:HeaderProps) : JSX.Element => {
                         </Link> 
                     ))}
 
-                </div>
+                </div> */}
             </div>
 
         </div>

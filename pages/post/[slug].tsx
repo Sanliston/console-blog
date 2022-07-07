@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { getPosts, getPostDetails } from '../../services'; 
-import { PostDetail, Categories, PostWidget, Author, Comments, CommentsForm, Loader, MenuWidget } from '../../components'; 
+import { PostDetail, Categories, PostWidget, Author, Comments, CommentsForm, Loader, MenuWidget, CollectionsWidget } from '../../components'; 
 import { useRouter } from 'next/router';
+import { StateContext } from '../_app';
 
 export interface PostDetailsProps {
     post: {} | any
@@ -10,20 +11,21 @@ export interface PostDetailsProps {
 const PostDetails = ( { post } : PostDetailsProps) : JSX.Element => {
 
     const router = useRouter();
+    const {menu} = useContext(StateContext);
 
     if(router.isFallback){
         return <Loader />;
     }
 
     return (
-        <div className='container mx-auto md:px-10 mb-8'>
+        <div className={'container mx-auto md:px-10 mb-8'+(menu?' blur-filter': ' trans-500')}>
 
             <div className='grid grid-cols-1 lg:grid-cols-5 gap-1'>
 
                 <div className='hidden lg:block lg:col-span-1'>
                     <div className='relative lg:sticky top-[100px]'>
-                        <MenuWidget />
-                        <Categories />
+                        <CollectionsWidget />
+                        
 
                     </div>
                     

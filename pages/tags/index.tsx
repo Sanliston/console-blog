@@ -13,17 +13,17 @@ interface TagIndexProps {
 
 const TagsIndex = ({ tags }: TagIndexProps) : JSX.Element => {
   const router = useRouter();
-  const { categories } = useContext(StateContext);
+  const { categories, menu } = useContext(StateContext);
 
   if (router.isFallback) {
     return <Loader />;
   }
 
   return (
-    <div className="container flex flex-col items-center mx-auto px-10 mb-8 pt-[100px]">
+    <div className={"container flex flex-col items-center mx-auto px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500')}>
 
       <h1 className='text-white font-bold text-4xl py-10 font-staatliches'>
-       {`Tags`}
+       {`All Tags`}
       </h1>
 
       <div className='flex flex-row w-[80%] items-center justify-center p-4 lg:p-8'>

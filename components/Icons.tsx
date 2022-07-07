@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { StateContext } from '../pages/_app';
 
-interface Burer3Interface {
-    click: any,
-}
+const Burger3 = () => {
 
-const Burger3 = ({click = ()=>{}}:Burer3Interface) => {
-
-    const [clicked, setClicked] = useState(false);
+    const appState = useContext(StateContext);
 
     const handleClick = () => {
+        console.log('handle click called');
+        console.log('App state: ', StateContext);
+        console.log('menu: ', appState.menu);
 
-        setClicked(!clicked);
-
-        if(typeof click == 'function'){
-            click();
-        }
+        appState.setAppState({
+            ...appState,
+            menu: !appState.menu
+        });
     }
 
     return (
-        <svg className={"ham ham3 icons w-[50px] "+(clicked? ' active' : '')} viewBox="0 0 100 100" width="80" onClick={handleClick}>
+        <svg className={"ham ham3 icons w-[50px] "+(appState.menu? ' active' : '')} viewBox="0 0 100 100" width="80" onClick={handleClick}>
             <path
                     className="line top"
                     d="m 70,33 h -40 c -11.092231,0 11.883874,13.496726 -3.420361,12.956839 -0.962502,-2.089471 -2.222071,-3.282996 -4.545687,-3.282996 -2.323616,0 -5.113897,2.622752 -5.113897,7.071068 0,4.448316 2.080609,7.007933 5.555839,7.007933 2.401943,0 2.96769,-1.283974 4.166879,-3.282995 2.209342,0.273823 4.031294,1.642466 5.857227,-0.252538 v -13.005715 16.288404 h 7.653568" />

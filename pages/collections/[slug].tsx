@@ -21,6 +21,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
   const {scrollX, scrollY} = useWindowScrollPositions(); 
   const {windowHeight, windowWidth } = useWindowDimensions(); 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const {menu} = useContext(StateContext);
 
   if (router.isFallback) {
     return <Loader />;
@@ -31,7 +32,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
   return (
     <div className="flex flex-col items-center  mb-8">
 
-      <div className=' fixed bg-cover min-w-[100vw] min-h-[100vh] flex flex-col items-center justify-center shadow-xl'
+      <div className={' fixed bg-cover min-w-[100vw] min-h-[100vh] flex flex-col items-center justify-center shadow-xl'+(menu?' blur-filter': ' trans-100')}
 
         style={{
           backgroundImage: `url(${collection.image.url})`
@@ -45,7 +46,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
           <div
 
           className={
-              ' flex flex-col h-full w-full items-center md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center'
+              'transition-all trans-100 flex flex-col h-full w-full duration-300 items-center md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center'
               + (scrollY < windowHeight*0.5 ? ' collection-background-info-show ': '')
               + (scrollY > windowHeight*0.5 ? ' collection-background-info-hide ': ' opacity-0')
           }
@@ -187,7 +188,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
       </div>
 
-      <div className='relative top-[100vh] min-w-[100vw] bg-[#282e34] drop-shadow-lg container flex flex-col items-center mx-auto px-3 '
+      <div className={'relative top-[100vh] min-w-[100vw] bg-[#282e34] container flex flex-col items-center mx-auto px-3 '+(menu?' blur-filter': ' trans-100')}
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
         }}

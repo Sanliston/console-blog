@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 
 import { getCategories, getTagPosts } from '../../services';
-import { PostCard, Categories, Loader, MenuWidget } from '../../components';
+import { PostCard, Categories, Loader, MenuWidget, CollectionsWidget } from '../../components';
 import { StateContext } from '../_app';
 import Link from 'next/link';
 
@@ -13,7 +13,7 @@ interface TagPostProps {
 
 const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   const router = useRouter();
-  const { categories } = useContext(StateContext);
+  const { categories, menu } = useContext(StateContext);
 
   if (router.isFallback) {
     return <Loader />;
@@ -22,7 +22,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   console.log("categories: ", categories, " tag: ", tag);
 
   return (
-    <div className="container flex flex-col items-center mx-auto px-10 mb-8 pt-[100px]">
+    <div className={"container flex flex-col items-center mx-auto px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500')}>
 
       <h1 className='text-white font-bold text-4xl py-10'>
        {`#${tag} Articles`}
@@ -50,7 +50,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
 
         <div className="lg:sticky relative top-[100px]">
 
-            <MenuWidget />
+            <CollectionsWidget />
 
         </div>
 

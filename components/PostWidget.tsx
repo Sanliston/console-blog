@@ -57,7 +57,7 @@ const PostWidget = ({categories, slug}: PostWidgetProps): JSX.Element=> {
               <p className='text-gray-300 text-xs'>
                 {moment(post.createdAt).format('MMM DD, YYYY')}
               </p>
-                <span className='text-white'>
+                <span className='text-white text-sm'>
                   {post.title}
                 </span>
             </div>

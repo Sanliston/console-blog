@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { off } from 'process';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { BsCloudMoonFill } from "react-icons/bs";
+import { StateContext } from '../pages/_app';
 import { searchPosts } from '../services';
 import { truncate } from '../utils/utils';
 
@@ -18,6 +19,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
     const [moreInitialPosts, setMoreInitialPosts] = useState(false);
     const [lastQuery, setLastQuery] = useState('');
     const [userSearched, setUserSearched] = useState(false);
+    const {menu} = useContext(StateContext);
 
     const searchEl = useRef<HTMLInputElement>(null);
 
@@ -91,19 +93,19 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
 
         setInitialPosts(featuredPosts.filter((post:any, index:number)=>index < 3));
         
-    }, [])
+    }, []);
 
     return (
 
         <>
         <div 
-            className='skew-y-[20deg] absolute lg:top-[133vh] bg-gradient-to-br from-[#282e34]/[0.7] via-[#282e34] to-[#282e34] w-full min-h-[1800px] shadow-lg h-auto landing-hero pb-15 mb-15 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'
+            className={'skew-y-[20deg] absolute lg:top-[133vh] bg-gradient-to-br from-[#282e34]/[0.7] via-[#282e34] to-[#282e34] w-full min-h-[1800px] shadow-lg h-auto landing-hero pb-15 mb-15 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
         >
 
         </div>
 
         <div 
-            className='absolute lg:top-[100vh] w-full min-h-[1800px] h-auto landing-hero  pb-15 mb-15 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'
+            className={'absolute lg:top-[100vh] w-full min-h-[1800px] h-auto landing-hero  pb-15 mb-15 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
 
             >
 
@@ -127,13 +129,13 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                     <div className='landing-title row-span-2 col-span-1 lg:col-span-6 lg:col-start-1  rounded-lg mx-3'>
                         <div className='flex flex-col h-full items-center justify-center pt-[100px]'>
 
-                            <span className='text-white/[0.5] text-2xl font-light'>
+                            <span className='text-white/[0.5] text-xl font-light'>
                                 Search Articles
                             </span>
                             
                             <input 
                                 type='text'
-                                className='transition-all duration-500 p-4 px-4 m-4 outline-none w-[90vw] md:w-[50%] bg-black/[0.3] rounded-full focus:ring-2 focus:ring-white/[0.3] text-white/[0.6] text-center'
+                                className='transition-all duration-500 p-4 px-4 m-4 outline-none w-[90vw] md:w-[50%] bg-black/[0.3] rounded-full focus:ring-2 focus:ring-white/[0.3] text-lg text-white/[0.6] text-center'
                                 placeholder='Your query'
                                 name='search'
                                 ref={searchEl}
@@ -145,11 +147,11 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                             
                                 <div className='flex flex-col items-center justify-start w-full pt-[50px]'>
 
-                                    <span className='text-white text-2xl font-semibold pb-5'>
+                                    <span className='text-white text-xl font-semibold pb-5'>
                                         Articles matching your search:  
                                     </span>
 
-                                    <div className='w-full'>
+                                    <div className='w-full text-md'>
                                         {posts.map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
@@ -213,7 +215,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                             {userSearched && posts.length == 0 ?
 
                                 <div className='flex flex-col items-center justify-start w-full pt-[20px]'> 
-                                    <span className='text-white text-2xl'>
+                                    <span className='text-white text-xl'>
                                         No results
                                     </span>
                                 </div>
@@ -228,11 +230,11 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                             {initialPosts.length > 0 && posts.length == 0 ?
                                 
                                 <div className='flex flex-col items-center justify-start w-full pt-[50px]'>
-                                    <span className='text-white text-2xl font-semibold pb-5'>
+                                    <span className='text-white text-xl font-semibold pb-5'>
                                         Articles you may like  
                                     </span>
 
-                                    <div className='w-full'>
+                                    <div className='w-full text-md'>
                                         {initialPosts.map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
