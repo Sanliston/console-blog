@@ -6,6 +6,7 @@ import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedColl
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
+import useScrollDirection from '../hooks/useScrollDirection';
 import {getCategories, getCollections, getPosts } from '../services'; 
 import { StateContext } from './_app';
 
@@ -31,6 +32,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   const searchRef = useRef(null);
   const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
   const {menu} = useContext(StateContext);
+  const scrollDirection = useScrollDirection();
   
 
   return (
@@ -76,7 +78,9 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
               <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-                <div className="lg:sticky relative top-[100px]">
+                <div className={"transition-all duration-300 lg:sticky relative"
+                    + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
+                  }>
 
                   <CollectionsWidget />
 
@@ -92,7 +96,8 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
               
 
-                <div className="lg:sticky relative lg:top-[100px]">
+                <div className={"transition-all duration-300 lg:sticky relative"
+                  + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')}>
 
                   <PostWidget />
                   <Categories />

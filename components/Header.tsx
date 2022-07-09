@@ -8,6 +8,7 @@ import { useWindowScrollPositions } from "../hooks/useWindowScrollPositions";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import MenuWidget from "./MenuWidget";
 import {Burger3} from "./Icons"; 
+import useScrollDirection from "../hooks/useScrollDirection";
 
 interface HeaderProps {
 
@@ -18,13 +19,15 @@ const Header = ({}:HeaderProps) : JSX.Element => {
     const { categories, menu } = useContext(StateContext);
     const {scrollX, scrollY} = useWindowScrollPositions(); 
     const {windowHeight, windowWidth } = useWindowDimensions(); 
+    const scrollDirection = useScrollDirection(); 
     
     return (
         <div className="container  fixed top-[0px] t-0 z-10 mb-8 w-full " style={{minWidth: '100vw'}}>
             
             <div className={
-                "transition-all duration-700 w-full px-[10vw] h-[80px] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 " 
+                "transition-all duration-700 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 " 
                 + ( scrollY > windowHeight ? ' backdrop-blur-md bg-[#282e34]/[0.6]' : '')
+                + (scrollDirection === 'up' || scrollY < 30 ?  ' h-[80px]' : ' hidden h-[0px]')
                 }>
 
                 <div className={"fixed transition-all duration-300 left-[30px] md:left-[60px] z-[50] text-white"
