@@ -7,6 +7,7 @@ import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
 import useScrollDirection from '../hooks/useScrollDirection';
+import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 import {getCategories, getCollections, getPosts } from '../services'; 
 import { StateContext } from './_app';
 
@@ -33,6 +34,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
   const {menu} = useContext(StateContext);
   const scrollDirection = useScrollDirection();
+  const {scrollY} = useWindowScrollPositions();
   
 
   return (
