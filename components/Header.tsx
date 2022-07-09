@@ -25,9 +25,8 @@ const Header = ({}:HeaderProps) : JSX.Element => {
         <div className="container  fixed top-[0px] t-0 z-10 mb-8 w-full " style={{minWidth: '100vw'}}>
             
             <div className={
-                "transition-all duration-700 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 " 
-                + ( scrollY > windowHeight ? ' backdrop-blur-md bg-[#282e34]/[0.6]' : '')
-                + (scrollDirection === 'up' || scrollY < 30 ?  ' h-[80px]' : ' hidden h-[0px]')
+                "transition-all duration-700 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden backdrop-blur-md bg-[#282e34]/[0.6] " 
+                + (scrollDirection === 'up' || scrollY < 10 ?  ' h-[80px]' : ' h-[0px]')
                 }>
 
                 <div className={"fixed transition-all duration-300 left-[30px] md:left-[60px] z-[50] text-white"
@@ -54,7 +53,6 @@ const Header = ({}:HeaderProps) : JSX.Element => {
                     <Link href="/">
 
                         <div className={"transition-all duration-500 absolute absolute flex flex-row items-end justify-start cursor-pointer font-bold text-2xl text-white top-5  " 
-                                    + (scrollY < windowHeight && scrollY > 20 ? ' rounded-full backdrop-blur-md bg-[#282e34]/[0.8] px-[100px] py-2  ': '' )
                                     }>
                             <BsCloudMoonFill className={" transition-all duration-500 text-4xl mb-3 text-white "}/>
 
