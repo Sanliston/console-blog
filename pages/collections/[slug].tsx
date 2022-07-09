@@ -10,6 +10,7 @@ import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { FiArrowDownCircle } from 'react-icons/fi';
 import CollectionsWidget from '../../components/CollectionsWidget';
+import useScrollDirection from '../../hooks/useScrollDirection';
 
 interface TagPostProps {
     slug: string,
@@ -19,6 +20,7 @@ interface TagPostProps {
 const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
   const router = useRouter();
   const {scrollX, scrollY} = useWindowScrollPositions(); 
+  const scrollDirection = useScrollDirection(); 
   const {windowHeight, windowWidth } = useWindowDimensions(); 
   const scrollRef = useRef<HTMLDivElement>(null);
   const {menu} = useContext(StateContext);
@@ -202,7 +204,9 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
             <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-              <div className="lg:sticky relative top-[100px]">
+              <div className={"lg:sticky relative "
+                + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
+              }>
 
                   <CollectionsWidget />
 
@@ -217,7 +221,9 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
             </div>
 
             <div className="col-span-1">
-              <div className="relative lg:sticky top-[100px]">
+              <div className={"relative lg:sticky "
+                + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
+              }>
                 <Categories />
               </div>
             </div>
