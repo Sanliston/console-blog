@@ -420,7 +420,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: Slidi
 
     return (
         <div 
-            className={'fixed overflow-x-hidden overflow-y-visible bg-cover min-h-[100vh] min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
+            className={'fixed overflow-x-hidden overflow-y-visible bg-cover mobile-min-100vh min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
                 + (scrollY > windowHeight*0.5 || menu ? ' blur-filter ': ' trans-500')
                 }
             style={{
