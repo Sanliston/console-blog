@@ -45,7 +45,7 @@ const Header = ({}:HeaderProps) : JSX.Element => {
             </div>
             
             <div className={
-                "transition-all duration-700 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden backdrop-blur-md bg-[#282e34]/[0.6] " 
+                "transition-all duration-700 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden bg-[#282e34] " 
                 + (scrollDirection === 'up' || scrollY < 10 ?  ' h-[80px]' : ' h-[0px]')
                 }>
 
