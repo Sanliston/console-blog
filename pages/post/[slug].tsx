@@ -27,7 +27,7 @@ const PostDetails = ( { post } : PostDetailsProps) : JSX.Element => {
             <div className='grid grid-cols-1 lg:grid-cols-5 gap-1'>
 
                 <div className='hidden lg:block lg:col-span-1'>
-                    <div className={'relative lg:sticky '
+                    <div className={'relative lg:sticky transition-all duration-300  '
                         + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
                     }>
                         <CollectionsWidget />
@@ -47,7 +47,7 @@ const PostDetails = ( { post } : PostDetailsProps) : JSX.Element => {
                 </div>
 
                 <div className='col-span-1'>
-                    <div className={'relative lg:sticky'
+                    <div className={'relative lg:sticky transition-all duration-300 '
                         + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
                     }>
                         <PostWidget 

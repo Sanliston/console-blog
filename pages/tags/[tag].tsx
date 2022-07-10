@@ -5,6 +5,8 @@ import { getCategories, getTagPosts } from '../../services';
 import { PostCard, Categories, Loader, MenuWidget, CollectionsWidget } from '../../components';
 import { StateContext } from '../_app';
 import Link from 'next/link';
+import useScrollDirection from '../../hooks/useScrollDirection';
+import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
 
 interface TagPostProps {
     posts: [],
@@ -14,6 +16,8 @@ interface TagPostProps {
 const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   const router = useRouter();
   const { categories, menu } = useContext(StateContext);
+  const {scrollY} = useWindowScrollPositions();
+  const scrollDirection = useScrollDirection();
 
   if (router.isFallback) {
     return <Loader />;
@@ -48,7 +52,9 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
 
       <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-        <div className="lg:sticky relative top-[100px]">
+        <div className={"lg:sticky relative transition-all duration-300"
+          + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
+        }>
 
             <CollectionsWidget />
 
@@ -63,7 +69,9 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
         </div>
 
         <div className="col-span-1">
-          <div className="relative lg:sticky top-[100px]">
+          <div className={ "relative lg:sticky transition-all duration-300 "
+            + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
+          }>
             <Categories />
           </div>
         </div>
