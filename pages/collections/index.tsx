@@ -6,6 +6,8 @@ import { PostCard, Categories, Loader, MenuWidget, PostWidget, SlidingCollection
 import { StateContext } from '../_app';
 import Link from 'next/link';
 import CollectionsWidget from '../../components/CollectionsWidget';
+import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
+import useScrollDirection from '../../hooks/useScrollDirection';
 
 interface TagIndexProps {
     collections: []
@@ -15,6 +17,8 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
   const router = useRouter();
   const { categories, menu } = useContext(StateContext);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const {scrollY} = useWindowScrollPositions();
+  const scrollDirection = useScrollDirection();
 
   if (router.isFallback) {
     return <Loader />;
@@ -50,7 +54,9 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
 
                     <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-                        <div className="lg:sticky relative top-[100px]">
+                        <div className={"lg:sticky relative transition-all duration-300 "
+                            + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
+                        }>
 
                             <CollectionsWidget />
 
@@ -83,7 +89,9 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
                     </div>
 
                     <div className="col-span-1">
-                        <div className="relative lg:sticky top-[100px]">
+                        <div className={"relative lg:sticky transition-all duration-300 "
+                            + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
+                        }>
                             <PostWidget />
                         </div>
                     </div>

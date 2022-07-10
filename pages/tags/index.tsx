@@ -43,7 +43,7 @@ const TagsIndex = ({ tags }: TagIndexProps) : JSX.Element => {
 
       <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-        <div className={"lg:sticky relative "
+        <div className={"lg:sticky relative transition-all duration-300 "
           + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
         }>
 
@@ -69,7 +69,7 @@ const TagsIndex = ({ tags }: TagIndexProps) : JSX.Element => {
         </div>
 
         <div className="col-span-1">
-          <div className={"relative lg:sticky"
+          <div className={"relative lg:sticky transition-all duration-300 "
             + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
           }>
             <PostWidget />
