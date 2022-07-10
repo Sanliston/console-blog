@@ -45,17 +45,18 @@ const Header = ({}:HeaderProps) : JSX.Element => {
             </div>
             
             <div className={
-                "transition-all duration-700 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden bg-[#282e34] " 
+                "transition-all duration-700 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden whitespace-nowrap bg-[#282e34] " 
                 + (scrollDirection === 'up' || scrollY < 10 ?  ' h-[80px]' : ' h-[0px]')
                 }>
 
                 
 
-                <div className="lg:col-span-5 col-span-1 flex items-center justify-center ">
+                <div className={"lg:col-span-5 col-span-1 flex items-center justify-center "}>
 
                     <Link href="/">
 
-                        <div className={"transition-all duration-500 absolute absolute flex flex-row items-end justify-start cursor-pointer font-bold text-2xl text-white top-5  " 
+                        <div className={"transition-all duration-500 flex flex-row items-end justify-start cursor-pointer font-bold text-2xl text-white top-5  " 
+                                        
                                     }>
                             <BsCloudMoonFill className={" transition-all duration-500 text-4xl mb-3 text-white "}/>
 

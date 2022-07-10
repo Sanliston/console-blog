@@ -304,6 +304,28 @@ a {
   filter: blur(0px); 
 }
 
+//mobile view height
+.mobile-100vh {
+  
+  height: calc(100vh - calc(100vh - 100%));
+}
+
+.mobile-min-100vh {
+ 
+  @media only screen and (min-device-width: 375px) and (max-device-width: 768px) {
+    min-height: calc(100vh - calc(100vh - 100%));
+  }
+
+  @media only screen and (min-device-width: 768px) {
+    min-height: 100vh;
+  }
+  
+}
+
+.mobile-max-100vh {
+  max-height: calc(100vh - calc(100vh - 100%))
+}
+
 
 //svg animations
 .icons {
