@@ -330,6 +330,11 @@ a {
   max-height: calc(100vh - calc(100vh - 100%))
 }
 
+//landing gradient colours
+.landing-gradient {
+  background-image: linear-gradient(to right,#B350FF,#03CBFF); 
+}
+
 
 //svg animations
 .icons {

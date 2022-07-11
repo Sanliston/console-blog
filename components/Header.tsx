@@ -22,7 +22,7 @@ const Header = ({}:HeaderProps) : JSX.Element => {
     const scrollDirection = useScrollDirection(); 
     
     return (
-        <div className="container  fixed top-[0px] t-0 z-10 mb-8 w-full " style={{minWidth: '100vw'}}>
+        <div className="container  fixed top-[0px] t-0 z-[15] mb-8 w-full " style={{minWidth: '100vw'}}>
 
             <div className={
                 "fixed h-[100vh] w-0 overflow-hidden bouncy-animation pt-[60px] max-w-[500px] top-0 left-0 transition-all duration-500 shadow-lg z-[40] bg-backgroundDark/[0.9] border-r-[10px] border-white/[0.7]"
@@ -45,7 +45,7 @@ const Header = ({}:HeaderProps) : JSX.Element => {
             </div>
             
             <div className={
-                "transition-all duration-700 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden whitespace-nowrap bg-backgroundDark " 
+                "transition-all duration-200 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden whitespace-nowrap landing-gradient " 
                 + (scrollDirection === 'up' || scrollY < 10 ?  ' h-[80px]' : ' h-[0px]')
                 }>
 

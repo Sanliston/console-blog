@@ -11,6 +11,8 @@ import useWindowDimensions from '../hooks/useWindowDimensions';
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 import {getCategories, getCollections, getPosts } from '../services'; 
 import { StateContext } from './_app';
+import useScrollSnap from 'react-use-scroll-snap';
+import { BsCloudMoonFill } from "react-icons/bs";
 
 interface HomeProps {
   posts: [],
@@ -40,11 +42,8 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   const [scrollTop, setScrollTop] = useState();
   const [lastScroll, setLastScroll] = useState(new Date());
   const collectionsRef = useRef<HTMLDivElement>(null);
-
-  const scrollSnap = () => {
-    window.scrollTo({top: windowHeight, behavior: 'smooth'});
-    //collectionsRef.current?.scrollIntoView();
-  }
+  const containerRef = useRef<HTMLDivElement>(null); 
+  
 
   // useEffect(()=>{
 
@@ -57,11 +56,22 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   //   }
 
   // }, [scrollY]);
+
+  // useEffect(()=>{
+
+  //   const element = this.container.current
+  //   createScrollSnap(element, {
+  //     snapDestinationY: '90%',
+  //   }, () => console.log('snapped'))
+
+  // }, []);
+
+  useScrollSnap({ref: containerRef, duration:100, delay: 20});
   
 
   return (
 
-      <div className={"container mx-auto px-0 top-[0px]"} style={{minWidth: '100vw'}}
+      <div ref={containerRef} className={"container mx-auto px-0 top-[0px]"} style={{minWidth: '100vw'}}
       
       >
         <Head>
@@ -70,22 +80,43 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
         </Head>
 
 
-        <div className='block shadow-lg relative w-full min-h-[120vh] lg:min-h-[100vh] bg-backgroundDark lg:h-auto top-[0px] z-10 ' style={{minWidth: '100vw'}}>
-          Welcome to console blog
-        </div>
+        <section className='block shadow-lg relative w-full min-h-[220vh] lg:min-h-[200vh] bg-backgroundDark top-[0px] z-10 flex flex-col' style={{minWidth: '100vw'}}>
 
-        <div ref={collectionsRef} className='scroll-snap block relative w-full min-h-[120vh] lg:min-h-[100vh] lg:h-auto top-[100px] z-5 ' style={{minWidth: '100vw'}}>
-          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={1}/>
-        </div>
+          <div className='h-[100vh]'>
 
-        <div ref={searchRef} className='w-full min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto top-[250vh] lg:top-[200vh] z-0' style={{minWidth: '100vw'}}>
+          </div>
+          <div className='w-full h-[600px] landing-gradient flex flex-col items-center justify-center'>
+
+            <div className='landing-title hidden md:flex flex-col items-center justify-center col-span-1 lg:col-span-6 mb-0 md:mb-15'>
+                <div className='flex flex-col items-center justify-center text-white mb-5'>
+
+                    <div className=' text-[90px] md:text-[150px] lg:text-[250px]  mb-5'>
+                        <BsCloudMoonFill/>
+                    </div>
+
+                    <span className='text-2xl md:text-4xl lg:text-[60px] font-[900] text-white pt-[20px] text-center font-labelle'>
+                        Console.blog();
+                    </span>
+                    
+                </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        <section ref={collectionsRef} className='block relative w-full min-h-[120vh] lg:min-h-[100vh] z-5 ' style={{minWidth: '100vw'}}>
+          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={2}/>
+        </section>
+
+        <section ref={searchRef} className='block relative w-full min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto z-10' style={{minWidth: '100vw'}}>
           <LandingHero featuredPosts={featuredPosts as []}/>
-        </div>
+        </section>
 
-        <div style={{minWidth: '100vw'}} className={'relative bg-backgroundDark z-5'+(menu? ' blur-filter ': ' trans-500')}>
+        <section style={{minWidth: '100vw'}} className={'relative block bg-backgroundDark z-5'+(menu? ' blur-filter ': ' trans-500')}>
 
           <div
-              className='divider mb-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
+              className='block relative divider mb-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
             >
                 <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
 
@@ -137,7 +168,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
               
             </div>
           </div>
-        </div>
+        </section>
 
 
 
