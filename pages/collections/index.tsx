@@ -29,10 +29,10 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
     <div className='w-full h-full'>
 
         <div className='block relative w-full min-h-[120vh] lg:min-h-[100vh] lg:h-auto top-[0px] z-5 ' style={{minWidth: '100vw'}}>
-          <SlidingCollections collectionsProp={collections} scrollRef={scrollRef} title='All Collections' featured={false}/>
+          <SlidingCollections collectionsProp={collections} scrollRef={scrollRef} title='All Collections' featured={false} windowOffset={0}/>
         </div>
 
-        <div className={'relative container min-w-[100vw] bg-[#282e34] '+(menu?' blur-filter': ' trans-500')}>
+        <div className={'relative container min-w-[100vw] bg-backgroundDark '+(menu?' blur-filter': ' trans-500')}>
 
             <div ref={scrollRef} className="rounded-3xl  relative container flex flex-col items-center mx-auto px-10 mb-8 pt-[100px]"
             >
@@ -69,7 +69,7 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
 
                             <Link href={`/collections/${collection.slug}`} key={collection.slug}>
 
-                                <div className='bg-cover w-[180px] h-[300px] bg-[#4A5A6A]/[0.3] rounded-lg m-5 overflow-hidden'
+                                <div className='bg-cover w-[180px] h-[300px] bg-elementDark/[0.3] rounded-lg m-5 overflow-hidden'
                                     style={{
                                         backgroundImage: `url(${collection.image.url})`
                                     }}

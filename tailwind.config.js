@@ -8,6 +8,10 @@ module.exports = {
       colors : {
 
         backgroundAlpha: 'rgb(var(--color-primary) / 0.5',
+        backgroundDark: '#282e34',
+        elementDark: '#4A5A6A',
+        backgroundLight: '#fff',
+
       },
       screens: {
         'sm-short': {

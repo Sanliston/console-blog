@@ -13,10 +13,11 @@ interface SlidingCollectionsInterface  {
     collectionsProp: [],
     scrollRef: React.RefObject<HTMLDivElement>,
     title: string,
-    featured: boolean
+    featured: boolean,
+    windowOffset: number
 }
 
-const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: SlidingCollectionsInterface):JSX.Element => {
+const SlidingCollections = ({collectionsProp, scrollRef, title, featured, windowOffset}: SlidingCollectionsInterface):JSX.Element => {
     const [collections, setCollections] = useState<[] | any>([]);
     const [parentBackgroundImage, setParentBackgroundImage] = useState('https://media.graphassets.com/XpiinIIuT0i52JKc1ijM');
     const [featuredCollectionsPosition, setFeaturedCollectionsPosition] = useState({top:0, left: 0});
@@ -190,7 +191,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: Slidi
 
     //experiment with setting this to fixed when you get the chance
     const focusedStyle = 'fixed focused-animation-transition featured-collection-widget w-full h-full ';
-    const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 absolute animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] w-[150px] h-[150px] flex flex-col items-sart justify-end';
+    const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 fixed animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] w-[150px] h-[150px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
 
 
@@ -249,8 +250,8 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: Slidi
 
                                 className={
                                     ' flex flex-col h-full w-full items-start md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center'
-                                    + (collection.focused && scrollY < windowHeight*0.5 ? ' collection-background-info-show ': '')
-                                    + (scrollY > windowHeight*0.5 ? ' collection-background-info-hide ': ' opacity-0')
+                                    + ((collection.focused && scrollY < (windowHeight*windowOffset + windowHeight*0.5)) && scrollY > (windowHeight*windowOffset-200)   ? ' collection-background-info-show ': '')
+                                    + (scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
                                 }
 
                                 >
@@ -420,8 +421,8 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured}: Slidi
 
     return (
         <div 
-            className={'fixed overflow-x-hidden overflow-y-visible bg-cover mobile-min-100vh min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
-                + (scrollY > windowHeight*0.5 || menu ? ' blur-filter ': ' trans-500')
+            className={'fixed top-[0px] overflow-x-hidden overflow-y-visible bg-cover mobile-min-100vh min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
+                + (scrollY > (windowHeight*windowOffset + windowHeight*0.5)  || menu ? ' blur-filter ': ' trans-500')
                 }
             style={{
                 backgroundImage: `url('${parentBackgroundImage}')`,

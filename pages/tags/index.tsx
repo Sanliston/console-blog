@@ -58,7 +58,7 @@ const TagsIndex = ({ tags }: TagIndexProps) : JSX.Element => {
 
                 <Link href={`/tags/${category.slug}`} key={category.slug}>
 
-                    <div className='w-[200px] h-[200px] bg-[#4A5A6A]/[0.3] rounded-lg m-5 flex justify-center items-center'>
+                    <div className='w-[200px] h-[200px] bg-elementDark/[0.3] rounded-lg m-5 flex justify-center items-center'>
                         <span className={`relative cursor-pointer absolute px-3 py-1 mx-2 text-white rounded-full text-md border-white`}>
                             {`#${category.name}`}
                         </span>

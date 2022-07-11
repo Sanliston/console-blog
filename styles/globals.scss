@@ -304,6 +304,10 @@ a {
   filter: blur(0px); 
 }
 
+.scroll-snap {
+  scroll-snap-type: y proximity;
+}
+
 //mobile view height
 .mobile-100vh {
   

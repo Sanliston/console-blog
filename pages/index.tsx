@@ -7,6 +7,7 @@ import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
 import useScrollDirection from '../hooks/useScrollDirection';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 import {getCategories, getCollections, getPosts } from '../services'; 
 import { StateContext } from './_app';
@@ -34,7 +35,28 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
   const {menu} = useContext(StateContext);
   const scrollDirection = useScrollDirection();
+  const {windowHeight} = useWindowDimensions();
   const {scrollY} = useWindowScrollPositions();
+  const [scrollTop, setScrollTop] = useState();
+  const [lastScroll, setLastScroll] = useState(new Date());
+  const collectionsRef = useRef<HTMLDivElement>(null);
+
+  const scrollSnap = () => {
+    window.scrollTo({top: windowHeight, behavior: 'smooth'});
+    //collectionsRef.current?.scrollIntoView();
+  }
+
+  // useEffect(()=>{
+
+  //   setLastScroll(new Date());
+    
+
+  //   if(scrollY > (windowHeight) && scrollY < (2*windowHeight) && lastScroll.getTime() < (new Date()).getTime() - 300){
+
+  //     scrollSnap();
+  //   }
+
+  // }, [scrollY]);
   
 
   return (
@@ -47,15 +69,20 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <div className=' block relative w-full min-h-[120vh] lg:min-h-[100vh] lg:h-auto top-[0px] z-5 ' style={{minWidth: '100vw'}}>
-          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} />
+
+        <div className='block shadow-lg relative w-full min-h-[120vh] lg:min-h-[100vh] bg-backgroundDark lg:h-auto top-[0px] z-10 ' style={{minWidth: '100vw'}}>
+          Welcome to console blog
         </div>
 
-        <div ref={searchRef} className='w-full  min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto top-[150vh] lg:top-[100vh] z-0' style={{minWidth: '100vw'}}>
+        <div ref={collectionsRef} className='scroll-snap block relative w-full min-h-[120vh] lg:min-h-[100vh] lg:h-auto top-[100px] z-5 ' style={{minWidth: '100vw'}}>
+          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={1}/>
+        </div>
+
+        <div ref={searchRef} className='w-full min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto top-[250vh] lg:top-[200vh] z-0' style={{minWidth: '100vw'}}>
           <LandingHero featuredPosts={featuredPosts as []}/>
         </div>
 
-        <div style={{minWidth: '100vw'}} className={'relative bg-[#282e34] z-5'+(menu? ' blur-filter ': ' trans-500')}>
+        <div style={{minWidth: '100vw'}} className={'relative bg-backgroundDark z-5'+(menu? ' blur-filter ': ' trans-500')}>
 
           <div
               className='divider mb-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
@@ -74,7 +101,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                   
           </div>
 
-          <div className='container mx-auto px-0 mb-8 bg-[#282e34]'>
+          <div className='container mx-auto px-0 mb-8 bg-backgroundDark'>
             
             <div className='grid grid-cols-1 lg:grid-cols-5 gap-1 pt-[10]'>
 
@@ -94,7 +121,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                 {posts.map((post:any, index) => <PostCard post={post} key={post.title}/>)}
               </div>
 
-              <div className='lg:col-span-1 col-span-1 bg-[#282e34]'>
+              <div className='lg:col-span-1 col-span-1 bg-backgroundDark'>
 
               
 
