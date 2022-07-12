@@ -21,10 +21,13 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     const [collections, setCollections] = useState<[] | any>([]);
     const [parentBackgroundImage, setParentBackgroundImage] = useState('https://media.graphassets.com/XpiinIIuT0i52JKc1ijM');
     const [featuredCollectionsPosition, setFeaturedCollectionsPosition] = useState({top:0, left: 0});
+    const [focusTransitioning, setFocusTransitioning] = useState(false);
+    const [focusedCollection, setFocusedCollection] = useState(null);
 
     const parentRef = useRef<HTMLDivElement>(null);
     const innerContainerRef = useRef<HTMLDivElement>(null);
     const widgetRef = useRef<HTMLDivElement>(null); //ref for second widget in list, to be used as reference
+    const focusedRef = useRef<HTMLDivElement>(null);
     const isFirstRender = useRef(true);
 
     const {scrollX, scrollY} = useWindowScrollPositions(); 
@@ -35,12 +38,14 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     let dummyCollections = [
 
         {
-            backgroundImage: 'https://media.graphassets.com/PE2C3O7SLAs15PHcLvpA',
+            image: {
+                url: 'https://media.graphassets.com/PE2C3O7SLAs15PHcLvpA'
+            },
             title: 'Javascript',
             subtitle: 'test subtitle',
             description: 'This is a test description',
             slug: 'tsdsd1',
-            focused: true
+            focused: true,
         },
         {
             backgroundImage: 'https://media.graphassets.com/dMhhYSlRxWqAwqcXuQGG',
@@ -76,6 +81,8 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                 collection.cleanup = false; 
                 return collection; 
             }));
+
+            //setFocusedCollection(dummyCollections[0]);
         
     }, []);
 
@@ -104,9 +111,11 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     const focusCollection = (targetIndex:number) => {
 
         console.log('featuredRef: ', widgetRef);
+        setFocusTransitioning(true);
 
         //grab the target background image
         var backgroundImage = collections[targetIndex].image.url; 
+        var newFocusedCollection = collections[targetIndex];
         let buriedCollections: []| any = [];
         let updatedCollections = collections.map((collection:any, index:number)=>{
 
@@ -132,6 +141,12 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
 
             return collection; 
         });
+
+        //start transition animation
+        const oldFocusEl = focusedRef.current; 
+        oldFocusEl?.classList.add('unfocus-transition');
+
+        //update colletions
 
         ReactDOM.flushSync(()=>{
             setCollections(updatedCollections);
@@ -163,6 +178,8 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     
                     return collection; 
                 }));
+
+                setFocusTransitioning(false);
             });
         }, 700);
         
@@ -171,7 +188,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
             //set the background image of the parent to match the current focus
             ReactDOM.flushSync(()=>{
                 setParentBackgroundImage(backgroundImage);
-
+                setFocusedCollection(newFocusedCollection);
                 /*Why am I doing this?
                     So that when the next focus happens, the current focus'
                     image will be the background, however it will be the parent div background
@@ -193,6 +210,8 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     const focusedStyle = 'fixed focused-animation-transition featured-collection-widget w-full h-full ';
     const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 fixed animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] w-[150px] h-[150px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
+
+    const shadowFocusedStyle = 'fixed transition-none featured-collection-widget w-full h-full ';
 
 
     const getLayout = (params:any) => {
@@ -234,24 +253,25 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
 
                     <div
                         
-                        className={(collection.focused ? ' no-blur overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] ': 'max-h-[0px] max-w-full') + ' focused-info bg-gradient-to-b from-black/[0.6] to-transparent'}
+                        className={(collection.focused ? ' no-blur overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] ': 'max-h-[0px] max-w-full') + ' transition-all focused-info bg-gradient-to-b from-black/[0.6] to-transparent'}
                             
                         style={{
                             //for animating disappearing when focused
                             
 
-                            opacity: collection.focused ? 1 : 0,
+                            opacity: (collection.focused) ? 1 : 0,
                         } as React.CSSProperties}
+                        ref={collection.focused ? focusedRef : null}
                     >
 
-                        { collection.focused && 
                         
+                        { collection.focused &&
                             <div
 
                                 className={
                                     ' flex flex-col h-full w-full items-start md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center'
                                     + ((collection.focused && scrollY < (windowHeight*windowOffset + windowHeight*0.5)) && scrollY > (windowHeight*windowOffset-200)   ? ' collection-background-info-show ': '')
-                                    + (scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
+                                    + (!collection.focused || scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
                                 }
 
                                 >
@@ -348,7 +368,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
 
                                     <Link href={`/collections/${collection.slug}`}>
                                         <div 
-                                            className={'button border-2 rounded-full cursor-pointer px-5 py-3 m-1 bg-transparent text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
+                                            className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
                                             style={{
                                                 //for animating disappearing when focused
                                                 '--custom-delay': 300+'ms ',
@@ -364,7 +384,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                                     {featured && 
                                         <Link href={`/collections`}>
                                             <div 
-                                                className={'button border-2 rounded-full cursor-pointer px-5 py-3 m-1 bg-transparent text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
+                                                className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
                                                 style={{
                                                     //for animating disappearing when focused
                                                     '--custom-delay': 300+'ms ',
@@ -381,10 +401,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                                 </div>
                                 
                             </div>  
-                        }
-                        
-                        
-                        
+                        }               
 
                     </div>
 
@@ -419,16 +436,204 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
         });
     }
 
+    const renderFocused = (collection: any) => {
+
+        return (
+
+            <div
+
+                    className={
+                            'collection-image bg-cover overflow-hidden '
+                            + shadowFocusedStyle 
+                    }
+                            
+                    style={{
+                        //backgroundImage: `url('${collection.image.url}')`,
+                        left:
+                            '0px' ,
+                        bottom: '0px' ,
+                        opacity: 1,
+
+                    } as React.CSSProperties}
+
+                >
+
+                    <div
+                                
+                        className={' transition-none duration-0 fixed block overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] focused-info bg-gradient-to-b from-black/[0.6] to-transparent'}
+                            
+                        style={{
+                            //for animating disappearing when focused
+                            
+
+                            opacity: 1,
+                        } as React.CSSProperties}
+                        
+                    >
+
+                        
+                        
+                            <div
+
+                                className={
+                                    ' flex flex-col h-full w-full items-start md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center '
+                                    // + ((scrollY < (windowHeight*windowOffset + windowHeight*0.5)) && scrollY > (windowHeight*windowOffset-200)   ? ' collection-background-info-show ': '')
+                                    // + (scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
+                                }
+
+                                >
+
+                                <div
+                                    className={
+                                        'text-white/[0.4] mb-0 text-[16px] md:text-[20px] lg:text-[20px] xl:text-[30px] 2xl:text-[40px] font-bold font-labelle'
+                                    }
+
+                                    style={{
+                                        //for animating disappearing when focused
+
+                                        '--custom-delay': 10+'ms ',
+                                        opacity:  1,
+                                    } as React.CSSProperties}
+                                    >
+
+                                    {`${featured ? 'Featured ': ''}Collection`}
+
+                                </div>
+
+                                <div
+                                    className={'text-white mb-0 text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches'}
+
+                                    style={{
+                                        //for animating disappearing when focused
+
+                                        '--custom-delay': 100+'ms ',
+                                        opacity: 1,
+                                    } as React.CSSProperties}
+                                    >
+
+                                    {collection.title}
+
+                                </div>
+
+                                <div
+                                    className={'w-[100px] h-[1px] bg-white mb-[5px] md:mb-[30px]'+' collection-background-info-show '}
+                                    style={{
+                                        //for animating disappearing when focused
+
+                                        '--custom-delay': 150+'ms ',
+                                        opacity: 1 ,
+                                    } as React.CSSProperties}
+                                    
+                                >
+
+                                </div>
+
+                                <div
+                                    className={'text-white text-xs md:text-md font-light delay-400 mb-5 max-w-[300px] '}
+
+                                    style={{
+                                        //for animating disappearing when focused
+                                        '--custom-delay': 200+'ms ',
+                                        opacity: 1 ,
+                                    } as React.CSSProperties}
+                                >
+
+                                    {collection.subtitle}
+
+                                </div>
+
+                                <div
+                                    className={'hidden md:block text-white text-xs md:text-sm lg:text-md xl:text-lg font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'}
+
+                                    style={{
+                                        //for animating disappearing when focused
+                                        '--custom-delay': 250+'ms ',
+                                        opacity: 1,
+                                    } as React.CSSProperties}
+                                >
+
+                                    {collection.description}
+
+                                </div>
+
+                                <div
+                                    className={' md:hidden text-white text-xs md:text-sm lg:text-md xl:text-md font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'}
+
+                                    style={{
+                                        //for animating disappearing when focused
+                                        '--custom-delay': 250+'ms ',
+                                        opacity: 1 ,
+                                    } as React.CSSProperties}
+                                >
+
+                                    {truncate(collection.description, 200) }
+
+                                </div>
+
+
+                                <div className='flex flex-row items-center flex-wrap'>
+
+                                    <Link href={`/collections/${collection.slug}`}>
+                                        <div 
+                                            className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' }
+                                            style={{
+                                                //for animating disappearing when focused
+                                                '--custom-delay': 300+'ms ',
+                                                opacity: 1,
+                                            } as React.CSSProperties}
+                                            >
+                                            <span>
+                                                Discover Collection
+                                            </span>
+                                        </div>
+                                    </Link>
+
+                                    {featured && 
+                                        <Link href={`/collections`}>
+                                            <div 
+                                                className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}
+                                                style={{
+                                                    //for animating disappearing when focused
+                                                    '--custom-delay': 300+'ms ',
+                                                    opacity: 1 ,
+                                                } as React.CSSProperties}
+                                                >
+                                                <span>
+                                                    View All
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    }
+                                    
+                                </div>
+                                
+                            </div>  
+                        
+                        
+                        
+                        
+
+                    </div>
+                </div>
+            
+        );
+    }
+
     return (
         <div 
-            className={'fixed top-[0px] overflow-x-hidden overflow-y-visible bg-cover mobile-min-100vh min-w-[100vw] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
-                + (scrollY > (windowHeight*windowOffset + windowHeight*0.5)  || menu ? ' blur-filter ': ' trans-500')
+            className={'fixed top-[0px] overflow-x-hidden overflow-y-visible bg-cover mobile-min-100vh mobile-max-100vh min-w-[100vw] w-[100vw] max-w-[100vh] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
+                + (scrollY > (windowHeight*windowOffset + windowHeight*0.5)  || menu ? ' blur-filter ': ' ')
                 }
             style={{
                 backgroundImage: `url('${parentBackgroundImage}')`,
             }}
             ref={parentRef}
             >
+
+            <div className='fixed w-[100vw] h-[100vh]'>
+                {focusedCollection !== null ? renderFocused(focusedCollection) : ''}
+            </div>
+            
 
             <div 
                 className='hidden sm-short:flex sm:hidden transition-all md:hidden lg:hidden xl:hidden 2xl:hidden flex-row overflow-hidden'

@@ -11,6 +11,8 @@ module.exports = {
         backgroundDark: '#282e34',
         elementDark: '#4A5A6A',
         backgroundLight: '#fff',
+        secondaryDark: '#da56f9',
+        buttonColor: '#4361ee'
 
       },
       screens: {

@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget } from '../components/';
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
@@ -11,8 +11,10 @@ import useWindowDimensions from '../hooks/useWindowDimensions';
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 import {getCategories, getCollections, getPosts } from '../services'; 
 import { StateContext } from './_app';
-import useScrollSnap from 'react-use-scroll-snap';
+import createScrollSnap from 'scroll-snap';
 import { BsCloudMoonFill } from "react-icons/bs";
+import useOnScreen from '../hooks/useOnScreen';
+import _ from 'lodash'; 
 
 interface HomeProps {
   posts: [],
@@ -39,39 +41,80 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   const scrollDirection = useScrollDirection();
   const {windowHeight} = useWindowDimensions();
   const {scrollY} = useWindowScrollPositions();
-  const [scrollTop, setScrollTop] = useState();
+  const [scrollTop, setScrollTop] = useState(0);
   const [lastScroll, setLastScroll] = useState(new Date());
   const collectionsRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null); 
+  const collectionOnScreen = useOnScreen(collectionsRef); 
+  const [snapping, setSnapping] = useState(false);
+  
   
 
-  // useEffect(()=>{
-
-  //   setLastScroll(new Date());
-    
-
-  //   if(scrollY > (windowHeight) && scrollY < (2*windowHeight) && lastScroll.getTime() < (new Date()).getTime() - 300){
-
-  //     scrollSnap();
-  //   }
-
-  // }, [scrollY]);
-
-  // useEffect(()=>{
-
-  //   const element = this.container.current
+  // const bindScrollSnap = () => {
+  //   const element: HTMLElement = collectionsRef.current as HTMLElement; 
   //   createScrollSnap(element, {
   //     snapDestinationY: '90%',
   //   }, () => console.log('snapped'))
+  // }
+
+  // useEffect(()=>{
+  //   //bindScrollSnap();
 
   // }, []);
 
-  useScrollSnap({ref: containerRef, duration:100, delay: 20});
+  // useEffect(()=>{
+
+  //   //if collectionsRef is 50% in view scroll to it
+  //   console.log('collections is in view, scrollY: ', scrollY, " collections top: ", collectionsRef.current!.offsetTop, " offsetHeight: ", collectionsRef.current!.offsetHeight);
+
+    if(collectionOnScreen && (scrollY > (collectionsRef.current!.offsetTop-collectionsRef.current!.offsetHeight)+500 && scrollY <  collectionsRef.current!.offsetTop+300)){
+
+      
+    }
+
+  // }, [collectionOnScreen, scrollY]);
+
+  const snapCollections = (top:number) => {
+
+    console.log('scrollY: ', top, " collections top: ", collectionsRef.current!.offsetTop, " offsetHeight: ", collectionsRef.current!.offsetHeight);
+    if((top > (collectionsRef.current!.offsetTop-collectionsRef.current!.offsetHeight)+(0.5 * collectionsRef.current!.offsetHeight) && top <  collectionsRef.current!.offsetTop+(0.5 * collectionsRef.current!.offsetHeight ))){
+
+      console.log('collections in view');
+
+      setSnapping(true);
+      window.scrollTo({
+        top: collectionsRef.current?.offsetTop,
+        behavior: 'smooth'
+      });
+
+      setTimeout(()=>{
+        //stop any further scroll animations for 2 seconds
+
+        setSnapping(false);
+      }, 500);
+    }
+  }
+
+  const theBounce = useCallback(_.debounce((top:number)=>{
+        
+        return snapCollections(top);
+
+    }, 500), []);
+
+  useEffect(()=>{
+    console.log('scrolling');
+    setScrollTop(scrollY);
+
+    if(!snapping){
+      theBounce(scrollY);
+    }
+    
+  }, [scrollY]);
   
 
   return (
 
-      <div ref={containerRef} className={"container mx-auto px-0 top-[0px]"} style={{minWidth: '100vw'}}
+      <div ref={containerRef} className={"container scroll-snap-parent mx-auto px-0 top-[0px] overflow-scroll relative"} style={{minWidth: '100vw'}}
       
       >
         <Head>
@@ -80,14 +123,36 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
         </Head>
 
 
-        <section className='block shadow-lg relative w-full min-h-[220vh] lg:min-h-[200vh] bg-backgroundDark top-[0px] z-10 flex flex-col' style={{minWidth: '100vw'}}>
+        <section className='block shadow-lg relative w-full min-h-[320vh] lg:min-h-[300vh] bg-backgroundDark top-[0px] z-10 flex flex-col' style={{minWidth: '100vw'}}>
 
-          <div className='h-[100vh]'>
+          <div className='h-[100vh] flex flex-col items-center justify-center'>
+
+            <div className='flex flex-col items-center justify-center text-white mb-5'>
+
+              <div className=' text-[90px] md:text-[150px] lg:text-[250px]  mb-5'>
+                  <BsCloudMoonFill/>
+              </div>
+
+              <span className='text-2xl md:text-4xl lg:text-[60px] font-[900] text-white pt-[20px] text-center font-labelle'>
+                  Console.blog();
+              </span>
+
+            </div>
 
           </div>
-          <div className='w-full h-[600px] landing-gradient flex flex-col items-center justify-center'>
 
-            <div className='landing-title hidden md:flex flex-col items-center justify-center col-span-1 lg:col-span-6 mb-0 md:mb-15'>
+          <div className='h-[100vh] landing-gradient'>
+
+            <div className='py-[20px]'>
+              <FeaturedPosts posts={posts} />
+            </div>
+            
+
+          </div>
+
+          <div className='w-full h-[100vh] flex flex-col items-center justify-center'>
+
+            <div className='landing-title landing-gradient hidden md:flex flex-col items-center justify-center col-span-1 lg:col-span-6 mb-0 md:mb-15'>
                 <div className='flex flex-col items-center justify-center text-white mb-5'>
 
                     <div className=' text-[90px] md:text-[150px] lg:text-[250px]  mb-5'>
@@ -105,8 +170,8 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           </div>
         </section>
 
-        <section ref={collectionsRef} className='block relative w-full min-h-[120vh] lg:min-h-[100vh] z-5 ' style={{minWidth: '100vw'}}>
-          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={2}/>
+        <section ref={collectionsRef} className='block scroll-snap relative w-full min-h-[120vh] lg:min-h-[100vh] z-5 ' style={{minWidth: '100vw'}}>
+          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={3}/>
         </section>
 
         <section ref={searchRef} className='block relative w-full min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto z-10' style={{minWidth: '100vw'}}>

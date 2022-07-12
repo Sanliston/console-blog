@@ -84,7 +84,7 @@ const PostCard = ({ post }: Post): JSX.Element => {
 
         <div className='text-center'>
           <Link href={`/post/${post.slug}`}>
-            <span className='transition duration-300 transform inline-block bg-black/[0.3] hover:bg-white/[0.6] hover:text-black/[0.7] text-md font-light rounded-full text-white/[0.5] px-8 py-2 cursor-pointer'>
+            <span className='transition duration-300 transform inline-block bg-buttonColor hover:bg-secondaryDark text-md font-light rounded-full text-white px-8 py-2 cursor-pointer'>
               Read more
             </span>
           </Link>
