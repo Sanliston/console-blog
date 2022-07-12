@@ -211,7 +211,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 fixed animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] w-[150px] h-[150px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
 
-    const shadowFocusedStyle = 'fixed transition-none featured-collection-widget w-full h-full ';
+    const shadowFocusedStyle = 'fixed transition-none featured-collection-widget ';
 
 
     const getLayout = (params:any) => {
@@ -443,11 +443,13 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
             <div
 
                     className={
-                            'collection-image bg-cover overflow-hidden '
+                            'collection-image bg-cover overflow-hidden w-full h-full '
                             + shadowFocusedStyle 
+                            
                     }
                             
                     style={{
+
                         //backgroundImage: `url('${collection.image.url}')`,
                         left:
                             '0px' ,
@@ -457,10 +459,29 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                     } as React.CSSProperties}
 
                 >
+                    <div className={
+                            'fixed inline-block collection-image bg-cover w-full h-full'
+                            + (focusTransitioning ? ' focused-outro-transition' : ' ')
+                        }
+                        style={{
+                            //backgroundImage: `url('${collection.image.url}')`,
+                            backgroundImage: `url('${collection.image.url}')`,
+                            left:
+                                '0px' ,
+                            bottom: '0px' ,
+                            opacity: 1,
+    
+                        } as React.CSSProperties}
+                    >
+
+                    </div>
 
                     <div
                                 
-                        className={' transition-none duration-0 fixed block overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] focused-info bg-gradient-to-b from-black/[0.6] to-transparent'}
+                        className={
+                            ' transition-none duration-0 fixed block overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] focused-info bg-gradient-to-b from-black/[0.6] to-transparent'
+                            
+                        }
                             
                         style={{
                             //for animating disappearing when focused
@@ -477,8 +498,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
 
                                 className={
                                     ' flex flex-col h-full w-full items-start md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center '
-                                    // + ((scrollY < (windowHeight*windowOffset + windowHeight*0.5)) && scrollY > (windowHeight*windowOffset-200)   ? ' collection-background-info-show ': '')
-                                    // + (scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
+                                    + (focusTransitioning ? ' info-outro-transition' : ' ')
                                 }
 
                                 >
@@ -630,7 +650,10 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
             ref={parentRef}
             >
 
-            <div className='fixed w-[100vw] h-[100vh]'>
+            <div className={
+                'fixed '
+                + (focusTransitioning? ' min-w-[200vw] h-[100vh]' : ' min-w-[100vw] h-[100vh]')
+                }>
                 {focusedCollection !== null ? renderFocused(focusedCollection) : ''}
             </div>
             
