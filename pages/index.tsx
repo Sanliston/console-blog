@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget } from '../components/';
+import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget, IntroBanner } from '../components/';
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
@@ -114,7 +114,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
   return (
 
-      <div ref={containerRef} className={"container scroll-snap-parent mx-auto px-0 top-[0px] overflow-scroll relative"} style={{minWidth: '100vw'}}
+      <div ref={containerRef} className={"container scroll-snap-parent mx-auto px-0 top-[0px] relative"} style={{minWidth: '100vw'}}
       
       >
         <Head>
@@ -125,23 +125,25 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
         <section className='block shadow-lg relative w-full min-h-[320vh] lg:min-h-[300vh] bg-backgroundDark top-[0px] z-10 flex flex-col' style={{minWidth: '100vw'}}>
 
-          <div className='h-[100vh] flex flex-col items-center justify-center'>
+          <div className={'block h-[100vh] flex flex-col items-center justify-center'}>
 
-            <div className='flex flex-col items-center justify-center text-white mb-5'>
-
-              <div className=' text-[90px] md:text-[150px] lg:text-[250px]  mb-5'>
-                  <BsCloudMoonFill/>
-              </div>
-
-              <span className='text-2xl md:text-4xl lg:text-[60px] font-[900] text-white pt-[20px] text-center font-labelle'>
-                  Console.blog();
-              </span>
-
+            <div className={`${scrollY < windowHeight*1.5 ? 'block ': ' hidden '}` + 'transition-none duration-0 min-h-[100vh] h-[100vh] w-[100vw]'}>
+              <IntroBanner collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={0} />
             </div>
+            
+
 
           </div>
 
-          <div className='h-[100vh] landing-gradient'>
+          <div className='h-[100vh] relative landing-gradient block z-11'>
+
+            <div className='py-[20px]'>
+              <FeaturedPosts posts={posts} />
+            </div>
+            
+
+          </div>
+          <div className='h-[100vh] relative bg-backgroundDark block z-11'>
 
             <div className='py-[20px]'>
               <FeaturedPosts posts={posts} />
@@ -150,27 +152,9 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
           </div>
 
-          <div className='w-full h-[100vh] flex flex-col items-center justify-center'>
-
-            <div className='landing-title landing-gradient hidden md:flex flex-col items-center justify-center col-span-1 lg:col-span-6 mb-0 md:mb-15'>
-                <div className='flex flex-col items-center justify-center text-white mb-5'>
-
-                    <div className=' text-[90px] md:text-[150px] lg:text-[250px]  mb-5'>
-                        <BsCloudMoonFill/>
-                    </div>
-
-                    <span className='text-2xl md:text-4xl lg:text-[60px] font-[900] text-white pt-[20px] text-center font-labelle'>
-                        Console.blog();
-                    </span>
-                    
-                </div>
-
-            </div>
-
-          </div>
         </section>
 
-        <section ref={collectionsRef} className='block scroll-snap relative w-full min-h-[120vh] lg:min-h-[100vh] z-5 ' style={{minWidth: '100vw'}}>
+        <section ref={collectionsRef} className={`${scrollY > windowHeight*1.5 ? 'block ': ' hidden '}` + ' transition-none duration-0 relative w-full min-h-[120vh] lg:min-h-[100vh] z-5 '} style={{minWidth: '100vw'}}>
           <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={3}/>
         </section>
 

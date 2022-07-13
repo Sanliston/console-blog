@@ -17,7 +17,7 @@ interface SlidingCollectionsInterface  {
     windowOffset: number
 }
 
-const SlidingCollections = ({collectionsProp, scrollRef, title, featured, windowOffset}: SlidingCollectionsInterface):JSX.Element => {
+const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}: SlidingCollectionsInterface):JSX.Element => {
     const [collections, setCollections] = useState<[] | any>([]);
     const [parentBackgroundImage, setParentBackgroundImage] = useState('https://media.graphassets.com/XpiinIIuT0i52JKc1ijM');
     const [featuredCollectionsPosition, setFeaturedCollectionsPosition] = useState({top:0, left: 0});
@@ -39,16 +39,18 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
 
         {
             image: {
-                url: 'https://media.graphassets.com/PE2C3O7SLAs15PHcLvpA'
+                src: 'linear-gradient(to right,#B350FF,#03CBFF)'
             },
-            title: 'Javascript',
-            subtitle: 'test subtitle',
-            description: 'This is a test description',
+            title: 'Console.blog();',
+            subtitle: 'Who said blogs had to be basic?',
+            description: 'Lets make your articles an experience. ',
             slug: 'tsdsd1',
             focused: true,
         },
         {
-            backgroundImage: 'https://media.graphassets.com/dMhhYSlRxWqAwqcXuQGG',
+            image: {
+                src: 'linear-gradient(to right,#ea3f75,#da56f9)'
+            },
             title: 'Typescript',
             subtitle: 'test subtitle',
             description: 'This is a test description',
@@ -56,7 +58,9 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
             focused: false
         },
         {
-            backgroundImage: 'https://media.graphassets.com/aKBvD1RGRUOQwXOARuv5',
+            image: {
+                src: 'url(https://media.graphassets.com/XpiinIIuT0i52JKc1ijM)'
+            },
             title: 'React',
             subtitle: 'test subtitle',
             description: 'This is a test description',
@@ -64,7 +68,9 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
             focused: false
         },
         {
-            backgroundImage: 'https://media.graphassets.com/aKBvD1RGRUOQwXOARuv5',
+            image: {
+                src: 'linear-gradient(to right,#B350FF,#03CBFF)'
+            },
             title: 'NodeJS',
             subtitle: 'test subtitle',
             description: 'This is a test description',
@@ -76,7 +82,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     useEffect(()=>{
         console.log('collection results: ', collectionsProp);
 
-            setCollections(collectionsProp.map((collection: any, index:number)=>{
+            setCollections(dummyCollections.map((collection: any, index:number)=>{
 
                 collection.cleanup = false; 
                 return collection; 
@@ -114,7 +120,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
         setFocusTransitioning(true);
 
         //grab the target background image
-        var backgroundImage = collections[targetIndex].image.url; 
+        var backgroundImage = collections[targetIndex].image.src; 
         var newFocusedCollection = collections[targetIndex];
         let buriedCollections: []| any = [];
         let updatedCollections = collections.map((collection:any, index:number)=>{
@@ -207,8 +213,8 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     }
 
     //experiment with setting this to fixed when you get the chance
-    const focusedStyle = 'fixed focused-animation-transition featured-collection-widget w-full h-full ';
-    const unfocusedStyle = 'lg:hover:border-[5px] xl:hover:border-[10px] hover:duration-300 fixed animation-transition featured-collection-widget rounded-lg 2xl:w-[250px] 2xl:h-[400px]  xl:w-[200px] xl:h-[300px] lg:w-[150px] lg:h-[250px] md:w-[150px] md:h-[200px] w-[150px] h-[150px] flex flex-col items-sart justify-end';
+    const focusedStyle = 'fixed focused-animation-transition featured-collection-widget h-full ';
+    const unfocusedStyle = 'hover:h-[350px] hover:duration-300 fixed animation-transition featured-collection-widget xl:h-[300px] lg:h-[250px]  md:h-[200px] h-[150px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
 
     const shadowFocusedStyle = 'fixed transition-none featured-collection-widget ';
@@ -236,12 +242,13 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                         }
                             
                     style={{
-                        backgroundImage: `url('${collection.image.url}')`,
+                        backgroundImage: `${collection.image.src}`,
                         left: collection.focused ? 
                             '0px' : 
-                            (parentRef!.current!.clientWidth - offset + index*(270+marginLeft)) + 'px',
-                        bottom: collection.focused ? '0px' : marginBottom+10+'px',
+                            (windowWidth*0.333*(index-1))+ 'px',
+                        bottom: '0px',
                         opacity: collection.focused ? 1 : 0,
+                        width: collection.focused ? ' 100%' : `${windowWidth*0.3333}px`,
                         '--custom-delay': index*200+50+'ms '
 
                     } as React.CSSProperties}
@@ -269,7 +276,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                             <div
 
                                 className={
-                                    ' flex flex-col h-full w-full items-start md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center'
+                                    ' flex flex-col h-full w-full items-center justify-center '
                                     + ((collection.focused && scrollY < (windowHeight*windowOffset + windowHeight*0.5)) && scrollY > (windowHeight*windowOffset-200)   ? ' collection-background-info-show ': '')
                                     + (!collection.focused || scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
                                 }
@@ -465,7 +472,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                         }
                         style={{
                             //backgroundImage: `url('${collection.image.url}')`,
-                            backgroundImage: `url('${collection.image.url}')`,
+                            backgroundImage: `${collection.image.src}`,
                             left:
                                 '0px' ,
                             bottom: '0px' ,
@@ -497,7 +504,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                             <div
 
                                 className={
-                                    ' flex flex-col h-full w-full items-start md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center '
+                                    ' flex flex-col h-full w-full items-center justify-center'
                                     + (focusTransitioning ? ' info-outro-transition' : ' ')
                                 }
 
@@ -665,7 +672,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                 {getLayout({
                     marginLeft: -115,
                     marginBottom: 100,
-                    offset: 510
+                    offset: windowWidth
                 })}
             </div>
 
@@ -676,7 +683,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                 {getLayout({
                     marginLeft: -110,
                     marginBottom: 150,
-                    offset: 510
+                    offset: windowWidth
                 })}
             </div>
             
@@ -687,7 +694,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                 {getLayout({
                     marginLeft: -110,
                     marginBottom: 150,
-                    offset: 650
+                    offset: windowWidth
                 })}
             </div>
 
@@ -698,7 +705,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                 {getLayout({
                     marginLeft: -90,
                     marginBottom: 120,
-                    offset: 700
+                    offset: windowWidth
                 })}
             </div>
 
@@ -708,8 +715,8 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                 >
                 {getLayout({
                     marginLeft: -50,
-                    marginBottom: 120,
-                    offset: 900
+                    marginBottom: 20,
+                    offset: windowWidth
                 })}
             </div>
 
@@ -719,73 +726,13 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                 >
                 {getLayout({
                     marginLeft: 10,
-                    marginBottom: 130,
-                    offset: 1100
+                    marginBottom: 30,
+                    offset: windowWidth
                 })}
             </div>
 
 
-            <div
-                
-                className={'hidden md:block transition-all duration-1000 absolute text-white/[0.4] mb-0 text-[20px] lg:text-[40px] xl:text-[60px] 2xl:text-[80px] font-bold font-staatliches'}
-
-                style={{
-                    top: featuredCollectionsPosition.top > 0 ? (featuredCollectionsPosition.top - 150)+ 'px' : '33vh',
-                    left: featuredCollectionsPosition.left > 0 ? featuredCollectionsPosition.left + 'px' : 'auto',
-                    right: featuredCollectionsPosition.left > 0 ? 'auto' : '150px'
-                }}
-                >
-
-                {title}
-
-            </div>
-
-            <div
-                    className='hidden text-white nav-buttons absolute md:flex flex-row space-x-[60px] w-[300px] right-[20vw] bottom-[90px] text-xs xl:text-xs 2xl:text-sm'
-                >
-
-                    <div
-                        className={
-                            'transition-all duration-300 button px-5 py-2 border-2 xl:border-[3px] rounded-full cursor-pointer flex flex-row hover:bg-white hover:text-black/[0.5] hover:border-3'
-                            + (collections.length > 0 && collections[0].image.url == parentBackgroundImage ? ' opacity-1': ' opacity-[0.1]')
-                        }
-                        onClick={()=>{
-
-                            if(collections.length > 0 && collections[0].image.url == parentBackgroundImage){
-                                focusCollection(collections.length - 1)
-                            }
-                            
-                        }}
-                    >
-                        <TiArrowLeftThick />
-                        
-                        
-                    </div>
-
-                    <div
-                        className={
-                            'transition-all duration-300 button px-5 py-2 border-2 xl:border-[3px] rounded-full cursor-pointer flex flex-row hover:bg-white hover:text-black/[0.5] hover:border-3'
-                            + (collections.length > 0 && collections[0].image.url == parentBackgroundImage ? ' opacity-1': ' opacity-[0.1]')
-                        }
-                        onClick={()=>{
-
-                            //when transition finishes collection at [0] should have same background
-                            //as the container
-                            //only change if collection at [0] has same background as container
-                            if(collections.length > 0 && collections[0].image.url == parentBackgroundImage){
-                               focusCollection(1) 
-                            }
-                            
-                        
-                        }}
-                    >
-                        
-                        <TiArrowRightThick />
-                    </div>
-
-            </div>
-
-            <div
+            {/* <div
                 className={'absolute cursor-pointer bottom-[20px] hover:text-white animate-bounce right-[46vw] text-white/[0.6] mb-0 text-[30px] xl:text-[50px] font-bold font-staatliches'}
                 onClick={()=>scrollRef!.current?.scrollIntoView({behavior: 'smooth'})}
                 >
@@ -793,11 +740,11 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                 <FiArrowDownCircle />
 
             </div>
-            
+             */}
 
         </div>
     );
 
 }
 
-export default SlidingCollections; 
+export default IntroBanner; 
