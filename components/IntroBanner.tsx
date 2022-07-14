@@ -8,6 +8,8 @@ import { truncate } from '../utils/utils';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 import { StateContext } from '../pages/_app';
+import { BsCloudMoonFill } from 'react-icons/bs';
+import {FaFeatherAlt} from 'react-icons/fa';
 
 interface SlidingCollectionsInterface  {
     collectionsProp: [],
@@ -44,7 +46,10 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
             title: 'Console.blog();',
             subtitle: 'Who said blogs had to be basic?',
             description: 'Lets make your articles an experience. ',
+            content: generateCodeContent(true),
+            shadowContent: generateCodeContent(false),
             slug: 'tsdsd1',
+            icon: '',
             focused: true,
         },
         {
@@ -54,7 +59,10 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
             title: 'Typescript',
             subtitle: 'test subtitle',
             description: 'This is a test description',
+            content: generateCodeContent(true),
+            shadowContent: generateCodeContent(false),
             slug: 'sdsdsd',
+            icon: '',
             focused: false
         },
         {
@@ -64,7 +72,10 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
             title: 'React',
             subtitle: 'test subtitle',
             description: 'This is a test description',
+            content: generateLandingContent(true),
+            shadowContent: generateLandingContent(false),
             slug: 'sdsdsdsdfdfd',
+            icon: '',
             focused: false
         },
         {
@@ -74,7 +85,10 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
             title: 'NodeJS',
             subtitle: 'test subtitle',
             description: 'This is a test description',
+            content: generateLandingContent(true),
+            shadowContent: generateLandingContent(false),
             slug: 'tesasasdst4',
+            icon: '',
             focused: false
         }
     ];
@@ -214,7 +228,7 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
 
     //experiment with setting this to fixed when you get the chance
     const focusedStyle = 'fixed focused-animation-transition featured-collection-widget h-full ';
-    const unfocusedStyle = 'hover:h-[350px] hover:duration-300 fixed animation-transition featured-collection-widget xl:h-[300px] lg:h-[250px]  md:h-[200px] h-[150px] flex flex-col items-sart justify-end';
+    const unfocusedStyle = 'hover:rounded-t-2xl hover:h-[350px] hover:duration-300 fixed animation-transition featured-collection-widget xl:h-[300px] lg:h-[250px]  md:h-[200px] h-[150px] flex flex-col items-sart justify-end';
     const cleanupStyle = 'duration-0 opacity-0';
 
     const shadowFocusedStyle = 'fixed transition-none featured-collection-widget ';
@@ -271,144 +285,20 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
                         ref={collection.focused ? focusedRef : null}
                     >
 
+                        {collection.focused && 
                         
-                        { collection.focused &&
-                            <div
-
-                                className={
-                                    ' flex flex-col h-full w-full items-center justify-center '
-                                    + ((collection.focused && scrollY < (windowHeight*windowOffset + windowHeight*0.5)) && scrollY > (windowHeight*windowOffset-200)   ? ' collection-background-info-show ': '')
-                                    + (!collection.focused || scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
-                                }
-
-                                >
-
-                                <div
-                                    className={
-                                        'text-white/[0.4] mb-0 text-[16px] md:text-[20px] lg:text-[20px] xl:text-[30px] 2xl:text-[40px] font-bold font-labelle'+ (collection.focused ? ' collection-background-info-show ': '')
-                                    }
-
-                                    style={{
-                                        //for animating disappearing when focused
-    
-                                        '--custom-delay': 10+'ms ',
-                                        opacity: collection.focused ? 0 : 1,
-                                    } as React.CSSProperties}
-                                    >
-
-                                    {`${featured ? 'Featured ': ''}Collection`}
-
-                                </div>
-
-                                <div
-                                    className={'text-white mb-0 text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches'+ (collection.focused ? ' collection-background-info-show ': '')}
-
-                                    style={{
-                                        //for animating disappearing when focused
-    
-                                        '--custom-delay': 100+'ms ',
-                                        opacity: collection.focused ? 0 : 1,
-                                    } as React.CSSProperties}
-                                    >
-
-                                    {collection.title}
-
-                                </div>
-
-                                <div
-                                    className={'w-[100px] h-[1px] bg-white mb-[5px] md:mb-[30px]'+ (collection.focused ? ' collection-background-info-show ': '')}
-                                    style={{
-                                        //for animating disappearing when focused
-    
-                                        '--custom-delay': 150+'ms ',
-                                        opacity: collection.focused ? 0 : 1,
-                                    } as React.CSSProperties}
-                                    
-                                >
-
-                                </div>
-
-                                <div
-                                    className={'text-white text-xs md:text-md font-light delay-400 mb-5 max-w-[300px] '+ (collection.focused ? ' collection-background-info-show ': '')}
-
-                                    style={{
-                                        //for animating disappearing when focused
-                                        '--custom-delay': 200+'ms ',
-                                        opacity: collection.focused ? 0 : 1,
-                                    } as React.CSSProperties}
-                                >
-
-                                    {collection.subtitle}
-
-                                </div>
-
-                                <div
-                                    className={'hidden md:block text-white text-xs md:text-sm lg:text-md xl:text-lg font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'+ (collection.focused ? ' collection-background-info-show ': '')}
-
-                                    style={{
-                                        //for animating disappearing when focused
-                                        '--custom-delay': 250+'ms ',
-                                        opacity: collection.focused ? 0 : 1,
-                                    } as React.CSSProperties}
-                                >
-
-                                    {collection.description}
-
-                                </div>
-
-                                <div
-                                    className={' md:hidden text-white text-xs md:text-sm lg:text-md xl:text-md font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'+ (collection.focused ? ' collection-background-info-show ': '')}
-
-                                    style={{
-                                        //for animating disappearing when focused
-                                        '--custom-delay': 250+'ms ',
-                                        opacity: collection.focused ? 0 : 1,
-                                    } as React.CSSProperties}
-                                >
-
-                                    {truncate(collection.description, 200)}
-
-                                </div>
+                            <div className={
+                                ' flex flex-col h-full w-full items-center justify-center '
+                                + (( scrollY < (windowHeight*windowOffset + windowHeight*0.5)) && scrollY > (windowHeight*windowOffset-200)   ? ' collection-background-info-show ': '')
+                                + ( scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
+                            }
 
 
-                                <div className='flex flex-row items-center flex-wrap'>
 
-                                    <Link href={`/collections/${collection.slug}`}>
-                                        <div 
-                                            className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
-                                            style={{
-                                                //for animating disappearing when focused
-                                                '--custom-delay': 300+'ms ',
-                                                opacity: collection.focused ? 1 : 0,
-                                            } as React.CSSProperties}
-                                            >
-                                            <span>
-                                                Discover Collection
-                                            </span>
-                                        </div>
-                                    </Link>
-
-                                    {featured && 
-                                        <Link href={`/collections`}>
-                                            <div 
-                                                className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
-                                                style={{
-                                                    //for animating disappearing when focused
-                                                    '--custom-delay': 300+'ms ',
-                                                    opacity: collection.focused ? 1 : 0,
-                                                } as React.CSSProperties}
-                                                >
-                                                <span>
-                                                    View All
-                                                </span>
-                                            </div>
-                                        </Link>
-                                    }
-                                    
-                                </div>
-                                
-                            </div>  
-                        }               
+                            >
+                                { collection.content} 
+                            </div>
+                        }             
 
                     </div>
 
@@ -510,129 +400,7 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
 
                                 >
 
-                                <div
-                                    className={
-                                        'text-white/[0.4] mb-0 text-[16px] md:text-[20px] lg:text-[20px] xl:text-[30px] 2xl:text-[40px] font-bold font-labelle'
-                                    }
-
-                                    style={{
-                                        //for animating disappearing when focused
-
-                                        '--custom-delay': 10+'ms ',
-                                        opacity:  1,
-                                    } as React.CSSProperties}
-                                    >
-
-                                    {`${featured ? 'Featured ': ''}Collection`}
-
-                                </div>
-
-                                <div
-                                    className={'text-white mb-0 text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches'}
-
-                                    style={{
-                                        //for animating disappearing when focused
-
-                                        '--custom-delay': 100+'ms ',
-                                        opacity: 1,
-                                    } as React.CSSProperties}
-                                    >
-
-                                    {collection.title}
-
-                                </div>
-
-                                <div
-                                    className={'w-[100px] h-[1px] bg-white mb-[5px] md:mb-[30px]'+' collection-background-info-show '}
-                                    style={{
-                                        //for animating disappearing when focused
-
-                                        '--custom-delay': 150+'ms ',
-                                        opacity: 1 ,
-                                    } as React.CSSProperties}
-                                    
-                                >
-
-                                </div>
-
-                                <div
-                                    className={'text-white text-xs md:text-md font-light delay-400 mb-5 max-w-[300px] '}
-
-                                    style={{
-                                        //for animating disappearing when focused
-                                        '--custom-delay': 200+'ms ',
-                                        opacity: 1 ,
-                                    } as React.CSSProperties}
-                                >
-
-                                    {collection.subtitle}
-
-                                </div>
-
-                                <div
-                                    className={'hidden md:block text-white text-xs md:text-sm lg:text-md xl:text-lg font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'}
-
-                                    style={{
-                                        //for animating disappearing when focused
-                                        '--custom-delay': 250+'ms ',
-                                        opacity: 1,
-                                    } as React.CSSProperties}
-                                >
-
-                                    {collection.description}
-
-                                </div>
-
-                                <div
-                                    className={' md:hidden text-white text-xs md:text-sm lg:text-md xl:text-md font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw]'}
-
-                                    style={{
-                                        //for animating disappearing when focused
-                                        '--custom-delay': 250+'ms ',
-                                        opacity: 1 ,
-                                    } as React.CSSProperties}
-                                >
-
-                                    {truncate(collection.description, 200) }
-
-                                </div>
-
-
-                                <div className='flex flex-row items-center flex-wrap'>
-
-                                    <Link href={`/collections/${collection.slug}`}>
-                                        <div 
-                                            className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' }
-                                            style={{
-                                                //for animating disappearing when focused
-                                                '--custom-delay': 300+'ms ',
-                                                opacity: 1,
-                                            } as React.CSSProperties}
-                                            >
-                                            <span>
-                                                Discover Collection
-                                            </span>
-                                        </div>
-                                    </Link>
-
-                                    {featured && 
-                                        <Link href={`/collections`}>
-                                            <div 
-                                                className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}
-                                                style={{
-                                                    //for animating disappearing when focused
-                                                    '--custom-delay': 300+'ms ',
-                                                    opacity: 1 ,
-                                                } as React.CSSProperties}
-                                                >
-                                                <span>
-                                                    View All
-                                                </span>
-                                            </div>
-                                        </Link>
-                                    }
-                                    
-                                </div>
+                                {collection.shadowContent}
                                 
                             </div>  
                         
@@ -642,6 +410,257 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
 
                     </div>
                 </div>
+            
+        );
+    }
+
+
+    //created using function keyword to take advantage of hoisting
+    function generateLandingContent(animated:boolean = true) {
+
+        let animationClasses = animated ? ' collection-background-info-show' : '';
+        let initialOpacity = animated ? 0 : 1; 
+
+
+        return (
+            <>
+
+                <div
+                    className={
+                        'text-white/[0.4] mb-0 text-[16px] md:text-[20px] lg:text-[20px] xl:text-[30px] 2xl:text-[40px] font-bold font-labelle '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+
+                        '--custom-delay': 10+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                    >
+
+                    {`${featured ? 'Featured ': ''}Collection`}
+
+                </div>
+
+                <div
+                    className={
+                        'text-white mb-0 text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+
+                        '--custom-delay': 100+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                    >
+
+                    Console.blog(); yo
+
+                </div>
+
+                <div
+                    className={
+                        'w-[100px] h-[1px] bg-white mb-[5px] md:mb-[30px] '
+                        + animationClasses
+                    }
+                    style={{
+                        //for animating disappearing when focused
+
+                        '--custom-delay': 150+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                    
+                >
+
+                </div>
+
+                <div
+                    className={
+                        'text-white text-xs md:text-md font-light delay-400 mb-5 max-w-[300px] '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+                        '--custom-delay': 200+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                >
+
+                    It does not have to be so boring!
+
+                </div>
+
+                <div
+                    className={
+                        'hidden md:block text-white text-xs md:text-sm lg:text-md xl:text-lg font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw] '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+                        '--custom-delay': 250+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                >
+
+                    Let the party begin
+
+                </div>
+
+                <div
+                    className={
+                        ' md:hidden text-white text-xs md:text-sm lg:text-md xl:text-md font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw] '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+                        '--custom-delay': 250+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                >
+
+                    WHAT UP MY BORTHERS
+
+                </div>
+
+
+                <div className='flex flex-row items-center flex-wrap'>
+
+                    <Link href={`/collections`}>
+                        <div 
+                            className={
+                                'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm '
+                                + animationClasses
+                            }
+                            style={{
+                                //for animating disappearing when focused
+                                '--custom-delay': 300+'ms ',
+                                opacity: initialOpacity,
+                            } as React.CSSProperties}
+                            >
+                            <span>
+                                Discover Collection
+                            </span>
+                        </div>
+                    </Link>
+
+                    {featured && 
+                        <Link href={`/collections`}>
+                            <div 
+                                className={
+                                    'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm '
+                                    + animationClasses
+                                }
+                                style={{
+                                    //for animating disappearing when focused
+                                    '--custom-delay': 300+'ms ',
+                                    opacity: initialOpacity,
+                                } as React.CSSProperties}
+                                >
+                                <span>
+                                    View All
+                                </span>
+                            </div>
+                        </Link>
+                    }
+                    
+                </div>
+
+                
+                
+            </>
+        );
+    }
+
+
+    function generateCodeContent (animated:boolean = true) {
+
+        let animationClasses = animated ? ' collection-background-info-show' : '';
+        let initialOpacity = animated ? 0 : 1; 
+
+
+        return (
+
+            <div className='h-full w-full flex flex-col items-center md:mb-[200px] justify-start md:justify-center pt-[50px] md:pt-[0px]'>
+
+            
+
+                <div 
+                    className={
+                        'landing-title flex flex-col items-center justify-start col-span-1 lg:col-span-6 '
+                        + animationClasses
+                    }
+                    style={{
+                        '--custom-delay': 100+'ms '
+                    } as React.CSSProperties}
+                >
+                    <div className='flex flex-col items-center justify-center text-white mb-5'>
+
+                        <div className=' text-[90px] md:text-[150px] lg:text-[250px]  mb-5'>
+                            <BsCloudMoonFill />
+                        </div>
+
+                        <span className='text-2xl md:text-4xl lg:text-[60px] font-[900] text-white pt-[20px] text-center font-labelle'>
+                            Console.blog();
+                        </span>
+                        
+                    </div>
+
+                </div>
+
+                <div className={
+                        'text-white lg:mt-5 text-sm text-center md:text-xl '
+                        + animationClasses
+                    }
+                    style={{
+                        '--custom-delay': 200+'ms '
+                    } as React.CSSProperties}
+                >
+                    <span>
+                        A simple blog by developers, for developers. 
+                    </span>
+                </div>
+
+                <div className={
+                        'flex flex-col items-center justify-center '
+                        + animationClasses
+                    }
+                    style={{
+                        '--custom-delay': 300+'ms '
+                    } as React.CSSProperties}
+                >
+
+            
+                    <div 
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        <span>
+                            Featured
+                        </span>
+                    </div>
+
+                    <div 
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        <span>
+                            Search Articles
+                        </span>
+                    </div>
+
+                    <div 
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        <span>
+                            Collections
+                        </span>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
             
         );
     }

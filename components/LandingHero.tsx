@@ -100,7 +100,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
         <>
 
         <div 
-            className={'absolute w-full min-h-[1800px] h-auto landing-hero bg-backgroundDark pb-15 mb-15 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
+            className={'block w-full h-auto landing-hero bg-backgroundDark pb-[100px] transition-all duration-300 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
 
             >
 

@@ -158,14 +158,14 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={3}/>
         </section>
 
-        <section ref={searchRef} className='block relative w-full min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto z-10' style={{minWidth: '100vw'}}>
+        <section ref={searchRef} className='block relative w-full bg-backgroundDark transition-all duration-300 h-auto z-10' style={{minWidth: '100vw'}}>
           <LandingHero featuredPosts={featuredPosts as []}/>
         </section>
 
         <section style={{minWidth: '100vw'}} className={'relative block bg-backgroundDark z-5'+(menu? ' blur-filter ': ' trans-500')}>
 
           <div
-              className='block relative divider mb-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
+              className='block relative divider py-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
             >
                 <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
 
@@ -181,7 +181,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                   
           </div>
 
-          <div className='container mx-auto px-0 mb-8 bg-backgroundDark'>
+          <div className='container mx-auto px-0 mb-8 '>
             
             <div className='grid grid-cols-1 lg:grid-cols-5 gap-1 pt-[10]'>
 

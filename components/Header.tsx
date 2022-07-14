@@ -25,8 +25,8 @@ const Header = ({}:HeaderProps) : JSX.Element => {
         <div className="container  fixed top-[0px] t-0 z-[15] mb-8 w-full " style={{minWidth: '100vw'}}>
 
             <div className={
-                "fixed h-[100vh] w-0 overflow-hidden bouncy-animation pt-[60px] max-w-[500px] top-0 left-0 transition-all duration-500 shadow-lg z-[40] bg-backgroundDark/[0.9] border-r-[10px] border-white/[0.7]"
-                +(menu ? ' w-[100vw] pl-10 left-0' : ' left-[-20px]')
+                "fixed h-[100vh] overflow-hidden bouncy-animation pt-[60px] max-w-[500px] top-0 left-0 transition-all duration-500 shadow-lg z-[40] bg-backgroundDark/[0.9] border-r-[10px] border-white/[0.7]"
+                +(menu ? ' w-[100vw] pl-10 left-0 ' : ' w-0 left-[-20px]')
                 
                 }
                 // onClick={()=>toggleMenu()}
@@ -38,20 +38,24 @@ const Header = ({}:HeaderProps) : JSX.Element => {
 
             <div className={"fixed transition-all duration-300 left-[30px] md:left-[60px] z-[50] text-white overflow-hidden"
                         +(scrollY < windowHeight && scrollY > 20 ? ' top-[27px]': ' top-[20px]')
-                        + (scrollDirection === 'up' || scrollY < 10 || menu ?  ' h-[80px]' : '  h-[0px]')
+                        + (scrollDirection === 'up' || scrollY < windowHeight*0.7 || menu ?  ' h-[80px]' : '  h-[0px]')
                     }
                 >
                     <Burger3 />
             </div>
             
             <div className={
-                "transition-all duration-200 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden whitespace-nowrap bg-secondaryDark " 
-                + (scrollDirection === 'up' || scrollY < 10 ?  ' h-[80px]' : ' h-[0px]')
+                "transition-all duration-200 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden whitespace-nowrap" 
+                + (scrollDirection === 'up' || scrollY < windowHeight ?  ' h-[80px]' : ' h-[0px]')
+                + (scrollY > windowHeight ? ' bg-secondaryDark': ' bg-transparent' )
                 }>
 
                 
 
-                <div className={"lg:col-span-5 col-span-1 flex items-center justify-center "}>
+                <div className={
+                    "lg:col-span-5 col-span-1 flex items-center justify-center "
+                    + (scrollY > windowHeight ? ' block': ' hidden' )
+                    }>
 
                     <Link href="/">
 
