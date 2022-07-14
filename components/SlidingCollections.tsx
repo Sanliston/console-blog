@@ -368,7 +368,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
 
                                     <Link href={`/collections/${collection.slug}`}>
                                         <div 
-                                            className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
+                                            className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
                                             style={{
                                                 //for animating disappearing when focused
                                                 '--custom-delay': 300+'ms ',
@@ -384,7 +384,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                                     {featured && 
                                         <Link href={`/collections`}>
                                             <div 
-                                                className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
+                                                className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm' + (collection.focused ? ' collection-background-info-show ': '')}
                                                 style={{
                                                     //for animating disappearing when focused
                                                     '--custom-delay': 300+'ms ',
@@ -595,7 +595,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
 
                                     <Link href={`/collections/${collection.slug}`}>
                                         <div 
-                                            className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm' }
+                                            className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm' }
                                             style={{
                                                 //for animating disappearing when focused
                                                 '--custom-delay': 300+'ms ',
@@ -611,7 +611,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
                                     {featured && 
                                         <Link href={`/collections`}>
                                             <div 
-                                                className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}
+                                                className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm'}
                                                 style={{
                                                     //for animating disappearing when focused
                                                     '--custom-delay': 300+'ms ',

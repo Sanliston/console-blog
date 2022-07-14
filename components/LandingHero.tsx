@@ -100,7 +100,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
         <>
 
         <div 
-            className={'block w-full h-auto landing-hero bg-backgroundDark pb-[100px] transition-all duration-300 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
+            className={'block w-full h-auto landing-hero dark:bg-background-dark pb-[100px] transition-all duration-300 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
 
             >
 
@@ -150,7 +150,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                         {posts.map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
-                                                <div className='search-result-show h-[200px] max-h-[250px] bg-cover border-0 hover:border-2 hover:duration-300 hover:box-content transition flex flex-row md:flex-row justify-items-start items-center w-full mb-4 bg-elementDark/[0.3] rounded-lg overflow-hidden cursor-pointer'
+                                                <div className='search-result-show h-[200px] max-h-[250px] bg-cover border-0 hover:border-2 hover:duration-300 hover:box-content transition flex flex-row md:flex-row justify-items-start items-center w-full mb-4 dark:bg-element-dark/[0.3] rounded-lg overflow-hidden cursor-pointer'
                                                     style={{
                                                         opacity: 0,
                                                         '--custom-delay': index*50+'ms',
@@ -194,7 +194,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                     {morePosts && 
 
                                         <Link href={{ pathname: '/search', query: { searchQuery: lastQuery } }}>
-                                            <div className='transition-all duration-500 cursor-pointer button bg-buttonColor soft-glow text-white p-3 hover:px-10 px-6 rounded-full'> 
+                                            <div className='transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-full'> 
                                                 View More
                                             </div>
                                         </Link>
@@ -233,7 +233,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                         {initialPosts.map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
-                                                <div className='search-result-show h-[200px] max-h-[250px] bg-cover border-0 hover:border-2 hover:duration-300 hover:box-content transition flex flex-row md:flex-row justify-items-start items-center w-full mb-4 bg-elementDark/[0.3] rounded-lg overflow-hidden cursor-pointer'
+                                                <div className='search-result-show h-[200px] max-h-[250px] bg-cover border-0 hover:border-2 hover:duration-300 hover:box-content transition flex flex-row md:flex-row justify-items-start items-center w-full mb-4 dark:bg-element-dark/[0.3] rounded-lg overflow-hidden cursor-pointer'
                                                     style={{
                                                         opacity: 0,
                                                         '--custom-delay': index*50+'ms',
@@ -277,7 +277,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                     {moreInitialPosts ? 
 
                                         <Link href={{ pathname: '/search', query: { searchQuery: 'featured' } }}>
-                                            <div className='transition-all duration-500 cursor-pointer button bg-buttonColor soft-glow text-white p-3 hover:px-10 px-6 rounded-full'> 
+                                            <div className='transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-full'> 
                                                 View More
                                             </div>
                                         </Link>

@@ -72,7 +72,7 @@ const FeaturedPosts = ({posts}: FeaturedPostsProps):JSX.Element => {
         <div className='mb-8'>
 
             <div
-                className='text-[40px] py-10 font-staatliches text-white w-full flex flex-col items-center'
+                className='text-[40px] py-10 font-staatliches font-light dark:font-dark w-full flex flex-col items-center'
             >
                 <span>
                     Featured Posts
@@ -103,12 +103,12 @@ const FeaturedPosts = ({posts}: FeaturedPostsProps):JSX.Element => {
                         <div className="flex flex-col rounded-lg p-4 items-center justify-center absolute w-full h-full">
                         <Link href={`/post/${post.slug}`}>
 
-                            <div className="flex flex-col rounded-lg p-4 items-center justify-center w-[70%] h-[300px] bg-backgroundDark rounded-lg cursor-pointer">
-                                <p className="text-white mb-4 text-shadow font-semibold text-xs">
+                            <div className="flex flex-col rounded-lg p-4 items-center justify-center w-[70%] h-[300px] bg-background-light dark:bg-background-dark rounded-lg cursor-pointer">
+                                <p className="font-light dark:font-dark mb-4 font-semibold text-xs">
                                     {moment(post.createdAt).format('MMM DD, YYYY')}
                                 </p>
 
-                                <p className="text-white mb-4 text-shadow text-2xl text-center">
+                                <p className="font-light dark:font-dark mb-4 text-2xl text-center">
                                     {post.title}
                                 </p>
 
@@ -122,7 +122,7 @@ const FeaturedPosts = ({posts}: FeaturedPostsProps):JSX.Element => {
                                     src={post.author.photo.url}
                                     />
 
-                                    <p className="inline align-middle text-white text-shadow ml-2 font-medium">
+                                    <p className="inline align-middle font-light dark:font-dark ml-2 font-medium">
                                         {post.author.name}
                                     </p>
                                 </div>

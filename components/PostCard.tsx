@@ -25,7 +25,7 @@ export interface Post {
 const PostCard = ({ post }: Post): JSX.Element => {
 
   return (
-    <div className='bg-elementDark/[0.3] flex flex-col items-center text-white rounded-lg p-0 lg:pb-20 pb-12 mb-8 '>
+    <div className='dark:bg-element-dark/[0.3] flex flex-col items-center text-white rounded-lg p-0 lg:pb-20 pb-12 mb-8 '>
         
         {/*Image div */}
         <div className='relative overflow-hidden h-80 w-full lg:h-[400px] pb-80 px-0 mb-6 rounded-tl-lg rounded-tr-lg'>
@@ -84,7 +84,7 @@ const PostCard = ({ post }: Post): JSX.Element => {
 
         <div className='text-center'>
           <Link href={`/post/${post.slug}`}>
-            <span className='transition duration-300 transform inline-block bg-buttonColor hover:bg-secondaryDark text-md font-light rounded-full text-white px-8 py-2 cursor-pointer'>
+            <span className='transition duration-300 transform inline-block bg-button-color hover:bg-secondary-dark text-md font-light rounded-full text-white px-8 py-2 cursor-pointer'>
               Read more
             </span>
           </Link>

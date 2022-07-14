@@ -184,7 +184,7 @@ const SearchPosts = () : JSX.Element => {
                 <div className="col-span-1 lg:col-span-5">
                     {posts.map((post:any, index:number) => (
                         <Link href={`/post/${post.slug}`} key={post.id}>
-                            <div className='flex flex-col md:flex-row justify-items-start items-center w-full md:h-[300px] mb-4 bg-elementDark/[0.3] rounded-lg overflow-hidden cursor-pointer'>
+                            <div className='flex flex-col md:flex-row justify-items-start items-center w-full md:h-[300px] mb-4 dark:bg-element-dark/[0.3] rounded-lg overflow-hidden cursor-pointer'>
 
                                 <div className='md:min-w-[200px] md:max-w-[200px] md:min-w-[270px] md:max-w-[270px] md:min-h-[100%] md:h-[100%] object-cover'>
                                     <img

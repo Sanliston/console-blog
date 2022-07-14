@@ -32,7 +32,7 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
           <SlidingCollections collectionsProp={collections} scrollRef={scrollRef} title='All Collections' featured={false} windowOffset={0}/>
         </div>
 
-        <div className={'relative container min-w-[100vw] bg-backgroundDark '+(menu?' blur-filter': ' trans-500')}>
+        <div className={'relative container min-w-[100vw] dark:bg-background-dark '+(menu?' blur-filter': ' trans-500')}>
 
             <div ref={scrollRef} className="rounded-3xl  relative container flex flex-col items-center mx-auto px-10 mb-8 pt-[100px]"
             >
@@ -69,7 +69,7 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
 
                             <Link href={`/collections/${collection.slug}`} key={collection.slug}>
 
-                                <div className='bg-cover w-[180px] h-[300px] bg-elementDark/[0.3] rounded-lg m-5 overflow-hidden'
+                                <div className='bg-cover w-[180px] h-[300px] dark:bg-element-dark/[0.3] rounded-lg m-5 overflow-hidden'
                                     style={{
                                         backgroundImage: `url(${collection.image.url})`
                                     }}

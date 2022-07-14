@@ -123,7 +123,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
         </Head>
 
 
-        <section className='block shadow-lg relative w-full min-h-[320vh] lg:min-h-[300vh] bg-backgroundDark top-[0px] z-10 flex flex-col' style={{minWidth: '100vw'}}>
+        <section className='block shadow-lg relative w-full min-h-[320vh] lg:min-h-[300vh] bg-background-light dark:bg-background-dark top-[0px] z-10 flex flex-col' style={{minWidth: '100vw'}}>
 
           <div className={'block h-[100vh] flex flex-col items-center justify-center'}>
 
@@ -143,7 +143,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
             
 
           </div>
-          <div className='h-[100vh] relative bg-backgroundDark block z-11'>
+          <div className='h-[100vh] relative bg-background-light dark:bg-background-dark block z-11'>
 
             <div className='py-[20px]'>
               <FeaturedPosts posts={posts} />
@@ -158,11 +158,11 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={3}/>
         </section>
 
-        <section ref={searchRef} className='block relative w-full bg-backgroundDark transition-all duration-300 h-auto z-10' style={{minWidth: '100vw'}}>
+        <section ref={searchRef} className='block relative w-full bg-background-light dark:bg-background-dark transition-all duration-300 h-auto z-10' style={{minWidth: '100vw'}}>
           <LandingHero featuredPosts={featuredPosts as []}/>
         </section>
 
-        <section style={{minWidth: '100vw'}} className={'relative block bg-backgroundDark z-5'+(menu? ' blur-filter ': ' trans-500')}>
+        <section style={{minWidth: '100vw'}} className={'relative block bg-background-light dark:bg-background-dark z-5'+(menu? ' blur-filter ': ' trans-500')}>
 
           <div
               className='block relative divider py-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
@@ -201,7 +201,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                 {posts.map((post:any, index) => <PostCard post={post} key={post.title}/>)}
               </div>
 
-              <div className='lg:col-span-1 col-span-1 bg-backgroundDark'>
+              <div className='lg:col-span-1 col-span-1 bg-background-light dark:bg-background-dark'>
 
               
 

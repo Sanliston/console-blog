@@ -534,7 +534,7 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
                     <Link href={`/collections`}>
                         <div 
                             className={
-                                'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm '
+                                'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm '
                                 + animationClasses
                             }
                             style={{
@@ -553,7 +553,7 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
                         <Link href={`/collections`}>
                             <div 
                                 className={
-                                    'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm '
+                                    'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm '
                                     + animationClasses
                                 }
                                 style={{
@@ -637,21 +637,21 @@ const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}
 
             
                     <div 
-                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm'}>
                         <span>
                             Featured
                         </span>
                     </div>
 
                     <div 
-                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm'}>
                         <span>
                             Search Articles
                         </span>
                     </div>
 
                     <div 
-                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-buttonColor text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm'}>
                         <span>
                             Collections
                         </span>

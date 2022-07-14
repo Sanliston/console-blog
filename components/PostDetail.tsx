@@ -57,7 +57,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
     }
 
     return (
-        <div className='bg-elementDark/[0.3] md:rounded-lg lg:p-0 pb-12 mb-8 mt-[150px] text-white/[0.8]'>
+        <div className='dark:bg-element-dark/[0.3] md:rounded-lg lg:p-0 pb-12 mb-8 mt-[150px] text-white/[0.8]'>
 
             <div className='relative overflow-hidden shadow-d shadow-lg'>
 
