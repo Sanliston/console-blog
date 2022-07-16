@@ -17,9 +17,9 @@ const Categories  = (props: CategoriesProps): JSX.Element => {
     const { categories } = useContext(StateContext);
 
     return (
-        <div className='p-8 mb-8 text-white'>
+        <div className='rounded-lg p-6 m-4 dark:m-0  min-w-[300px] mb-8 bg-background-light dark:bg-background-dark border-[1px] dark:border-0 border-border-light'>
 
-            <h3 className='text-xl mb-8 border-b pb-4'>
+            <h3 className='text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'>
                 Popular Tags
             </h3>
 

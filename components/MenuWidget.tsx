@@ -72,18 +72,26 @@ const MenuWidget = (): JSX.Element=> {
       
     }
 
+    const toggleDarkMode = () => {
+      console.log('toggling darkMode: ', appState.darkMode);
+      appState.setAppState({
+        ...appState,
+        darkMode: !appState.darkMode
+      });
+    }
+
   return (
     
     <div className='rounded-lg p-8 mb-8'>
 
-      <h3 className='text-xl mb-8 border-b pb-4 text-white'>
+      <h3 className='text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'>
         {'Menu'}
       </h3>
       
       {menuItems.map((item: any, index: number)=>(
 
         
-          <Link className='text-md text-white' key={item.name} href={`${item.path}`}>
+          <Link className='text-md text-copy-light dark:text-copy-dark' key={item.name} href={`${item.path}`}>
             <div 
               className={'custom-animated-delay transition-all flex flex-grow flex-row mb-2 cursor-pointer duration-300 hover:bg-black/[0.2] py-3 px-4 rounded-full' + (appState.menu ? ' menu-item-show': ' menu-item-hide')}
               style={{
@@ -96,18 +104,61 @@ const MenuWidget = (): JSX.Element=> {
 
               
   
-                    <div className='text-2xl text-white'>
+                    <div className='text-2xl text-copy-light dark:text-copy-dark'>
                         {item.icon}
                     </div>
                     
 
-                    <span className='text-white ml-3'>
+                    <span className='text-copy-light dark:text-copy-dark ml-3'>
                         {item.name}
                     </span>
                 
             </div> 
           </Link>     
       ))}
+
+      <h3 className={'text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'+ (appState.menu ? ' menu-item-show': ' menu-item-hide')}
+        style={{
+          opacity: appState.menu ? 0 : 1, //so animations don't flicker between change of state
+          '--custom-delay': menuItems.length*50+50+'ms '
+        } as React.CSSProperties}
+        key={'darkModeTitle'}
+      >
+      </h3>
+
+      <div 
+        className={'custom-animated-delay transition-all flex flex-grow flex-row mb-2 duration-300 py-3 px-4 rounded-full' + (appState.menu ? ' menu-item-show': ' menu-item-hide')}
+        style={{
+          opacity: appState.menu ? 0 : 1, //so animations don't flicker between change of state
+          '--custom-delay': menuItems.length*50+100+'ms '
+        } as React.CSSProperties}
+        key={'darkMode'}
+        
+        > 
+
+        
+        <label htmlFor='theme' className="theme cursor-pointer">
+          <span className='text-copy-light dark:text-copy-dark'>Light</span>
+          <span className="theme__toggle-wrap">
+            <input id="theme" className="theme__toggle" type="checkbox" role="switch" name="theme" value="dark" defaultChecked={appState.darkMode} onChange={toggleDarkMode} />
+            
+            <span className="theme__icon">
+              <span className="theme__icon-part"></span>
+              <span className="theme__icon-part"></span>
+              <span className="theme__icon-part"></span>
+              <span className="theme__icon-part"></span>
+              <span className="theme__icon-part"></span>
+              <span className="theme__icon-part"></span>
+              <span className="theme__icon-part"></span>
+              <span className="theme__icon-part"></span>
+              <span className="theme__icon-part"></span>
+            </span>
+          </span>
+          <span className='text-copy-light dark:text-copy-dark'>Dark</span>
+        </label>
+          
+          
+      </div>
 
       
     </div>

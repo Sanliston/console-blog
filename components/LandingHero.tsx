@@ -100,20 +100,20 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
         <>
 
         <div 
-            className={'block w-full h-auto landing-hero dark:bg-background-dark pb-[100px] transition-all duration-300 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
+            className={'block w-full h-auto landing-hero bg-background-light dark:bg-background-dark pb-[100px] transition-all duration-300 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
 
             >
 
                 <div className='container  mx-auto px-0 pt-[120px] md:pt-[200px] col-span-1 lg:col-span-4 lg:col-start-2'>
 
                     <div className='landing-title hidden md:flex flex-col items-center justify-center col-span-1 lg:col-span-6 mb-0 md:mb-15'>
-                        <div className='flex flex-col items-center justify-center text-white mb-5'>
+                        <div className='flex flex-col items-center justify-center text-copy-light dark:text-copy-dark mb-5'>
 
                             <div className=' text-[90px] md:text-[150px] lg:text-[250px]  mb-5'>
                                 <BsCloudMoonFill/>
                             </div>
 
-                            <span className='text-2xl md:text-4xl lg:text-[60px] font-[900] text-white pt-[20px] text-center font-labelle'>
+                            <span className='text-2xl md:text-4xl lg:text-[60px] font-[900] text-copy-light dark:text-copy-dark pt-[20px] text-center font-labelle'>
                                 Console.blog();
                             </span>
                             
@@ -124,13 +124,13 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                     <div className='landing-title row-span-2 col-span-1 lg:col-span-6 lg:col-start-1  rounded-lg mx-3'>
                         <div className='flex flex-col h-full items-center justify-center pt-[100px]'>
 
-                            <span className='text-white/[0.5] text-xl font-light'>
+                            <span className='text-copy-light dark:text-copy-dark/[0.5] text-xl font-light'>
                                 Search Articles
                             </span>
                             
                             <input 
                                 type='text'
-                                className='transition-all duration-500 p-4 px-4 m-4 outline-none w-[90vw] md:w-[50%] bg-black/[0.3] rounded-full focus:ring-2 focus:ring-white/[0.3] text-lg text-white/[0.6] text-center'
+                                className='transition-all duration-500 p-4 px-4 m-4 outline-none w-[90vw] md:w-[50%] bg-black/[0.3] rounded-full focus:ring-2 focus:ring-white/[0.3] text-lg text-copy-light dark:text-copy-dark/[0.6] text-center'
                                 placeholder='Your query'
                                 name='search'
                                 ref={searchEl}
@@ -140,9 +140,9 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                             {posts.length > 0 ?
                             
                             
-                                <div className='flex flex-col items-center justify-start w-full pt-[50px]'>
+                                <div className='flex flex-col items-center justify-start w-full min-h-[800px] pt-[50px]'>
 
-                                    <span className='text-white text-xl font-semibold pb-5'>
+                                    <span className='text-copy-light dark:text-copy-dark text-xl font-semibold pb-5'>
                                         Articles matching your search:  
                                     </span>
 
@@ -150,7 +150,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                         {posts.map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
-                                                <div className='search-result-show h-[200px] max-h-[250px] bg-cover border-0 hover:border-2 hover:duration-300 hover:box-content transition flex flex-row md:flex-row justify-items-start items-center w-full mb-4 dark:bg-element-dark/[0.3] rounded-lg overflow-hidden cursor-pointer'
+                                                <div className='search-result-show h-[200px] max-h-[250px] bg-cover border-0 hover:border-2 hover:duration-300 hover:box-content transition flex flex-row md:flex-row justify-items-start items-center w-full mb-4 bg-element-light dark:bg-element-dark rounded-lg overflow-hidden cursor-pointer'
                                                     style={{
                                                         opacity: 0,
                                                         '--custom-delay': index*50+'ms',
@@ -166,20 +166,20 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                                     > 
                                                     </div>
                                                     
-                                                    <div className='text-white h-[200px] flex flex-col p-4 md:p-6 bg-black/[0.4] md:bg-black/[0.4]'>
+                                                    <div className='text-copy-light dark:text-copy-dark h-[200px] flex flex-col p-4 md:p-6 '>
                                                         <span className='font-semibold pb-2'>
                                                             {post.title}
                                                         </span>
 
-                                                        <span className='hidden xl:block text-white/[0.7]'>
+                                                        <span className='hidden xl:block text-copy-light dark:text-copy-dark/[0.7]'>
                                                             {truncate(post.excerpt, 500)}
                                                         </span>
 
-                                                        <span className='block md:hidden text-white/[0.7]'>
+                                                        <span className='block md:hidden text-copy-light dark:text-copy-dark/[0.7]'>
                                                             {truncate(post.excerpt, 100)}
                                                         </span>
 
-                                                        <span className='hidden md:block xl:hidden text-white/[0.7]'>
+                                                        <span className='hidden md:block xl:hidden text-copy-light dark:text-copy-dark/[0.7]'>
                                                             {truncate(post.excerpt, 300)}
                                                         </span>
                                                         
@@ -210,7 +210,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                             {userSearched && posts.length == 0 ?
 
                                 <div className='flex flex-col items-center justify-start w-full pt-[20px]'> 
-                                    <span className='text-white text-xl'>
+                                    <span className='text-copy-light dark:text-copy-dark text-xl'>
                                         No results
                                     </span>
                                 </div>
@@ -225,7 +225,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                             {initialPosts.length > 0 && posts.length == 0 ?
                                 
                                 <div className='flex flex-col items-center justify-start w-full pt-[50px]'>
-                                    <span className='text-white text-xl font-semibold pb-5'>
+                                    <span className='text-copy-light dark:text-copy-dark text-xl font-semibold pb-5'>
                                         Articles you may like  
                                     </span>
 
@@ -233,7 +233,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                         {initialPosts.map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
-                                                <div className='search-result-show h-[200px] max-h-[250px] bg-cover border-0 hover:border-2 hover:duration-300 hover:box-content transition flex flex-row md:flex-row justify-items-start items-center w-full mb-4 dark:bg-element-dark/[0.3] rounded-lg overflow-hidden cursor-pointer'
+                                                <div className='search-result-show h-[200px] max-h-[250px] bg-cover border-0 hover:border-2 hover:duration-300 hover:box-content transition flex flex-row md:flex-row justify-items-start items-center w-full mb-4 bg-element-light dark:bg-element-dark rounded-lg overflow-hidden cursor-pointer'
                                                     style={{
                                                         opacity: 0,
                                                         '--custom-delay': index*50+'ms',
@@ -249,20 +249,20 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                                     > 
                                                     </div>
                                                     
-                                                    <div className='text-white h-[200px] flex flex-col p-4 md:p-6 bg-black/[0.4] md:bg-black/[0.4]'>
+                                                    <div className='text-copy-light dark:text-copy-dark h-[200px] flex flex-col p-4 md:p-6'>
                                                         <span className='font-semibold pb-2'>
                                                             {post.title}
                                                         </span>
 
-                                                        <span className='hidden xl:block text-white/[0.7]'>
+                                                        <span className='hidden xl:block text-copy-light dark:text-copy-dark/[0.7]'>
                                                             {truncate(post.excerpt, 500)}
                                                         </span>
 
-                                                        <span className='block md:hidden text-white/[0.7]'>
+                                                        <span className='block md:hidden text-copy-light dark:text-copy-dark/[0.7]'>
                                                             {truncate(post.excerpt, 100)}
                                                         </span>
 
-                                                        <span className='hidden md:block xl:hidden text-white/[0.7]'>
+                                                        <span className='hidden md:block xl:hidden text-copy-light dark:text-copy-dark/[0.7]'>
                                                             {truncate(post.excerpt, 300)}
                                                         </span>
                                                         

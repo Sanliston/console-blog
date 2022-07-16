@@ -26,9 +26,9 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   console.log("categories: ", categories, " tag: ", tag);
 
   return (
-    <div className={"container flex flex-col items-center mx-auto px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500')}>
+    <div className={"container text-copy-light dark:text-copy-dark flex flex-col items-center mx-auto px-2 md:px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500')}>
 
-      <h1 className='text-white font-bold text-4xl py-10'>
+      <h1 className=' font-bold text-4xl py-10'>
        {`#${tag} Articles`}
       </h1>
 
@@ -39,7 +39,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
               {categories.map((category:any)=>(
 
                   <Link href={`/tags/${category.slug}`} key={category.slug}>
-                      <span className={`relative cursor-pointer absolute px-3 py-1 mx-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm border-white ${tag === category.slug? 'border-[2px] p-5 ': 'border-[0px]'}`}>
+                      <span className={`relative cursor-pointer absolute px-3 py-1 m-2 bg-slate-400 dark:bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm dark:border-white ${tag === category.slug? ' bg-secondary-dark p-[20px] ': 'border-[0px]'}`}>
                           {`#${category.name}`}
                       </span>
                   </Link>
@@ -52,9 +52,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
 
       <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-        <div className={"lg:sticky relative transition-all duration-300"
-          + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-        }>
+        <div className={"lg:sticky relative transition-all duration-300 lg:top-[150px]"}>
 
             <CollectionsWidget />
 
@@ -69,9 +67,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
         </div>
 
         <div className="col-span-1">
-          <div className={ "relative lg:sticky transition-all duration-300 "
-            + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-          }>
+          <div className={ "relative lg:sticky transition-all duration-300 lg:top-[150px]"}>
             <Categories />
           </div>
         </div>

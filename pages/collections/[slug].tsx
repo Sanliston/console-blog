@@ -190,12 +190,12 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
       </div>
 
-      <div className={'relative top-[100vh] min-w-[100vw] dark:bg-background-dark container flex flex-col items-center mx-auto px-3 '+(menu?' blur-filter': ' trans-100')}
+      <div className={'relative top-[100vh] min-w-[100vw] bg-element-light dark:bg-background-dark container flex flex-col items-center mx-auto px-3 '+(menu?' blur-filter': ' trans-100')}
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
         }}
       >
-        <h1 ref={scrollRef} className='text-white font-bold text-4xl py-10 pt-[120px] font-staatliches'>
+        <h1 ref={scrollRef} className=' text-copy-light dark:text-copy-dark font-bold text-4xl py-10 pt-[120px] font-staatliches'>
           {`${collection.title} Collection`}
         </h1>
 
@@ -204,9 +204,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
             <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-              <div className={"lg:sticky relative transition-all duration-300 "
-                + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-              }>
+              <div className={"lg:sticky relative transition-all duration-300 lg:top-[150px]"}>
 
                   <CollectionsWidget />
 
@@ -214,16 +212,14 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
             </div>
 
-            <div className="col-span-1 lg:col-span-3">
+            <div className="col-span-1 lg:col-span-3 ">
               {collection.posts.map((post:any, index:number) => (
                 <PostCard key={index} post={post} />
               ))}
             </div>
 
             <div className="col-span-1">
-              <div className={"relative lg:sticky transition-all duration-300 "
-                + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-              }>
+              <div className={"relative lg:sticky transition-all duration-300 lg:top-[150px]"}>
                 <Categories />
               </div>
             </div>

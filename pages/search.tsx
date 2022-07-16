@@ -99,7 +99,7 @@ const SearchPosts = () : JSX.Element => {
     }
 
     return (
-        <div className={"container mx-auto px-10 mb-8 mt-[100px] trans-500 flex flex-col items-center"+(menu? ' blur-filter': '')}>
+        <div className={"px-10 mb-8 text-copy-light dark:text-copy-dark trans-500 flex flex-col items-center"+(menu? ' blur-filter': '')}>
 
 
 
@@ -108,20 +108,20 @@ const SearchPosts = () : JSX.Element => {
             }
 
             <div 
-                className={'w-full h-auto landing-hero  pb-15 mb-15 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
+                className={'min-w-[100vw] shadow-sm pt-[100px] h-auto landing-hero dark:bg-transparent bg-background-light border-[1px] dark:border-0 pb-15 mb-15 bg-cover grid grid-cols-1 lg:grid-cols-6 gap-1'+(menu? ' blur-filter ': ' trans-500')}
 
                 >
 
-                    <div className='container  mx-auto px-0 py-[70px] md:py-[100px] col-span-1 lg:col-span-4 lg:col-start-2'>
+                    <div className='container mx-auto px-0 py-[70px] md:py-[100px] col-span-1 lg:col-span-4 lg:col-start-2'>
 
                         <div className='landing-title hidden md:flex flex-col items-center justify-center col-span-1 lg:col-span-6 mb-0 md:mb-15'>
-                            <div className='flex flex-col items-center justify-center text-white mb-5'>
+                            <div className='flex flex-col items-center justify-center mb-5'>
 
                                 <div className=' text-[50px] md:text-[100px] lg:text-[150px]  mb-5'>
                                     <BsCloudMoonFill/>
                                 </div>
 
-                                <span className='text-2xl md:text-4xl font-[900] text-white pt-[20px] text-center font-labelle'>
+                                <span className='text-2xl md:text-4xl font-[900] pt-[20px] text-center font-labelle'>
                                     Console.blog();
                                 </span>
                                 
@@ -132,13 +132,13 @@ const SearchPosts = () : JSX.Element => {
                         <div className='landing-title col-span-1 lg:col-span-6 rounded-lg mx-3'>
                             <div className='flex flex-col w-full h-full items-center justify-center pt-[50px]'>
 
-                                <span className='text-white/[0.5] text-xl font-light'>
+                                <span className='text-xl font-light'>
                                     Search Articles
                                 </span>
                                 
                                 <input 
                                     type='text'
-                                    className='transition-all duration-500 p-4 px-4 m-4 outline-none w-full md:w-[70%] bg-black/[0.3] rounded-full focus:ring-2 focus:ring-white/[0.3] text-lg text-white/[0.6] text-center'
+                                    className='transition-all duration-500 p-4 px-4 m-4 outline-none w-full md:w-[70%] bg-element-dark/[0.1] dark:bg-black/[0.3] rounded-full focus:ring-2 focus:ring-white/[0.3] text-lg text-center'
                                     placeholder='Your query'
                                     name='search'
                                     ref={searchEl}
@@ -165,7 +165,7 @@ const SearchPosts = () : JSX.Element => {
             {
                 //END OF NEW CODE
             }
-            <h1 className='text-white font-bold text-2xl py-10'>
+            <h1 className='font-bold text-2xl py-10'>
                 {posts.length > 0 ? 'Results for: '+ searchQuery : 'No results'}
             </h1>
 
@@ -184,7 +184,7 @@ const SearchPosts = () : JSX.Element => {
                 <div className="col-span-1 lg:col-span-5">
                     {posts.map((post:any, index:number) => (
                         <Link href={`/post/${post.slug}`} key={post.id}>
-                            <div className='flex flex-col md:flex-row justify-items-start items-center w-full md:h-[300px] mb-4 dark:bg-element-dark/[0.3] rounded-lg overflow-hidden cursor-pointer'>
+                            <div className='flex flex-col md:flex-row justify-items-start items-center w-full md:h-[300px] mb-4 border-[1px] dark:border-0 bg-background-light dark:bg-element-dark/[0.3] rounded-lg overflow-hidden cursor-pointer'>
 
                                 <div className='md:min-w-[200px] md:max-w-[200px] md:min-w-[270px] md:max-w-[270px] md:min-h-[100%] md:h-[100%] object-cover'>
                                     <img
@@ -194,12 +194,12 @@ const SearchPosts = () : JSX.Element => {
                                 </div>
                                 
                                 
-                                <div className='text-white flex flex-col p-5 md:h-full flex-1'>
+                                <div className='flex flex-col p-5 md:h-full flex-1'>
                                     <span className='font-semibold py-5 flex-none'>
                                         {post.title}
                                     </span>
 
-                                    <span className='flex-1 text-white/[0.5] py-4 flex-none md:max-h-[150px] overflow-hidden'>
+                                    <span className='flex-1 py-4 flex-none md:max-h-[150px] overflow-hidden'>
                                         {
                                             //why use a framework when you can roll your own?
                                             truncate(post.excerpt, 250)
@@ -210,7 +210,7 @@ const SearchPosts = () : JSX.Element => {
                                         {post.categories.map((category:any)=>(
 
                                             <Link href={`/tags/${category.slug}`} key={category.slug}>
-                                                <span className="relative transition duration-150 cursor-pointer absolute px-3 py-1 text-bold mx-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm">
+                                                <span className="relative transition duration-150 cursor-pointer absolute px-3 py-1 text-bold mx-2 bg-slate-400 dark:bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm">
                                                     {`#${category.name}`}
                                                 </span>
                                             </Link>

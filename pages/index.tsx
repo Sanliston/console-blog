@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget, IntroBanner } from '../components/';
+import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget, IntroBanner, FeaturedGrid } from '../components/';
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
@@ -135,18 +135,14 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
           </div>
 
-          <div className='h-[100vh] relative landing-gradient block z-11'>
+          <section ref={searchRef} className='block relative w-full bg-background-light dark:bg-background-dark transition-all duration-300 h-auto z-11' style={{minWidth: '100vw'}}>
+            <LandingHero featuredPosts={featuredPosts as []}/>
+          </section>
+
+          <div className='relative bg-background-light dark:bg-background-dark block z-11'>
 
             <div className='py-[20px]'>
-              <FeaturedPosts posts={posts} />
-            </div>
-            
-
-          </div>
-          <div className='h-[100vh] relative bg-background-light dark:bg-background-dark block z-11'>
-
-            <div className='py-[20px]'>
-              <FeaturedPosts posts={posts} />
+              <FeaturedGrid posts={posts} />
             </div>
             
 
@@ -158,16 +154,12 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={3}/>
         </section>
 
-        <section ref={searchRef} className='block relative w-full bg-background-light dark:bg-background-dark transition-all duration-300 h-auto z-10' style={{minWidth: '100vw'}}>
-          <LandingHero featuredPosts={featuredPosts as []}/>
-        </section>
-
-        <section style={{minWidth: '100vw'}} className={'relative block bg-background-light dark:bg-background-dark z-5'+(menu? ' blur-filter ': ' trans-500')}>
+        <section style={{minWidth: '100vw'}} className={'relative block pt-[50px] bg-element-light dark:bg-background-dark z-5'+(menu? ' blur-filter ': ' trans-500')}>
 
           <div
-              className='block relative divider py-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
+              className='block relative divider py-[100px] pb-[50px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-copy-light dark:text-copy-dark'
             >
-                <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
+                <div className='w-[10%] min-w-[100px] h-[1px] bg-copy-light dark:bg-copy-dark  rounded-full'>
 
                 </div>
 
@@ -175,7 +167,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                   Latest Posts
                 </span>
 
-                <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
+                <div className='w-[10%] min-w-[100px] h-[1px] bg-copy-light dark:bg-copy-dark  rounded-full'>
 
                 </div>
                   
@@ -187,9 +179,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
               <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-                <div className={"transition-all duration-300 lg:sticky relative"
-                    + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-                  }>
+                <div className="transition-all duration-300 lg:sticky relative lg:top-[150px]">
 
                   <CollectionsWidget />
 
@@ -201,12 +191,11 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                 {posts.map((post:any, index) => <PostCard post={post} key={post.title}/>)}
               </div>
 
-              <div className='lg:col-span-1 col-span-1 bg-background-light dark:bg-background-dark'>
+              <div className='lg:col-span-1 col-span-1'>
 
               
 
-                <div className={"transition-all duration-300 lg:sticky relative"
-                  + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')}>
+                <div className="transition-all duration-300 lg:sticky relative lg:top-[150px]">
 
                   <PostWidget />
                   <Categories />

@@ -57,7 +57,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
     }
 
     return (
-        <div className='dark:bg-element-dark/[0.3] md:rounded-lg lg:p-0 pb-12 mb-8 mt-[150px] text-white/[0.8]'>
+        <div className='border-[2px] dark:border-[0px] text-copy-light dark:text-copy-dark bg-background-light dark:bg-element-dark md:rounded-lg lg:p-0 pb-12 mb-8 mt-[150px] text-white/[0.8]'>
 
             <div className='relative overflow-hidden shadow-d shadow-lg'>
 
@@ -69,9 +69,41 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                 />
             </div>
 
-            <div className='flex flex-col items:center p-4 lg:p-8'>
+            <div className='flex text-copy-light dark:text-copy-dark flex-col items:center p-4 lg:p-8'>
 
-                <div className=' self-center flex flex-row flex-wrap w-[80%] h-auto pb-5 mb-5 items-center justify-center border-b-[1px] border-white/[0.3]'>
+                <div className='flex flex-row relative items-center justify-start mt-[-85px] w-full'>
+
+                    <div className='flex items-center mb-4 lg:mb-0 w-full lg:w-auto mr-8'>
+
+                        <img 
+                            alt={post.author.name}
+                            height="100px"
+                            width="100px"
+                            className='align-middle rounded-full border-[10px] border-background-light dark:border-element-dark'
+                            src={post.author.photo.url}
+                        />
+
+                    </div>
+
+                    <div className='flex flex-row align-start justify-end self-end mb-4'>
+                        <p className=' self-end text-lg h-full mr-4 font-bold'>
+                                {post.author.name}
+                        </p>
+
+                        <div className='font-medium h-full flex flex-row align-center self-end justify-center'>
+                            <FiCalendar className=' h-full mt-[3px] mr-3 ml-3' />
+                            <span className='h-full min-w-[100px]'>
+                                {moment(post.createdAt).format('MMM DD, YYYY')}
+                            </span>
+                        </div>
+                    </div>
+                    
+
+                </div>
+
+                <h1 className='mt-8 mb-8 text-3xl font-bold '> {post.title}</h1>
+
+                <div className=' self-start flex flex-row flex-wrap w-full h-auto pb-5 mb-5 items-center justify-start border-b-[1px] border-white/[0.3]'>
 
                     {post.categories.map((category:any)=>(
 
@@ -83,35 +115,6 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                     ))}
 
                 </div>
-
-                <div className='flex items-center mb-8 w-full'>
-
-                    <div className='flex items-center mb-4 lg:mb-0 w-full lg:w-auto mr-8'>
-
-                        <img 
-                            alt={post.author.name}
-                            height="30px"
-                            width="30px"
-                            className='align-middle rounded-full'
-                            src={post.author.photo.url}
-                        />
-
-                        <p className='inline align-middle text-white/[0.6] ml-3 text-lg'>
-                            {post.author.name}
-                        </p>
-
-                    </div>
-
-                    <div className='font-medium text-white/[0.6] flex flex-row align-center justify-center m-5'>
-                        <FiCalendar className='mt-[3px] mr-3' />
-                        <span className=''>
-                            {moment(post.createdAt).format('MMM DD, YYYY')}
-                        </span>
-                    </div>
-
-                </div>
-
-                <h1 className='mb-8 text-3xl font-bold text-white'> {post.title}</h1>
 
                 {post.content.raw.children.map((typeObj: any, index:number)=>{
 

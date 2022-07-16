@@ -32,25 +32,25 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
           <SlidingCollections collectionsProp={collections} scrollRef={scrollRef} title='All Collections' featured={false} windowOffset={0}/>
         </div>
 
-        <div className={'relative container min-w-[100vw] dark:bg-background-dark '+(menu?' blur-filter': ' trans-500')}>
+        <div className={'relative container min-w-[100vw] bg-element-light dark:bg-background-dark '+(menu?' blur-filter': ' trans-500')}>
 
             <div ref={scrollRef} className="rounded-3xl  relative container flex flex-col items-center mx-auto px-10 mb-8 pt-[100px]"
             >
 
-                <h1 className='text-white font-bold text-4xl py-10 font-staatliches'>
+                <h1 className='text-copy-light dark:text-copy-dark font-bold text-4xl py-10 font-staatliches'>
                     All Collections
                 </h1>
 
                 <div className='flex flex-row w-[80%] items-center justify-center p-4 lg:p-8'>
 
-                    <div className=' self-center flex flex-row flex-wrap w-[80%] h-auto pb-5 mb-5 items-center justify-center border-b-[1px] border-white/[0.3]'>
+                    <div className=' self-center flex flex-row flex-wrap w-[80%] h-auto pb-5 mb-5 items-center justify-center border-b-[1px] dark:border-b-[1px] border-copy-light dark:border-white/[0.3]'>
 
                         
 
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-1">
+                <div className="flex flex-col lg:flex-row items-start justify-start">
 
                     <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
@@ -58,13 +58,13 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
                             + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
                         }>
 
-                            <CollectionsWidget />
+                            <Categories />
 
                         </div>
 
                     </div>
 
-                    <div ref={scrollRef} className="col-span-1 lg:col-span-3 flex flex-wrap flex-row justify-center items-start">
+                    <div ref={scrollRef} className="col-span-1 lg:col-span-3 flex flex-wrap flex-row justify-center items-start bg-background-light rounded-lg dark:bg-transparent">
                         {collections.map((collection:any)=>(
 
                             <Link href={`/collections/${collection.slug}`} key={collection.slug}>
