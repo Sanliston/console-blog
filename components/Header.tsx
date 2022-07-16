@@ -9,6 +9,7 @@ import useWindowDimensions from "../hooks/useWindowDimensions";
 import MenuWidget from "./MenuWidget";
 import {Burger3} from "./Icons"; 
 import useScrollDirection from "../hooks/useScrollDirection";
+import { useRouter } from "next/router";
 
 interface HeaderProps {
 
@@ -20,6 +21,7 @@ const Header = ({}:HeaderProps) : JSX.Element => {
     const {scrollX, scrollY} = useWindowScrollPositions(); 
     const {windowHeight, windowWidth } = useWindowDimensions(); 
     const scrollDirection = useScrollDirection(); 
+    const router = useRouter(); 
     
     return (
         <div className="container  fixed top-[0px] t-0 z-[15] mb-8 w-full " style={{minWidth: '100vw'}}>
@@ -48,14 +50,14 @@ const Header = ({}:HeaderProps) : JSX.Element => {
             <div className={
                 "transition-all duration-200 w-full px-[10vw] box-border xl:px-[20vw] grid grid-cols-1 lg:grid-cols-5 gap-1 overflow-hidden whitespace-nowrap" 
                 + (scrollDirection === 'up' || scrollY < windowHeight ?  ' h-[80px]' : ' h-[0px] md:h-[80px] ')
-                + (scrollY > windowHeight*0.9 ? ' landing-gradient shadow-lg': ' bg-transparent' )
+                + (scrollY > windowHeight*0.9 ? ' landing-gradient shadow-lg': (router.pathname == '/' ? ' bg-transparent' : ' landing-gradient shadow-lg' ))
                 }>
 
                 
 
                 <div className={
                     "lg:col-span-5 col-span-1 flex items-center justify-center "
-                    + (scrollY > windowHeight ? ' block': ' md:flex hidden' )
+                    + (scrollY > windowHeight ? ' block': (router.pathname == '/' ?' md:flex hidden' : ' flex' ))
                     }>
 
                     <Link href="/">

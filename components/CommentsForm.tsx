@@ -58,7 +58,7 @@ const CommentsForm = ( {slug} : CommentsFormProps ) : JSX.Element => {
     }
 
     return (
-        <div className='dark:bg-element-dark/[0.3] text-copy-light dark:text-copy-dark  md:rounded-lg p-8 pb-12 mb-8'>
+        <div className='bg-background-light dark:bg-element-dark/[0.3] text-copy-light dark:text-copy-dark  md:rounded-lg p-8 pb-12 mb-8'>
 
             <h3 className='text-xl mb-8 font-semibold border-b pb-4'>
                 Comment
@@ -124,20 +124,29 @@ const CommentsForm = ( {slug} : CommentsFormProps ) : JSX.Element => {
                 </p>
             }
 
-            <div className='mt-8'>
+            <div className='mt-8 flex flex-col md:flex-row items-center'>
 
                 <button 
                     type='button' 
                     onClick={handleSubmit}
-                    className='transition duration-500 ease hover:bg-black/[0.7] inline-block bg-black/[0.4] text-lg rounded-full text-white px-8 py-3 cursor-pointer'
+                    className='transition duration-500 ease hover:bg-black/[0.7] inline-block bg-button-color text-lg rounded-full text-white px-8 py-3 cursor-pointer mr-5 mb-5 md:mb-0'
                 >
                     Post Comment
                 </button>
 
                 {showSuccessMessage && 
-                    <span className='text-xl float-right font-semibold mt-3 text-green-500'>
-                        Comment submitted for review
-                    </span>
+
+                        <div className='flex flex-row items-center'>
+                            <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                            </svg>
+
+                            <div className='text-[#7ac142] font-bold text-md ml-2 menu-item-show'>
+                                Submitted for review!
+                            </div>
+                        </div>
+                    
                 }
 
             </div>

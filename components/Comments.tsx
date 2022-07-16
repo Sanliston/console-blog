@@ -24,7 +24,7 @@ const Comments = ( {slug}: CommentsProps) : JSX.Element => {
     return (
         <>
             {comments.length > 0 && (
-                <div className='dark:bg-element-dark/[0.3] text-white md:rounded-lg p-8 pb-12 mb-8'>
+                <div className='bg-background-light dark:bg-element-dark/[0.3] text-copy-light dark:text-copy-dark md:rounded-lg p-8 pb-12 mb-8'>
                     <h3 className='text-xl mb-8 font-semibold border-b pb-4'>
                         {comments.length}
                         {' '}
@@ -32,7 +32,7 @@ const Comments = ( {slug}: CommentsProps) : JSX.Element => {
                     </h3>
 
                     {comments.map((comment: any)=> (
-                        <div key={comment.createdAt} className='border-b border-gray-100 mb-4 pb-4'>
+                        <div key={comment.createdAt} className='border-b border-border-light dark:border-gray-100 mb-4 pb-4'>
                             
                             <p className='mb-4'>
                                 <span className='font-semibold'>
