@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { StateContext } from '../_app';
 import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
 import useScrollDirection from '../../hooks/useScrollDirection';
+import Head from 'next/head';
 
 export interface PostDetailsProps {
     post: {} | any
@@ -22,14 +23,17 @@ const PostDetails = ( { post } : PostDetailsProps) : JSX.Element => {
     }
 
     return (
-        <div className={'container mx-auto md:px-10 mb-8'+(menu?' blur-filter': ' trans-500')}>
+        <div className={'container bg-background-element dark:bg-background-dark mx-auto md:px-10 mb-8'+(menu?' blur-filter': ' trans-500')}>
+
+            <Head>
+                <title>{`${post.title}`}</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
             <div className='grid grid-cols-1 lg:grid-cols-5 gap-1'>
 
                 <div className='hidden lg:block lg:col-span-1'>
-                    <div className={'relative lg:sticky transition-all duration-300  '
-                        + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-                    }>
+                    <div className={'relative lg:sticky transition-all duration-300 lg:top-[150px] '}>
                         <CollectionsWidget />
                         
 
@@ -47,9 +51,7 @@ const PostDetails = ( { post } : PostDetailsProps) : JSX.Element => {
                 </div>
 
                 <div className='col-span-1'>
-                    <div className={'relative lg:sticky transition-all duration-300 '
-                        + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-                    }>
+                    <div className={'relative lg:sticky transition-all duration-300 lg:top-[150px]'}>
                         <PostWidget 
                             slug={post.slug}
                             categories={post.categories.map((category: any) => category.slug) }

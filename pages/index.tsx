@@ -1,15 +1,20 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget } from '../components/';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget, IntroBanner, FeaturedGrid } from '../components/';
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
 import useScrollDirection from '../hooks/useScrollDirection';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 import {getCategories, getCollections, getPosts } from '../services'; 
 import { StateContext } from './_app';
+import createScrollSnap from 'scroll-snap';
+import { BsCloudMoonFill } from "react-icons/bs";
+import useOnScreen from '../hooks/useOnScreen';
+import _ from 'lodash'; 
 
 interface HomeProps {
   posts: [],
@@ -34,12 +39,82 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
   const {menu} = useContext(StateContext);
   const scrollDirection = useScrollDirection();
+  const {windowHeight} = useWindowDimensions();
   const {scrollY} = useWindowScrollPositions();
+  const [scrollTop, setScrollTop] = useState(0);
+  const [lastScroll, setLastScroll] = useState(new Date());
+  const collectionsRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null); 
+  const collectionOnScreen = useOnScreen(collectionsRef); 
+  const [snapping, setSnapping] = useState(false);
+  
+  
+
+  // const bindScrollSnap = () => {
+  //   const element: HTMLElement = collectionsRef.current as HTMLElement; 
+  //   createScrollSnap(element, {
+  //     snapDestinationY: '90%',
+  //   }, () => console.log('snapped'))
+  // }
+
+  // useEffect(()=>{
+  //   //bindScrollSnap();
+
+  // }, []);
+
+  // useEffect(()=>{
+
+  //   //if collectionsRef is 50% in view scroll to it
+  //   console.log('collections is in view, scrollY: ', scrollY, " collections top: ", collectionsRef.current!.offsetTop, " offsetHeight: ", collectionsRef.current!.offsetHeight);
+
+    if(collectionOnScreen && (scrollY > (collectionsRef.current!.offsetTop-collectionsRef.current!.offsetHeight)+500 && scrollY <  collectionsRef.current!.offsetTop+300)){
+
+      
+    }
+
+  // }, [collectionOnScreen, scrollY]);
+
+  const snapCollections = (top:number) => {
+
+    console.log('scrollY: ', top, " collections top: ", collectionsRef.current!.offsetTop, " offsetHeight: ", collectionsRef.current!.offsetHeight);
+    if((top > (collectionsRef.current!.offsetTop-collectionsRef.current!.offsetHeight)+(0.5 * collectionsRef.current!.offsetHeight) && top <  collectionsRef.current!.offsetTop+(0.5 * collectionsRef.current!.offsetHeight ))){
+
+      console.log('collections in view');
+
+      setSnapping(true);
+      window.scrollTo({
+        top: collectionsRef.current?.offsetTop,
+        behavior: 'smooth'
+      });
+
+      setTimeout(()=>{
+        //stop any further scroll animations for 2 seconds
+
+        setSnapping(false);
+      }, 500);
+    }
+  }
+
+  const theBounce = useCallback(_.debounce((top:number)=>{
+        
+        return snapCollections(top);
+
+    }, 500), []);
+
+  useEffect(()=>{
+    console.log('scrolling');
+    setScrollTop(scrollY);
+
+    if(!snapping){
+      theBounce(scrollY);
+    }
+    
+  }, [scrollY]);
   
 
   return (
 
-      <div className={"container mx-auto px-0 top-[0px]"} style={{minWidth: '100vw'}}
+      <div ref={containerRef} className={"container scroll-snap-parent mx-auto px-0 top-[0px] relative"} style={{minWidth: '100vw'}}
       
       >
         <Head>
@@ -47,20 +122,44 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <div className=' block relative w-full min-h-[120vh] lg:min-h-[100vh] lg:h-auto top-[0px] z-5 ' style={{minWidth: '100vw'}}>
-          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} />
-        </div>
 
-        <div ref={searchRef} className='w-full  min-h-[1200px] md:min-h-[1500px] lg:min-h-[1700px] h-auto top-[150vh] lg:top-[100vh] z-0' style={{minWidth: '100vw'}}>
-          <LandingHero featuredPosts={featuredPosts as []}/>
-        </div>
+        <section className='block shadow-lg relative w-full min-h-[320vh] lg:min-h-[300vh] bg-background-light dark:bg-background-dark top-[0px] z-10 flex flex-col' style={{minWidth: '100vw'}}>
 
-        <div style={{minWidth: '100vw'}} className={'relative bg-[#282e34] z-5'+(menu? ' blur-filter ': ' trans-500')}>
+          <div className={'block h-[100vh] flex flex-col items-center justify-center'}>
+
+            <div className={`${scrollY < windowHeight*1.5 ? 'block ': ' hidden '}` + 'transition-none duration-0 min-h-[100vh] h-[100vh] w-[100vw]'}>
+              <IntroBanner collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={0} />
+            </div>
+            
+
+
+          </div>
+
+          <section ref={searchRef} className='block relative w-full bg-background-light dark:bg-background-dark transition-all duration-300 h-auto z-11' style={{minWidth: '100vw'}}>
+            <LandingHero featuredPosts={featuredPosts as []}/>
+          </section>
+
+          <div className='relative bg-background-light dark:bg-background-dark block z-11'>
+
+            <div className='py-[20px]'>
+              <FeaturedGrid posts={posts} />
+            </div>
+            
+
+          </div>
+
+        </section>
+
+        <section ref={collectionsRef} className={`${scrollY > windowHeight*1.5 ? 'block ': ' hidden '}` + ' transition-none duration-0 relative w-full min-h-[120vh] lg:min-h-[100vh] z-5 '} style={{minWidth: '100vw'}}>
+          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={3}/>
+        </section>
+
+        <section style={{minWidth: '100vw'}} className={'relative block pt-[50px] bg-element-light dark:bg-background-dark z-5'+(menu? ' blur-filter ': ' trans-500')}>
 
           <div
-              className='divider mb-[100px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-white'
+              className='block relative divider py-[100px] pb-[50px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-copy-light dark:text-copy-dark'
             >
-                <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
+                <div className='w-[10%] min-w-[100px] h-[1px] bg-copy-light dark:bg-copy-dark  rounded-full'>
 
                 </div>
 
@@ -68,21 +167,19 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                   Latest Posts
                 </span>
 
-                <div className='w-[10%] min-w-[100px] h-[1px] bg-white rounded-full'>
+                <div className='w-[10%] min-w-[100px] h-[1px] bg-copy-light dark:bg-copy-dark  rounded-full'>
 
                 </div>
                   
           </div>
 
-          <div className='container mx-auto px-0 mb-8 bg-[#282e34]'>
+          <div className='container mx-auto px-0 mb-8 '>
             
             <div className='grid grid-cols-1 lg:grid-cols-5 gap-1 pt-[10]'>
 
               <div className='hidden lg:block lg:col-span-1  col-span-1'>
 
-                <div className={"transition-all duration-300 lg:sticky relative"
-                    + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-                  }>
+                <div className="transition-all duration-300 lg:sticky relative lg:top-[150px]">
 
                   <CollectionsWidget />
 
@@ -94,12 +191,11 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                 {posts.map((post:any, index) => <PostCard post={post} key={post.title}/>)}
               </div>
 
-              <div className='lg:col-span-1 col-span-1 bg-[#282e34]'>
+              <div className='lg:col-span-1 col-span-1'>
 
               
 
-                <div className={"transition-all duration-300 lg:sticky relative"
-                  + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')}>
+                <div className="transition-all duration-300 lg:sticky relative lg:top-[150px]">
 
                   <PostWidget />
                   <Categories />
@@ -110,7 +206,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
               
             </div>
           </div>
-        </div>
+        </section>
 
 
 
