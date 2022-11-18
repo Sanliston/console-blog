@@ -8,6 +8,7 @@ import Link from 'next/link';
 import useScrollDirection from '../../hooks/useScrollDirection';
 import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
 import SideBarWidget from '../../components/SideBarWidget';
+import RightBarWidget from '../../components/RightBarWidget';
 
 interface TagPostProps {
     posts: [],
@@ -17,8 +18,6 @@ interface TagPostProps {
 const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   const router = useRouter();
   const { categories, menu } = useContext(StateContext);
-  const {scrollY} = useWindowScrollPositions();
-  const scrollDirection = useScrollDirection();
 
   if (router.isFallback) {
     return <Loader />;
@@ -69,7 +68,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
 
         <div className="col-span-1 lg:col-span-3">
           <div className={ "relative lg:sticky transition-all duration-300 lg:top-[100px]"}>
-            <CollectionsWidget />
+            <RightBarWidget />
           </div>
         </div>
       </div>

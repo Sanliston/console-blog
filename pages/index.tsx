@@ -16,6 +16,8 @@ import { BsCloudMoonFill } from "react-icons/bs";
 import useOnScreen from '../hooks/useOnScreen';
 import _ from 'lodash'; 
 import SideBarWidget from '../components/SideBarWidget';
+import RightBarWidget from '../components/RightBarWidget';
+import Script from 'next/script';
 
 interface HomeProps {
   posts: [],
@@ -192,7 +194,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                   </section> */}
 
                   <div
-                    className='block relative divider py-[50px] pb-[50px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] font-inter font-[600] text-copy-light dark:text-copy-dark'
+                    className='block relative divider lg:pt-[50px] pb-[50px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] font-inter font-[600] text-copy-light dark:text-copy-dark'
                     >
 
                       <span className='px-3'>
@@ -206,10 +208,10 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
                 <div className='hidden lg:block lg:col-span-3  col-span-1'>
 
-                  <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
+                  <div className="transition-all duration-300 my-4 lg:sticky relative lg:top-[90px]">
 
                     
-                    <CollectionsWidget />
+                    <RightBarWidget />
 
                   </div>
 

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { getRecentPosts, getSimilarPosts } from '../services';
 import PostWidget from './PostWidget';
 import Categories from './Categories';
+import { FaGithub } from "react-icons/fa";
 
 export type Post = {
   title?: string,
@@ -16,29 +17,38 @@ interface PostWidgetProps {
 
 const SideBarWidget = ({categories, slug}: PostWidgetProps): JSX.Element=> {
 
-  const [ relatedPosts, setRelatedPosts ] = useState<[]>([]);
-
-  useEffect(()=>{
-
-    if(slug){
-      //means we are looking at a specific post
-      getSimilarPosts(categories, slug).then((result: []) => setRelatedPosts(result));
-    }else {
-      //show most recent posts
-      getRecentPosts().then((result: []) => setRelatedPosts(result));
-    }
-
-
-
-    
-  }, [slug]);
-
   return (
-    <div className='lg:rounded-lg my-4 dark:m-0  mb-4 bg-background-light dark:bg-element-dark border-[1px] dark:border-0 border-border-light'>
+    <div className='lg:rounded-lg m-0  mb-4 bg-background-light dark:bg-element-dark border-[1px] dark:border-0 border-border-light'>
 
-      <PostWidget nested={true} slug={slug} categories={categories}/>
-      <Categories nested={true} />
-      
+        <PostWidget nested={true} slug={slug} categories={categories}/>
+        <Categories nested={true} />
+
+        <div className={' p-6 dark:m-0 my-4 mb-8 w-full'}>
+
+            <div className='text-copy-light dark:text-copy-dark font-normal border-t border-border-light dark:border-copy-dark pt-6 min-w-[100%] flex flex-col justify-start align-start text-sm'>
+                <span className=''>
+                    This website is still in development and may be subject to change.
+                </span> 
+
+                <span className='mt-[20px]'>
+                    Made with &#10084;&#65039; using NextJS, Tailwind, and GraphCMS
+                </span>
+
+                <span className='mt-[20px] italic'>
+                    &copy; 2022 Console.blog()
+                </span> 
+
+                <span className='mt-[20px] text-2xl'>
+
+                    <a target='_blank' href='https://github.com/Sanliston/console-blog'>
+                        <FaGithub />
+                    </a>
+                    
+                </span>
+                
+            </div>
+        </div>
+        
     </div>
   )
 }

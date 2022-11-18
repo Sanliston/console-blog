@@ -12,6 +12,7 @@ import { FiArrowDownCircle } from 'react-icons/fi';
 import CollectionsWidget from '../../components/CollectionsWidget';
 import useScrollDirection from '../../hooks/useScrollDirection';
 import SideBarWidget from '../../components/SideBarWidget';
+import RightBarWidget from '../../components/RightBarWidget';
 
 interface TagPostProps {
     slug: string,
@@ -20,9 +21,6 @@ interface TagPostProps {
 
 const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
   const router = useRouter();
-  const {scrollX, scrollY} = useWindowScrollPositions(); 
-  const scrollDirection = useScrollDirection(); 
-  const {windowHeight, windowWidth } = useWindowDimensions(); 
   const scrollRef = useRef<HTMLDivElement>(null);
   const {menu} = useContext(StateContext);
 
@@ -49,9 +47,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
           <div
 
           className={
-              'transition-all trans-100 flex flex-col h-full w-full duration-300 items-center md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center'
-              + (scrollY < windowHeight*0.5 ? ' collection-background-info-show ': '')
-              + (scrollY > windowHeight*0.5 ? ' collection-background-info-hide ': ' opacity-0')
+              'transition-all trans-100 flex flex-col h-full w-full duration-300 items-center md:justify-start sm-short:pt-[30px] pt-[15vh] md:pt-[15vh] lg:pt-0 lg:justify-center collection-background-info-show'
           }
 
           >
@@ -218,11 +214,27 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
               ))}
             </div>
 
-            <div className="col-span-1 lg:col-span-3">
-              <div className={"relative lg:sticky transition-all duration-300 lg:top-[100px]"}>
-                <CollectionsWidget />
+            <div className='hidden lg:block lg:col-span-3  col-span-1'>
+
+                <div className="transition-all duration-300 lg:sticky relative lg:top-[100px]">
+
+                  
+                  <RightBarWidget />
+
+                </div>
+
               </div>
-            </div>
+
+              <div className='block lg:hidden lg:col-span-3  col-span-1'>
+
+                <div className="transition-all duration-300 lg:sticky relative lg:top-[100px]">
+
+                  
+                  <SideBarWidget />
+
+                </div>
+
+              </div>
           </div>
         
       </div>

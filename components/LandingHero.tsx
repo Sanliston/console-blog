@@ -173,7 +173,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                             <input 
                                 type='text'
                                 className='transition-all duration-500 mt-[50px] p-4 px-4 m-4 outline-none w-[90vw] md:w-[50%] bg-black/[0.1] dark:bg-black/[0.3] rounded-full focus:ring-2 focus:ring-sky-400 text-lg text-copy-light dark:text-copy-dark/[0.6] text-center'
-                                placeholder='Search for articles, tags and many more'
+                                placeholder='Search for articles'
                                 name='search'
                                 ref={searchEl}
                                 onKeyUp={()=>{submitSearch(false)}}
@@ -252,7 +252,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                     {morePosts && 
 
                                         <Link href={{ pathname: '/search', query: { searchQuery: lastQuery } }}>
-                                            <div className='relative transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-full mt-[25px]'> 
+                                            <div className='relative transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-lg mt-[25px]'> 
                                                 View More
                                             </div>
                                         </Link>

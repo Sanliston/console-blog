@@ -9,6 +9,7 @@ import CollectionsWidget from '../../components/CollectionsWidget';
 import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
 import useScrollDirection from '../../hooks/useScrollDirection';
 import SideBarWidget from '../../components/SideBarWidget';
+import RightBarWidget from '../../components/RightBarWidget';
 
 interface TagIndexProps {
     collections: []
@@ -28,6 +29,12 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
   return (
 
     <div className='w-full h-full'>
+
+        <div className='warning fixed top-[70px] right-[0px] lg:top-[100px] lg:right-[30px] p-2  lg:p-4 z-[3000] bg-sky-400 lg:rounded-lg text-white'>
+            <span>
+                Experimental Page. You may experience slow performance. 
+            </span>
+        </div>
 
         <div className='block relative w-full min-h-[120vh] lg:min-h-[100vh] lg:h-auto top-[0px] z-5 ' style={{minWidth: '100vw'}}>
           <SlidingCollections collectionsProp={collections} scrollRef={scrollRef} title='All Collections' featured={false} windowOffset={0}/>
@@ -92,7 +99,7 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
                         <div className={"relative lg:sticky transition-all duration-300 top-[100px]"
            
                         }>
-                            <Categories />
+                            <RightBarWidget />
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,8 @@
 import { graphql } from 'graphql';
 import { request, gql } from 'graphql-request'; 
-import { sanitizeString } from '../utils/utils';
+import { now } from 'lodash';
+import { TiThLarge } from 'react-icons/ti';
+import { HOUR_MS, sanitizeString, setWithExpiry } from '../utils/utils';
 
 const graphqlAPI:string = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT as string; //type assertion
 
@@ -42,8 +44,6 @@ export const getPosts = async () : Promise<[]> => {
     `;
 
     const results = await request(graphqlAPI, query);
-
-    console.log('posts: ', results.posts);
 
     return results.posts; 
 

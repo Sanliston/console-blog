@@ -242,10 +242,20 @@ const SearchPosts = () : JSX.Element => {
                     ))}
                 </div>
 
-                <div className="col-span-1 lg:col-span-3">
+                <div className="hidden lg:block col-span-1 lg:col-span-3">
                     <div className="relative lg:sticky top-[100px]">
                         <CollectionsWidget />
                     </div>
+                </div>
+                <div className='block lg:hidden lg:col-span-3  col-span-1'>
+
+                  <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
+
+                    
+                    <SideBarWidget />
+
+                  </div>
+
                 </div>
             </div>
         </div>

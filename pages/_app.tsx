@@ -5,6 +5,8 @@ import type { AppProps } from 'next/app';
 import { Layout } from '../components';
 import {getCategories } from '../services';
 import { Category } from '../components/Categories';
+import { getWithExpiry, HOUR_MS, setWithExpiry } from '../utils/utils';
+import Script from 'next/script'; 
 interface AppState {
   categories: [] | never[]
   menu: boolean
@@ -25,6 +27,21 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   //getCategories
   useEffect(()=>{
+
+    let localCategories = getWithExpiry('categories');
+
+    if(localCategories){
+      setAppState({
+          ...appState, 
+          categories: JSON.parse(localCategories),
+          setAppState: setAppState
+        }
+      );
+
+      return;
+    }
+
+
     getCategories().then((result) => {
       
       setAppState({
@@ -34,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }
       );
 
-      console.log("appSate: ", appState);
+      setWithExpiry('categories', JSON.stringify(result), HOUR_MS);
     
     });
 
@@ -42,11 +59,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
   return (
-    <StateContext.Provider value={appState}> 
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-    </StateContext.Provider>
+    <>
+      <StateContext.Provider value={appState}> 
+          <Script id="cookieyes" src='https://cdn-cookieyes.com/client_data/56b1f6e0127bd168b8b98c1d/script.js'/>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+      </StateContext.Provider>
+    </>
   )
 }
 

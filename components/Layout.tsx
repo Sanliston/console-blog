@@ -11,7 +11,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ children }: LayoutProps)
     const {darkMode} = useContext(StateContext);
 
     return (
-        <div className={darkMode ? 'dark dark:bg-background-dark': ' w-full min-h-[100vh] text-copy-light dark:text-copy-dark bg-backfall-light dark:bg-background-dark'}>
+        <div className={'leading-relaxed '+(darkMode ? 'dark dark:bg-background-dark': ' w-full min-h-[100vh] text-copy-light dark:text-copy-dark bg-backfall-light dark:bg-background-dark')}>
 
             <Header />
 
