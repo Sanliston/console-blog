@@ -107,7 +107,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
 
             >
 
-                <div className='container px-0 flex flex-col items-center justify-center'>
+                <div className='px-0 flex flex-col items-center justify-center w-full lg:px-[20px]'>
 
 
                     <div className='flex flex-col items-center justify-center text-copy-light dark:text-copy-dark mb-4'>
@@ -160,8 +160,8 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
 
                     </div>
 
-                    <div className='landing-title row-span-2 col-span-1 lg:col-span-6 lg:col-start-1  rounded-lg mx-3'>
-                        <div className='flex flex-col h-full items-center justify-center pt-[30px]'>
+                    <div className='landing-title w-full row-span-2 col-span-1 lg:col-span-6 lg:col-start-1  rounded-lg lg:mx-3'>
+                        <div className='flex flex-col h-full w-full items-center justify-center pt-[30px]'>
 
                             <span className='text-3xl md:text-3xl lg:text-[40px] font-[900] dark:text-copy-dark text-xl font-inter'>
                                 {'How about a '} 
@@ -182,17 +182,17 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                             {posts.length > 0 ?
                             
                             
-                                <div className='flex flex-col items-center justify-start w-full min-h-[800px] pt-[50px]'>
+                                <div className='flex flex-col items-center justify-center w-full min-h-[800px] pt-[50px]'>
 
                                     <span className='text-copy-light dark:text-copy-dark text-xl font-semibold pb-5'>
                                         Articles matching your search:  
                                     </span>
 
-                                    <div className='w-full text-md'>
+                                    <div className='w-full text-md flex flex-col items-center justify-center'>
                                         {posts.map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
-                                                <div className='search-result-show h-auto max-h-[450px] p-6 bg-cover border-0 hover:duration-300 transition flex flex-col md:flex-row justify-items-start md:justify-between items-center w-full mb-4 bg-element-light/[0.7] dark:bg-background-dark/[0.4] rounded-lg cursor-pointer'
+                                                <div className='search-result-show h-auto p-6 bg-cover border-0 hover:duration-300 transition flex flex-col md:flex-row justify-items-start md:justify-between items-center w-full mb-1 lg:mb-4 bg-element-light/[0.7] dark:bg-background-dark/[0.4] lg:rounded-lg cursor-pointer'
                                                     style={{
                                                         opacity: 0,
                                                         '--custom-delay': index*50+'ms',
@@ -252,7 +252,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                     {morePosts && 
 
                                         <Link href={{ pathname: '/search', query: { searchQuery: lastQuery } }}>
-                                            <div className='transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-full'> 
+                                            <div className='relative transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-full mt-[25px]'> 
                                                 View More
                                             </div>
                                         </Link>
@@ -287,11 +287,11 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                         Articles you may like  
                                     </span>
 
-                                    <div className='w-full text-md'>
+                                    <div className='w-full text-md flex flex-col items-center justify-center'>
                                         {initialPosts.map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
-                                                <div className='search-result-show h-auto max-h-[450px] p-6 bg-cover border-0 hover:duration-300 transition flex flex-col md:flex-row justify-items-start md:justify-between items-center w-full mb-4 bg-element-light/[0.7] dark:bg-background-dark/[0.4] rounded-lg cursor-pointer'
+                                                <div className='search-result-show h-auto p-6 bg-cover border-0 hover:duration-300 transition flex flex-col md:flex-row justify-items-start md:justify-between items-center w-full mb-1 lg:mb-4 bg-element-light/[0.7] dark:bg-background-dark/[0.4] lg:rounded-lg cursor-pointer'
                                                     style={{
                                                         opacity: 0,
                                                         '--custom-delay': index*50+'ms',
@@ -351,7 +351,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                     {moreInitialPosts ? 
 
                                         <Link href={{ pathname: '/search', query: { searchQuery: 'featured' } }}>
-                                            <div className='transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-lg'> 
+                                            <div className='transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-lg mt-[25px]'> 
                                                 View More
                                             </div>
                                         </Link>

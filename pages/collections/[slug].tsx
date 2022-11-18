@@ -191,7 +191,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
       </div>
 
-      <div className={'container relative top-[100vh] min-w-[100vw] bg-element-light dark:bg-background-dark container flex flex-col items-center mx-auto px-3 pb-[200px] '+(menu?' blur-filter': ' trans-100')}
+      <div className={'container relative top-[100vh] min-w-[100vw] bg-element-light dark:bg-background-dark container flex flex-col items-center mx-auto lg:px-3 pb-[200px] '+(menu?' blur-filter': ' trans-100')}
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
         }}
@@ -212,7 +212,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
             </div>
 
-            <div className="col-span-1 lg:col-span-6 p-4 py-[50px] bg-background-light dark:bg-element-dark rounded-lg border-[1px] dark:border-0 border-border-light">
+            <div className="col-span-1 lg:col-span-6 p-4 py-[50px] bg-background-light dark:bg-element-dark lg:rounded-lg border-[1px] dark:border-0 border-border-light">
               {collection.posts.map((post:any, index:number) => (
                 <PostCard key={index} post={post} />
               ))}

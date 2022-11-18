@@ -101,7 +101,7 @@ const SearchPosts = () : JSX.Element => {
     }
 
     return (
-        <div className={"px-10 mb-8 text-copy-light dark:text-copy-dark trans-500 flex flex-col items-center"+(menu? ' blur-filter': '')}>
+        <div className={"lg:px-10 mb-8 text-copy-light dark:text-copy-dark trans-500 flex flex-col items-center"+(menu? ' blur-filter': '')}>
 
 
 
@@ -183,10 +183,10 @@ const SearchPosts = () : JSX.Element => {
 
                 </div>
 
-                <div className="col-span-1 lg:col-span-5">
+                <div className="col-span-1 lg:col-span-6">
                     {posts.map((post:any, index:number) => (
                         <Link href={`/post/${post.slug}`} key={post.id}>
-                        <div className='search-result-show h-auto max-h-[450px] p-6 bg-cover border-0 hover:duration-300 transition flex flex-col md:flex-row justify-items-start md:justify-between items-center w-full mb-4 bg-element-light dark:bg-element-dark rounded-lg cursor-pointer'
+                        <div className='search-result-show h-auto p-6 bg-cover border-0 hover:duration-300 transition flex flex-col md:flex-row justify-items-start md:justify-between items-center w-full mb-1 lg:mb-4 bg-element-light dark:bg-element-dark lg:rounded-lg cursor-pointer'
                             style={{
                                 opacity: 0,
                                 '--custom-delay': index*50+'ms',

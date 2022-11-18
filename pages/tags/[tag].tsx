@@ -27,13 +27,13 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   console.log("categories: ", categories, " tag: ", tag);
 
   return (
-    <div className={"container text-copy-light dark:text-copy-dark flex flex-col items-center mx-auto px-2 md:px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500 pb-[200px]')}>
+    <div className={"container text-copy-light dark:text-copy-dark flex flex-col items-center mx-auto md:px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500 pb-[200px]')}>
 
       <h1 className=' font-bold text-4xl py-10 font-inter'>
        {`#${tag} Articles`}
       </h1>
 
-      <div className='flex flex-row w-[80%] items-center justify-center p-4 lg:p-8'>
+      <div className='flex flex-row w-[80%] items-center justify-center p-4 px-0 lg:p-8'>
 
           <div className=' self-center flex flex-row flex-wrap w-[80%] h-auto pb-5 mb-5 items-center justify-center border-b-[1px] border-white/[0.3]'>
 
@@ -61,7 +61,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
 
       </div>
 
-        <div className="col-span-1 lg:col-span-6 p-4 py-[50px] bg-background-light dark:bg-element-dark rounded-lg border-[1px] dark:border-0 border-border-light">
+        <div className="col-span-1 lg:col-span-6 p-4 py-[50px] bg-background-light dark:bg-element-dark lg:rounded-lg border-[1px] dark:border-0 border-border-light">
           {posts.map((post:any, index:number) => (
             <PostCard key={index} post={post.node} />
           ))}
