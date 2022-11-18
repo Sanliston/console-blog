@@ -22,7 +22,7 @@ const SideBarWidget = ({categories, slug, recentPosts}: PostWidgetProps): JSX.El
     <div className='lg:rounded-lg m-0  mb-4 bg-background-light dark:bg-element-dark border-[1px] dark:border-0 border-border-light'>
 
         <PostWidget recentPosts={recentPosts} nested={true} slug={slug} categories={categories}/>
-        <Categories nested={true} categories={categories} />
+        <Categories nested={true} passedCategories={categories} />
 
         <div className={' p-6 dark:m-0 my-4 mb-8 w-full'}>
 
