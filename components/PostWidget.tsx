@@ -11,14 +11,20 @@ export type Post = {
 interface PostWidgetProps {
   categories?: [string],
   slug?: string,
-  nested?:boolean
+  nested?:boolean,
+  recentPosts?:[]
 }
 
-const PostWidget = ({categories, slug, nested=false}: PostWidgetProps): JSX.Element=> {
+const PostWidget = ({categories, slug, recentPosts, nested=false}: PostWidgetProps): JSX.Element=> {
 
   const [ relatedPosts, setRelatedPosts ] = useState<[]>([]);
 
   useEffect(()=>{
+
+    if (recentPosts) { //remove this while running locally
+      // Returns [] on first render, so the client and server match
+      return setRelatedPosts(recentPosts);
+    }
 
     if(slug){
       //means we are looking at a specific post
@@ -65,7 +71,7 @@ const PostWidget = ({categories, slug, nested=false}: PostWidgetProps): JSX.Elem
         {slug ? 'Related Posts' : 'Recent Posts'}
       </h3>
 
-      {relatedPosts.map((post:any) => (
+      {(recentPosts || relatedPosts).map((post:any) => (
 
         <Link key={post.slug} href={`/post/${post.slug}`}>
           <div key={post.slug} className='cursor-pointer flex flex-row items-center w-full lg:py-2 py-1' > 

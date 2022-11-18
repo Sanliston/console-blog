@@ -78,19 +78,18 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
         });
     }
 
-    useEffect(()=>{
-        //initial search on component load
-         
+    // useEffect(()=>{
+    //     //initial search on component load
 
-        if(featuredPosts.length > 3){
-            setMoreInitialPosts(true);
-        }else{
-            setMoreInitialPosts(false);
-        }
+    //     if(featuredPosts.length > 3){
+    //         setMoreInitialPosts(true);
+    //     }else{
+    //         setMoreInitialPosts(false);
+    //     }
 
-        setInitialPosts(featuredPosts.filter((post:any, index:number)=>index < 3));
+    //     setInitialPosts(featuredPosts.filter((post:any, index:number)=>index < 3));
         
-    }, []);
+    // }, [featuredPosts]);
 
     return (
 
@@ -271,10 +270,10 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
 
                                 ''
                             }
+                                
                             
 
-
-                            {initialPosts.length > 0 && posts.length == 0 ?
+                            {(featuredPosts?.slice(0,3) || initialPosts).length > 0 && posts.length == 0 ?
                                 
                                 <div className='flex flex-col items-center justify-start w-full pt-[50px]'>
                                     <span className='text-copy-light dark:text-copy-dark text-xl font-semibold pb-5'>
@@ -282,7 +281,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                     </span>
 
                                     <div className='w-full text-md flex flex-col items-center justify-center'>
-                                        {initialPosts.map((post:any, index:number)=>(
+                                        {(featuredPosts?.slice(0,3) || initialPosts).map((post:any, index:number)=>(
 
                                             <Link href={`/post/${post.slug}`} key={post.id}>
                                                 <div className='search-result-show h-auto p-6 bg-cover border-0 hover:duration-300 transition flex flex-col md:flex-row justify-items-start md:justify-between items-center w-full mb-1 lg:mb-4 bg-element-light/[0.7] dark:bg-background-dark/[0.4] lg:rounded-lg cursor-pointer'
@@ -342,7 +341,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
                                         ))}
                                     </div>
 
-                                    {moreInitialPosts ? 
+                                    {(moreInitialPosts || featuredPosts.length > 3) ? 
 
                                         <Link href={{ pathname: '/search', query: { searchQuery: 'featured' } }}>
                                             <div className='transition-all duration-500 cursor-pointer button bg-button-color soft-glow text-white p-3 hover:px-10 px-6 rounded-lg mt-[25px]'> 

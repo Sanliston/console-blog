@@ -14,15 +14,16 @@ export type Post = {
 interface PostWidgetProps {
   categories?: [string],
   slug?: string
+  collections?:[]
 }
 
-const RightBarWidget = ({categories, slug}: PostWidgetProps): JSX.Element=> {
+const RightBarWidget = ({categories, slug, collections}: PostWidgetProps): JSX.Element=> {
 
     return (
         <div className='lg:rounded-lg m-0 mb-4 bg-background-light dark:bg-element-dark border-[1px] dark:border-0 border-border-light'>
 
             <SearchWidget />
-            <CollectionsWidget nested={true} />
+            <CollectionsWidget passedCollections={collections} nested={true} />
         
         </div>
     )

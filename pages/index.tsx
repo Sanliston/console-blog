@@ -9,7 +9,7 @@ import TestFeatured from '../components/TestFeature';
 import useScrollDirection from '../hooks/useScrollDirection';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
-import {getCategories, getCollections, getPosts } from '../services'; 
+import {getCategories, getCollections, getPosts, getRecentPosts } from '../services'; 
 import { StateContext } from './_app';
 import createScrollSnap from 'scroll-snap';
 import { BsCloudMoonFill } from "react-icons/bs";
@@ -21,7 +21,10 @@ import Script from 'next/script';
 
 interface HomeProps {
   posts: [],
-  collections: []
+  collections: [],
+  recentPosts: [],
+  categories: [string],
+  passedFeaturedPosts: []
 }
 
 //augmenting console object
@@ -36,20 +39,13 @@ console.blog = (userName: string) => {
   console.log("Console.blog for ", userName);
 }
 
-const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Element => {
+const Home: NextPage<HomeProps> = ({ posts, collections, recentPosts, categories }: HomeProps): JSX.Element => {
 
-  const searchRef = useRef(null);
-  const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
+  const featuredPosts = posts.filter((post:any)=> post.featuredPost); //for SSR
   const {menu} = useContext(StateContext);
-  const scrollDirection = useScrollDirection();
-  const {windowHeight} = useWindowDimensions();
-  const {scrollY} = useWindowScrollPositions();
-  const [scrollTop, setScrollTop] = useState(0);
-  const [lastScroll, setLastScroll] = useState(new Date());
-  const collectionsRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null); 
+
   // const collectionOnScreen = useOnScreen(collectionsRef); 
-  const [snapping, setSnapping] = useState(false);
   
   
 
@@ -160,7 +156,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
               <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
 
                 
-                <SideBarWidget />
+                <SideBarWidget categories={categories} recentPosts={recentPosts} />
 
                 {/* <SideTray options='homeOptions'/> */}
 
@@ -211,7 +207,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                   <div className="transition-all duration-300 my-4 lg:sticky relative lg:top-[90px]">
 
                     
-                    <RightBarWidget />
+                    <RightBarWidget collections={collections} />
 
                   </div>
 
@@ -222,7 +218,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
                   <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
 
                     
-                    <SideBarWidget />
+                    <SideBarWidget categories={categories} recentPosts={recentPosts} />
 
                   </div>
 
@@ -248,11 +244,21 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
 export const getStaticProps = async () : Promise<{}> => {
 
-  const posts = (await getPosts()) || [];
-  const collections = (await getCollections()) || [];
+  try {
+    const posts = (await getPosts()) || [];
+    const collections = (await getCollections(6)) || [];
+    const recentPosts = (await getRecentPosts()) || [];
+    const categories = (await getCategories()) || [];
+    const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
 
-  return {
-    props: { posts, collections }
+    return {
+      props: { posts, collections, recentPosts, categories, featuredPosts }
+    }
+  }catch (e) {
+
+    console.log('error: ', e);
+
+    return Promise<{}>; 
   }
 }
 

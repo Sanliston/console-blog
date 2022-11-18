@@ -6,14 +6,21 @@ import {FaHome, FaColumns, FaRobot, FaFeather, FaQuestionCircle} from "react-ico
 import { getWithExpiry, HOUR_MS, setWithExpiry } from '../utils/utils';
 
 interface CollectionsWidgetProps {
-  nested?:boolean
+  nested?:boolean,
+  passedCollections?:[]
 }
 
-const CollectionsWidget = ({nested=false}: CollectionsWidgetProps): JSX.Element=> {
+const CollectionsWidget = ({passedCollections, nested=false}: CollectionsWidgetProps): JSX.Element=> {
 
     const [collections, setCollections] = useState([]);
 
     useEffect(()=>{
+
+        if (passedCollections) { //remove this while running locally
+          // Returns [] on first render, so the client and server match
+          
+          return setCollections(passedCollections);
+        }
 
         let localCollections = getWithExpiry('collections');
         if(localCollections){
@@ -22,7 +29,7 @@ const CollectionsWidget = ({nested=false}: CollectionsWidgetProps): JSX.Element=
           return;
         }
 
-        getCollections(10).then((results)=>{
+        getCollections(6).then((results)=>{
             setCollections(results);
 
             setWithExpiry('collections', JSON.stringify(results), HOUR_MS);
@@ -36,7 +43,7 @@ const CollectionsWidget = ({nested=false}: CollectionsWidgetProps): JSX.Element=
         {'Article Collections'}
       </h3>
       
-      {collections.map((item: any)=>(
+      {(passedCollections || collections).map((item: any)=>(
 
         <Link className='text-md text-copy-light dark:text-copy-dark' key={item.title} href={`/collections/${item.slug}`}>
 
