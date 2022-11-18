@@ -11,20 +11,19 @@ export type Post = {
 interface PostWidgetProps {
   categories?: [string],
   slug?: string,
-  nested?:boolean
+  nested?:boolean,
+  recentPosts?:[]
 }
 
-const PostWidget = ({categories, slug, nested=false}: PostWidgetProps): JSX.Element=> {
+const PostWidget = ({categories, slug, recentPosts, nested=false}: PostWidgetProps): JSX.Element=> {
 
   const [ relatedPosts, setRelatedPosts ] = useState<[]>([]);
-  const [hydrated, setHydrated] = React.useState(false);
 
   useEffect(()=>{
 
-    if (!hydrated) { //remove this while running locally
+    if (recentPosts) { //remove this while running locally
       // Returns [] on first render, so the client and server match
-      setHydrated(true);
-      return setRelatedPosts([]);
+      return setRelatedPosts(recentPosts);
     }
 
     if(slug){

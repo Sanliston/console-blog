@@ -6,20 +6,20 @@ import {FaHome, FaColumns, FaRobot, FaFeather, FaQuestionCircle} from "react-ico
 import { getWithExpiry, HOUR_MS, setWithExpiry } from '../utils/utils';
 
 interface CollectionsWidgetProps {
-  nested?:boolean
+  nested?:boolean,
+  passedCollections?:[]
 }
 
-const CollectionsWidget = ({nested=false}: CollectionsWidgetProps): JSX.Element=> {
+const CollectionsWidget = ({passedCollections, nested=false}: CollectionsWidgetProps): JSX.Element=> {
 
     const [collections, setCollections] = useState([]);
-    const [hydrated, setHydrated] = React.useState(false);
 
     useEffect(()=>{
 
-        if (!hydrated) { //remove this while running locally
+        if (passedCollections) { //remove this while running locally
           // Returns [] on first render, so the client and server match
-          setHydrated(true);
-          return setCollections([]);
+          
+          return setCollections(passedCollections);
         }
 
         let localCollections = getWithExpiry('collections');
@@ -29,7 +29,7 @@ const CollectionsWidget = ({nested=false}: CollectionsWidgetProps): JSX.Element=
           return;
         }
 
-        getCollections(10).then((results)=>{
+        getCollections(6).then((results)=>{
             setCollections(results);
 
             setWithExpiry('collections', JSON.stringify(results), HOUR_MS);

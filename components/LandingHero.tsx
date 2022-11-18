@@ -80,7 +80,6 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
 
     useEffect(()=>{
         //initial search on component load
-         
 
         if(featuredPosts.length > 3){
             setMoreInitialPosts(true);
@@ -90,7 +89,7 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
 
         setInitialPosts(featuredPosts.filter((post:any, index:number)=>index < 3));
         
-    }, []);
+    }, [featuredPosts]);
 
     return (
 
