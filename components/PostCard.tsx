@@ -28,7 +28,7 @@ const PostCard = ({ post }: Post): JSX.Element => {
     <div className='bg-background-light border-t-[1px] border-border-light dark:border-border-dark dark:bg-element-dark flex flex-col items-center text-copy-light dark:text-copy-dark p-4 '>
         
         <div className='flex flex-col md:flex-row items-center md:align-center md:justify-between w-full'>
-          <div className='flex flex-col items-start justify-start md:mr-4'>
+          <div className='flex flex-col items-start justify-start md:mr-4 w-full'>
         
             <div className='block relative flex flex-row md:flex-row text-center items-end justify-start w-full mb-4'>
 
@@ -47,12 +47,12 @@ const PostCard = ({ post }: Post): JSX.Element => {
 
               <div className='flex flex-row items-center self-end mb-[20px] justify-center ml-2 text-sm z-10 rounded-md'>
 
-                <p className='block relative align-middle font-bold text-copy-light dark:text-copy-dark/[0.5] mr-3'>
+                <p className='block relative align-middle font-bold text-copy-light dark:text-copy-dark/[0.5] mr-2'>
                   {post.author.name}
                 </p>
 
-                <div className='block font-medium text-sm text-copy-light dark:text-copy-dark/[0.5] flex flex-row align-center justify-center'>
-                  <FiCalendar className='mt-[3px] mr-3' />
+                <div className='block font-medium text-sm text-copy-light dark:text-copy-dark/[0.5] flex flex-row align-center justify-center italic'>
+                  <FiCalendar className='mt-[3px] mr-1' />
                   <span className=''>
                     {moment(post.createdAt).format('MMM DD, YYYY')}
                   </span>
@@ -73,7 +73,7 @@ const PostCard = ({ post }: Post): JSX.Element => {
 
             {/* */}
 
-            <p className='text-md text-copy-light dark:text-copy-dark/[0.8] font-light w-full'>
+            <p className='text-md text-copy-light dark:text-copy-dark/[0.8] w-full'>
               {post.excerpt}
             </p>
 

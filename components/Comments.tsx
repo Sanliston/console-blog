@@ -15,8 +15,6 @@ const Comments = ( {slug}: CommentsProps) : JSX.Element => {
 
         getComments(slug).then((result)=>{
             setComments(result);
-
-            console.log("comments: ", result);
         });
 
     }, [slug]);
@@ -24,7 +22,7 @@ const Comments = ( {slug}: CommentsProps) : JSX.Element => {
     return (
         <>
             {comments.length > 0 && (
-                <div className='bg-background-light dark:bg-element-dark/[0.3] text-copy-light dark:text-copy-dark md:rounded-lg p-8 pb-12 mb-8'>
+                <div className='bg-background-light dark:bg-element-dark/[0.3] text-copy-light dark:text-copy-dark md:rounded-lg p-8 pb-12 lg:mb-8'>
                     <h3 className='text-xl mb-8 font-semibold border-b pb-4'>
                         {comments.length}
                         {' '}

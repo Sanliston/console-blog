@@ -9,6 +9,7 @@ import CollectionsWidget from '../../components/CollectionsWidget';
 import useScrollDirection from '../../hooks/useScrollDirection';
 import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
 import SideBarWidget from '../../components/SideBarWidget';
+import RightBarWidget from '../../components/RightBarWidget';
 
 interface TagIndexProps {
     tags: []
@@ -17,8 +18,6 @@ interface TagIndexProps {
 const TagsIndex = ({ tags }: TagIndexProps) : JSX.Element => {
   const router = useRouter();
   const { categories, menu } = useContext(StateContext);
-  const scrollDirection = useScrollDirection();
-  const {scrollY} = useWindowScrollPositions(); 
 
   if (router.isFallback) {
     return <Loader />;
@@ -72,7 +71,7 @@ const TagsIndex = ({ tags }: TagIndexProps) : JSX.Element => {
           <div className={"relative lg:sticky transition-all duration-300 top-[100px]"
             
           }>
-            <CollectionsWidget />
+            <RightBarWidget />
           </div>
         </div>
       </div>
@@ -84,7 +83,6 @@ export default TagsIndex;
 // Fetch data at build time
 export async function getStaticProps({ params }:any) {
 
-    console.log("params: ", params);
   const tags = await getCategories();
 
   return {

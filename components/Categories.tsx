@@ -19,7 +19,7 @@ const Categories  = ({nested = false}: CategoriesProps): JSX.Element => {
     return (
         <div className={'rounded-lg p-6 my-4 dark:m-0 mb-8 bg-background-light dark:bg-element-dark ' + (nested ? '' : 'border-[1px] dark:border-0 border-border-light')}>
 
-            <h3 className='text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'>
+            <h3 className='text-xl mb-8 border-b border-border-light dark:border-copy-dark pb-4 text-copy-light dark:text-copy-dark'>
                 Popular Tags
             </h3>
 

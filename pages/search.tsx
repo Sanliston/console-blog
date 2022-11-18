@@ -28,8 +28,6 @@ const SearchPosts = () : JSX.Element => {
     const [lastQuery, setLastQuery] = useState('');
     const [userSearched, setUserSearched] = useState(false);
 
-    console.log(router.query);
-
     const searchEl = useRef<HTMLInputElement>(null);
     useEffect(()=>{
 
@@ -50,11 +48,8 @@ const SearchPosts = () : JSX.Element => {
         const searchQuery:string = searchEl!.current!.value; 
 
         if(debounce && !force){
-            console.log("debounced");
             return; 
         }
-
-        console.log("searched, searchEl: ", searchEl!.current!.value);
 
         setDebounce(true);
         setTimeout(()=>{
@@ -74,7 +69,6 @@ const SearchPosts = () : JSX.Element => {
     const updatePosts = (searchQuery:string):void => {
 
         setSearchQuery(searchQuery);
-        console.log("last query set: ", searchQuery);
 
 
         //check if contains only white space
@@ -242,10 +236,20 @@ const SearchPosts = () : JSX.Element => {
                     ))}
                 </div>
 
-                <div className="col-span-1 lg:col-span-3">
+                <div className="hidden lg:block col-span-1 lg:col-span-3">
                     <div className="relative lg:sticky top-[100px]">
                         <CollectionsWidget />
                     </div>
+                </div>
+                <div className='block lg:hidden lg:col-span-3  col-span-1'>
+
+                  <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
+
+                    
+                    <SideBarWidget />
+
+                  </div>
+
                 </div>
             </div>
         </div>

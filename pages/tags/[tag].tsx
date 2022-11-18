@@ -8,6 +8,7 @@ import Link from 'next/link';
 import useScrollDirection from '../../hooks/useScrollDirection';
 import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
 import SideBarWidget from '../../components/SideBarWidget';
+import RightBarWidget from '../../components/RightBarWidget';
 
 interface TagPostProps {
     posts: [],
@@ -17,14 +18,10 @@ interface TagPostProps {
 const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   const router = useRouter();
   const { categories, menu } = useContext(StateContext);
-  const {scrollY} = useWindowScrollPositions();
-  const scrollDirection = useScrollDirection();
 
   if (router.isFallback) {
     return <Loader />;
   }
-
-  console.log("categories: ", categories, " tag: ", tag);
 
   return (
     <div className={"container text-copy-light dark:text-copy-dark flex flex-col items-center mx-auto md:px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500 pb-[200px]')}>
@@ -69,7 +66,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
 
         <div className="col-span-1 lg:col-span-3">
           <div className={ "relative lg:sticky transition-all duration-300 lg:top-[100px]"}>
-            <CollectionsWidget />
+            <RightBarWidget />
           </div>
         </div>
       </div>
@@ -81,7 +78,6 @@ export default TagPost;
 // Fetch data at build time
 export async function getStaticProps({ params }:any) {
 
-    console.log("params: ", params);
   const posts = await getTagPosts(params.tag);
 
   return {

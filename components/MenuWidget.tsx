@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import Link from 'next/link';
 import { getRecentPosts, getSimilarPosts } from '../services';
-import {FaHome, FaColumns, FaRobot, FaFeather, FaQuestionCircle, FaLayerGroup } from "react-icons/fa";
+import {FaHome, FaColumns, FaRobot, FaFeather, FaQuestionCircle, FaLayerGroup, FaSearch } from "react-icons/fa";
 import { StateContext } from '../pages/_app';
 
 interface MenuWidgetProps {
@@ -53,6 +53,12 @@ const MenuWidget = ({popUp = true}: MenuWidgetProps): JSX.Element=> {
     }, []); 
 
     var menuItems = [
+
+        {
+          name: "Search",
+          path: "/search",
+          icon: <FaSearch />
+        },
         {
             name: "Home",
             path: "/",
@@ -95,7 +101,6 @@ const MenuWidget = ({popUp = true}: MenuWidgetProps): JSX.Element=> {
     }
 
     const toggleDarkMode = () => {
-      console.log('toggling darkMode: ', appState.darkMode);
       appState.setAppState({
         ...appState,
         darkMode: !appState.darkMode
@@ -104,7 +109,7 @@ const MenuWidget = ({popUp = true}: MenuWidgetProps): JSX.Element=> {
 
   return (
     
-    <div className='rounded-lg p-8 mb-8'>
+    <div className='rounded-lg p-8 px-0 pr-4 mb-8'>
 
       {
         popUp &&
@@ -120,7 +125,7 @@ const MenuWidget = ({popUp = true}: MenuWidgetProps): JSX.Element=> {
         
           <Link className='text-md text-copy-light dark:text-copy-dark' key={item.name} href={`${item.path}`}>
             <div 
-              className={'custom-animated-delay transition-all flex flex-grow flex-row mb-2 cursor-pointer duration-300 hover:bg-black/[0.2] py-3 px-4 rounded-full' + (appState.menu || !popUp ? ' menu-item-show': ' menu-item-hide')}
+              className={'custom-animated-delay transition-all flex flex-grow flex-row mb-2 cursor-pointer duration-300 hover:bg-black/[0.2] py-3 lg:px-4 rounded-full' + (appState.menu || !popUp ? ' menu-item-show': ' menu-item-hide')}
               style={{
                 opacity: appState.menu || !popUp ? 0 : 1, //so animations don't flicker between change of state
                 '--custom-delay': index*50+'ms '
