@@ -1,9 +1,16 @@
+import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
 import { StateContext } from '../pages/_app';
 
 const Burger3 = () => {
 
     const appState = useContext(StateContext);
+    const {scrollY} = useWindowScrollPositions(); 
+    const {windowHeight} = useWindowDimensions();
+
+    const router = useRouter();
 
     const handleClick = () => {
         console.log('handle click called');
@@ -20,7 +27,7 @@ const Burger3 = () => {
 
         let lineClass = ' line'; 
 
-        if(appState.menu && !appState.darkMode){
+        if((!appState.darkMode && (scrollY > windowHeight || router.pathname != '/changeToMakeTransparentOnMain')) || (!appState.darkMode && appState.menu)){
 
             lineClass = 'line-light'; 
             

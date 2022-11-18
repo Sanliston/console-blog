@@ -129,6 +129,14 @@ export const searchPosts = async (searchQuery: string, max: number = 6): Promise
                     name
                     slug
                 }
+                author {
+                    bio
+                    id
+                    name
+                    photo {
+                    url
+                    }
+                }
             }
         }
     `; 

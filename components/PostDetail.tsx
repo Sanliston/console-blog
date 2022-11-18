@@ -57,7 +57,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
     }
 
     return (
-        <div className='border-[2px] dark:border-[0px] text-copy-light dark:text-copy-dark bg-background-light dark:bg-element-dark md:rounded-lg lg:p-0 pb-12 mb-8 mt-[150px] text-white/[0.8]'>
+        <div className=' text-copy-light dark:text-copy-dark  md:rounded-lg lg:p-0 pb-12 mb-8 mt-[100px] text-white/[0.8]'>
 
             <div className='relative overflow-hidden shadow-d shadow-lg'>
 
@@ -65,7 +65,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                 
                     src={post.featuredImage.url}
                     alt={post.title}
-                    className='object-top h-full w-full md:rounded-t-lg'
+                    className='object-top h-full w-full md:rounded-lg'
                 />
             </div>
 
@@ -79,7 +79,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                             alt={post.author.name}
                             height="100px"
                             width="100px"
-                            className='align-middle rounded-full border-[10px] border-background-light dark:border-element-dark'
+                            className='align-middle rounded-full border-[10px] border-backfall-light dark:border-background-dark'
                             src={post.author.photo.url}
                         />
 
@@ -108,7 +108,7 @@ const PostDetail = ({ post } : PostDetailProps) : JSX.Element => {
                     {post.categories.map((category:any)=>(
 
                         <Link href={`/tags/${category.slug}`} key={category.slug}>
-                            <span className="relative cursor-pointer absolute px-3 py-1 mx-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm">
+                            <span className="relative cursor-pointer absolute px-4 py-2 mr-2 border-[1.5px] dark:border-0 border-border-light dark:border-border-dark dark:bg-element-dark text-copy-light dark:text-copy-dark/[0.8] rounded-lg text-sm">
                                 {`#${category.name}`}
                             </span>
                         </Link>

@@ -9,10 +9,11 @@ export type Post = {
 }
 interface PostWidgetProps {
   categories?: [string],
-  slug?: string
+  slug?: string,
+  nested?:boolean
 }
 
-const PostWidget = ({categories, slug}: PostWidgetProps): JSX.Element=> {
+const PostWidget = ({categories, slug, nested=false}: PostWidgetProps): JSX.Element=> {
 
   const [ relatedPosts, setRelatedPosts ] = useState<[]>([]);
 
@@ -32,7 +33,7 @@ const PostWidget = ({categories, slug}: PostWidgetProps): JSX.Element=> {
   }, [slug]);
 
   return (
-    <div className='rounded-lg p-6 m-4 dark:m-0  min-w-[300px] mb-8 bg-background-light dark:bg-background-dark border-[1px] dark:border-0 border-border-light'>
+    <div className={'rounded-lg p-6 dark:m-0 bg-background-light dark:bg-element-dark '+ (nested ? '' : ' my-4 mb-8 border-[1px] dark:border-0 border-border-light')}>
 
       <h3 className='text-xl mb-8 border-b border-copy-light dark:border-copy-dark pb-4 text-copy-light dark:text-copy-dark'>
         {slug ? 'Related Posts' : 'Recent Posts'}

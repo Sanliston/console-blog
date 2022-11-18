@@ -9,15 +9,15 @@ export type Category = {
     slug?: string
 }
 interface CategoriesProps {
-    
+    nested?:boolean
 }
 
-const Categories  = (props: CategoriesProps): JSX.Element => {
+const Categories  = ({nested = false}: CategoriesProps): JSX.Element => {
 
     const { categories } = useContext(StateContext);
 
     return (
-        <div className='rounded-lg p-6 m-4 dark:m-0  min-w-[300px] mb-8 bg-background-light dark:bg-background-dark border-[1px] dark:border-0 border-border-light'>
+        <div className={'rounded-lg p-6 my-4 dark:m-0 mb-8 bg-background-light dark:bg-element-dark ' + (nested ? '' : 'border-[1px] dark:border-0 border-border-light')}>
 
             <h3 className='text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'>
                 Popular Tags
@@ -29,7 +29,7 @@ const Categories  = (props: CategoriesProps): JSX.Element => {
 
                     <Link className='txt-md' href={`/tags/${category.slug}`}>
 
-                        <span className='cursor-pointer px-3 py-1 mx-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm'>
+                        <span className='relative cursor-pointer absolute px-4 py-2 mr-2 border-[1.5px] dark:border-0 border-border-light dark:border-border-dark dark:bg-background-dark text-copy-light dark:text-copy-dark/[0.8] rounded-lg text-sm'>
                             {`#${category.name}`}
                         </span>
                         

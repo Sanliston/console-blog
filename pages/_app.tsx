@@ -14,7 +14,7 @@ interface AppState {
 const initialState: AppState = {
   categories: [],
   menu: false,
-  darkMode: true, 
+  darkMode: false, 
 }; //don't pass anonymous objects into context
 
 export const StateContext = React.createContext(initialState);

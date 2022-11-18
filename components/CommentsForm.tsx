@@ -69,7 +69,7 @@ const CommentsForm = ( {slug} : CommentsFormProps ) : JSX.Element => {
 
                     <input 
                         type='text'
-                        className='p-4 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700'
+                        className='p-4 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-sky-400 bg-gray-100 text-gray-700 dark:bg-element-dark'
                         ref={nameEl}
                         placeholder='Your name'
                         name='name'
@@ -80,7 +80,7 @@ const CommentsForm = ( {slug} : CommentsFormProps ) : JSX.Element => {
 
                     <input 
                         type='text'
-                        className='p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700'
+                        className='p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-sky-400 bg-gray-100 text-gray-700 dark:bg-element-dark'
                         ref={emailEl}
                         placeholder='Your email'
                         name='email'
@@ -93,7 +93,7 @@ const CommentsForm = ( {slug} : CommentsFormProps ) : JSX.Element => {
 
                 <textarea 
                     ref={commentEl} 
-                    className='p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700'
+                    className='p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-sky-400 bg-gray-100 text-gray-700 dark:bg-element-dark'
                     placeholder='Your Comment'
                     name='comment'
                 >
@@ -129,7 +129,7 @@ const CommentsForm = ( {slug} : CommentsFormProps ) : JSX.Element => {
                 <button 
                     type='button' 
                     onClick={handleSubmit}
-                    className='transition duration-500 ease hover:bg-black/[0.7] inline-block bg-button-color text-lg rounded-full text-white px-8 py-3 cursor-pointer mr-5 mb-5 md:mb-0'
+                    className='transition duration-500 ease hover:bg-black/[0.7] inline-block bg-button-color text-lg rounded-lg text-white px-8 py-3 cursor-pointer mr-5 mb-5 md:mb-0'
                 >
                     Post Comment
                 </button>

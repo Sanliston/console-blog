@@ -30,7 +30,7 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     const focusedRef = useRef<HTMLDivElement>(null);
     const isFirstRender = useRef(true);
 
-    const {scrollX, scrollY} = useWindowScrollPositions(); 
+    const {scrollX, scrollY} = useWindowScrollPositions(); //expensive - find other way
     const {windowHeight, windowWidth } = useWindowDimensions(); 
 
     const {menu} = useContext(StateContext);

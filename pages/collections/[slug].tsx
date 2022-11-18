@@ -2,7 +2,7 @@ import React, { useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 import { getCategories, getCollection, getCollections, getTagPosts } from '../../services';
-import { PostCard, Categories, Loader, MenuWidget } from '../../components';
+import { PostCard, Categories, Loader, MenuWidget, SideTray, PostWidget } from '../../components';
 import { StateContext } from '../_app';
 import Link from 'next/link';
 import { truncate } from '../../utils/utils';
@@ -11,6 +11,7 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { FiArrowDownCircle } from 'react-icons/fi';
 import CollectionsWidget from '../../components/CollectionsWidget';
 import useScrollDirection from '../../hooks/useScrollDirection';
+import SideBarWidget from '../../components/SideBarWidget';
 
 interface TagPostProps {
     slug: string,
@@ -190,41 +191,39 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
       </div>
 
-      <div className={'relative top-[100vh] min-w-[100vw] bg-element-light dark:bg-background-dark container flex flex-col items-center mx-auto px-3 '+(menu?' blur-filter': ' trans-100')}
+      <div className={'container relative top-[100vh] min-w-[100vw] bg-element-light dark:bg-background-dark container flex flex-col items-center mx-auto px-3 '+(menu?' blur-filter': ' trans-100')}
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
         }}
       >
-        <h1 ref={scrollRef} className=' text-copy-light dark:text-copy-dark font-bold text-4xl py-10 pt-[120px] font-staatliches'>
+        <h1 ref={scrollRef} className=' text-copy-light dark:text-copy-dark font-bold text-4xl py-10 pt-[120px] font-inter'>
           {`${collection.title} Collection`}
         </h1>
 
-        <div className='grid grid-cols-1 lg:grid-cols-8 gap-1'>
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-1 col-span-1 lg:col-span-6 lg:col-start-2 mx-auto ">
+          <div className="container grid grid-cols-1 lg:grid-cols-12 gap-4 ">
 
-            <div className='hidden lg:block lg:col-span-1  col-span-1'>
+            <div className='hidden lg:block lg:col-span-3  col-span-1'>
 
-              <div className={"lg:sticky relative transition-all duration-300 lg:top-[150px]"}>
+              <div className={"lg:sticky relative transition-all duration-300 lg:top-[100px]"}>
 
-                  <CollectionsWidget />
+                <SideBarWidget/>
 
               </div>
 
             </div>
 
-            <div className="col-span-1 lg:col-span-3 ">
+            <div className="col-span-1 lg:col-span-6 p-4 py-[50px] bg-background-light dark:bg-element-dark rounded-lg border-[1px] dark:border-0 border-border-light">
               {collection.posts.map((post:any, index:number) => (
                 <PostCard key={index} post={post} />
               ))}
             </div>
 
-            <div className="col-span-1">
-              <div className={"relative lg:sticky transition-all duration-300 lg:top-[150px]"}>
-                <Categories />
+            <div className="col-span-1 lg:col-span-3">
+              <div className={"relative lg:sticky transition-all duration-300 lg:top-[100px]"}>
+                <CollectionsWidget />
               </div>
             </div>
           </div>
-        </div>
         
       </div>
 

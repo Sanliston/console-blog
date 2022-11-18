@@ -2,11 +2,12 @@ import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 
 import { getCategories, getTagPosts } from '../../services';
-import { PostCard, Categories, Loader, MenuWidget, CollectionsWidget } from '../../components';
+import { PostCard, Categories, Loader, MenuWidget, CollectionsWidget, SideTray } from '../../components';
 import { StateContext } from '../_app';
 import Link from 'next/link';
 import useScrollDirection from '../../hooks/useScrollDirection';
 import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
+import SideBarWidget from '../../components/SideBarWidget';
 
 interface TagPostProps {
     posts: [],
@@ -28,7 +29,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   return (
     <div className={"container text-copy-light dark:text-copy-dark flex flex-col items-center mx-auto px-2 md:px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500')}>
 
-      <h1 className=' font-bold text-4xl py-10'>
+      <h1 className=' font-bold text-4xl py-10 font-inter'>
        {`#${tag} Articles`}
       </h1>
 
@@ -39,7 +40,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
               {categories.map((category:any)=>(
 
                   <Link href={`/tags/${category.slug}`} key={category.slug}>
-                      <span className={`relative cursor-pointer absolute px-3 py-1 m-2 bg-slate-400 dark:bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm dark:border-white ${tag === category.slug? ' bg-secondary-dark p-[20px] ': 'border-[0px]'}`}>
+                      <span className={`relative cursor-pointer absolute px-3 py-2 m-2 bg-element-light dark:bg-element-dark hover:bg-slate-700 text-white rounded-lg text-sm dark:border-white ${tag === category.slug? ' bg-secondary-dark dark:bg-secondary-dark p-[20px] ': 'border-[0px]'}`}>
                           {`#${category.name}`}
                       </span>
                   </Link>
@@ -48,27 +49,27 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
           </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-1">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-      <div className='hidden lg:block lg:col-span-1  col-span-1'>
+      <div className='hidden lg:block lg:col-span-3  col-span-1'>
 
-        <div className={"lg:sticky relative transition-all duration-300 lg:top-[150px]"}>
+        <div className={"lg:sticky relative transition-all duration-300 lg:top-[100px]"}>
 
-            <CollectionsWidget />
+          <SideBarWidget />
 
         </div>
 
       </div>
 
-        <div className="col-span-1 lg:col-span-3">
+        <div className="col-span-1 lg:col-span-6 p-4 py-[50px] bg-background-light dark:bg-element-dark rounded-lg border-[1px] dark:border-0 border-border-light">
           {posts.map((post:any, index:number) => (
             <PostCard key={index} post={post.node} />
           ))}
         </div>
 
-        <div className="col-span-1">
-          <div className={ "relative lg:sticky transition-all duration-300 lg:top-[150px]"}>
-            <Categories />
+        <div className="col-span-1 lg:col-span-3">
+          <div className={ "relative lg:sticky transition-all duration-300 lg:top-[100px]"}>
+            <CollectionsWidget />
           </div>
         </div>
       </div>

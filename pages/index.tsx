@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget, IntroBanner, FeaturedGrid } from '../components/';
+import { PostCard, Categories, PostWidget, LandingHero, MenuWidget, FeaturedCollections, SlidingCollections, CollectionsWidget, IntroBanner, FeaturedGrid, SideTray } from '../components/';
 import { Category } from '../components/Categories';
 import FeaturedPosts from '../components/FeaturedPosts';
 import TestFeatured from '../components/TestFeature';
@@ -15,6 +15,7 @@ import createScrollSnap from 'scroll-snap';
 import { BsCloudMoonFill } from "react-icons/bs";
 import useOnScreen from '../hooks/useOnScreen';
 import _ from 'lodash'; 
+import SideBarWidget from '../components/SideBarWidget';
 
 interface HomeProps {
   posts: [],
@@ -45,7 +46,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   const [lastScroll, setLastScroll] = useState(new Date());
   const collectionsRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null); 
-  const collectionOnScreen = useOnScreen(collectionsRef); 
+  // const collectionOnScreen = useOnScreen(collectionsRef); 
   const [snapping, setSnapping] = useState(false);
   
   
@@ -67,54 +68,56 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
   //   //if collectionsRef is 50% in view scroll to it
   //   console.log('collections is in view, scrollY: ', scrollY, " collections top: ", collectionsRef.current!.offsetTop, " offsetHeight: ", collectionsRef.current!.offsetHeight);
 
-    if(collectionOnScreen && (scrollY > (collectionsRef.current!.offsetTop-collectionsRef.current!.offsetHeight)+500 && scrollY <  collectionsRef.current!.offsetTop+300)){
+    // if(collectionOnScreen && (scrollY > (collectionsRef.current!.offsetTop-collectionsRef.current!.offsetHeight)+500 && scrollY <  collectionsRef.current!.offsetTop+300)){
 
       
-    }
+    // }
 
   // }, [collectionOnScreen, scrollY]);
 
-  const snapCollections = (top:number) => {
 
-    console.log('scrollY: ', top, " collections top: ", collectionsRef.current!.offsetTop, " offsetHeight: ", collectionsRef.current!.offsetHeight);
-    if((top > (collectionsRef.current!.offsetTop-collectionsRef.current!.offsetHeight)+(0.5 * collectionsRef.current!.offsetHeight) && top <  collectionsRef.current!.offsetTop+(0.5 * collectionsRef.current!.offsetHeight ))){
+  //EVerything below is disabled for now but should be enabled when put the collections banner back
+  // const snapCollections = (top:number) => {
 
-      console.log('collections in view');
+  //   console.log('scrollY: ', top, " collections top: ", collectionsRef.current!.offsetTop, " offsetHeight: ", collectionsRef.current!.offsetHeight);
+  //   if((top > (collectionsRef.current!.offsetTop-collectionsRef.current!.offsetHeight)+(0.5 * collectionsRef.current!.offsetHeight) && top <  collectionsRef.current!.offsetTop+(0.5 * collectionsRef.current!.offsetHeight ))){
 
-      setSnapping(true);
-      window.scrollTo({
-        top: collectionsRef.current?.offsetTop,
-        behavior: 'smooth'
-      });
+  //     console.log('collections in view');
 
-      setTimeout(()=>{
-        //stop any further scroll animations for 2 seconds
+  //     setSnapping(true);
+  //     window.scrollTo({
+  //       top: collectionsRef.current?.offsetTop,
+  //       behavior: 'smooth'
+  //     });
 
-        setSnapping(false);
-      }, 500);
-    }
-  }
+  //     setTimeout(()=>{
+  //       //stop any further scroll animations for 2 seconds
 
-  const theBounce = useCallback(_.debounce((top:number)=>{
+  //       setSnapping(false);
+  //     }, 500);
+  //   }
+  // }
+
+  // const theBounce = useCallback(_.debounce((top:number)=>{
         
-        return snapCollections(top);
+  //       return snapCollections(top);
 
-    }, 500), []);
+  //   }, 500), []);
 
-  useEffect(()=>{
-    console.log('scrolling');
-    setScrollTop(scrollY);
+  // useEffect(()=>{
+  //   console.log('scrolling');
+  //   setScrollTop(scrollY);
 
-    if(!snapping){
-      theBounce(scrollY);
-    }
+  //   if(!snapping){
+  //     theBounce(scrollY);
+  //   }
     
-  }, [scrollY]);
+  // }, [scrollY]);
   
 
   return (
 
-      <div ref={containerRef} className={"container scroll-snap-parent mx-auto px-0 top-[0px] relative"} style={{minWidth: '100vw'}}
+      <div ref={containerRef} className={"container flex flex-col items-center justify-center scroll-snap-parent mx-auto px-0 top-[0px] relative"} style={{minWidth: '100vw'}}
       
       >
         <Head>
@@ -122,95 +125,120 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-
-        <section className='block shadow-lg relative w-full min-h-[320vh] lg:min-h-[300vh] bg-background-light dark:bg-background-dark top-[0px] z-10 flex flex-col' style={{minWidth: '100vw'}}>
-
-          <div className={'block h-[100vh] flex flex-col items-center justify-center'}>
-
-            <div className={`${scrollY < windowHeight*1.5 ? 'block ': ' hidden '}` + 'transition-none duration-0 min-h-[100vh] h-[100vh] w-[100vw]'}>
-              <IntroBanner collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={0} />
-            </div>
+        {/* <section className={ ' transition-none duration-0 relative w-full min-h-[120vh] lg:min-h-[100vh] z-11 '} style={{minWidth: '100vw'}}>
+          <div className={`${scrollY < windowHeight*1.5 ? 'block ': ' hidden '}`}>
             
-
-
           </div>
-
-          <section ref={searchRef} className='block relative w-full bg-background-light dark:bg-background-dark transition-all duration-300 h-auto z-11' style={{minWidth: '100vw'}}>
-            <LandingHero featuredPosts={featuredPosts as []}/>
-          </section>
-
-          <div className='relative bg-background-light dark:bg-background-dark block z-11'>
-
-            <div className='py-[20px]'>
-              <FeaturedGrid posts={posts} />
-            </div>
-            
-
-          </div>
-
-        </section>
-
-        <section ref={collectionsRef} className={`${scrollY > windowHeight*1.5 ? 'block ': ' hidden '}` + ' transition-none duration-0 relative w-full min-h-[120vh] lg:min-h-[100vh] z-5 '} style={{minWidth: '100vw'}}>
-          <SlidingCollections collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={3}/>
-        </section>
-
-        <section style={{minWidth: '100vw'}} className={'relative block pt-[50px] bg-element-light dark:bg-background-dark z-5'+(menu? ' blur-filter ': ' trans-500')}>
-
-          <div
-              className='block relative divider py-[100px] pb-[50px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] py-5 font-staatliches text-copy-light dark:text-copy-dark'
-            >
-                <div className='w-[10%] min-w-[100px] h-[1px] bg-copy-light dark:bg-copy-dark  rounded-full'>
-
-                </div>
-
-                <span className='px-3'>
-                  Latest Posts
-                </span>
-
-                <div className='w-[10%] min-w-[100px] h-[1px] bg-copy-light dark:bg-copy-dark  rounded-full'>
-
-                </div>
-                  
-          </div>
-
-          <div className='container mx-auto px-0 mb-8 '>
-            
-            <div className='grid grid-cols-1 lg:grid-cols-5 gap-1 pt-[10]'>
-
-              <div className='hidden lg:block lg:col-span-1  col-span-1'>
-
-                <div className="transition-all duration-300 lg:sticky relative lg:top-[150px]">
-
-                  <CollectionsWidget />
-
-                </div>
-
-              </div>
-
-              <div className="lg:col-span-3  col-span-1 px-2 lg:px-0">
-                {posts.map((post:any, index) => <PostCard post={post} key={post.title}/>)}
-              </div>
-
-              <div className='lg:col-span-1 col-span-1'>
-
-              
-
-                <div className="transition-all duration-300 lg:sticky relative lg:top-[150px]">
-
-                  <PostWidget />
-                  <Categories />
-
-                </div>
-              
-              </div>
-              
-            </div>
-          </div>
-        </section>
-
+          
+        </section> */}
 
 
         
+
+        {/* <section ref={collectionsRef} className={' transition-none duration-0 relative w-full min-h-[120vh] lg:min-h-[100vh] z-5 '} style={{minWidth: '100vw'}}>
+          <div className={`${scrollY > windowHeight*1.5 ? 'block ': ' hidden '}`}>
+            <IntroBanner collectionsProp={collections} scrollRef={searchRef} title='Featured Collections' featured={true} windowOffset={3} />
+          </div>
+          
+        </section> */}
+
+        <section 
+          style={{
+            width: '100vw', 
+            maxWidth: '1500px', 
+          }} 
+          className={'relative pt-[50px] flex flex-col items-center justify-center z-5 mx-0'+(menu? ' blur-filter ': ' trans-500')}
+          >
+
+
+          <div className='grid grid-cols-1 lg:grid-cols-12 gap-4 pt-[10]'>
+
+            <div className='hidden lg:block lg:col-span-3  col-span-1'>
+
+              <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
+
+                
+                <SideBarWidget />
+
+                {/* <SideTray options='homeOptions'/> */}
+
+              </div>
+
+            </div>
+
+            
+
+            <div className="relative lg:col-span-9  col-span-1 px-0 lg:top-[40px]">
+
+              <div className='block lg:rounded-lg relative w-auto flex flex-col bg-background-light dark:bg-background-dark md:border-[1px] dark:border-0 border-border-light overflow-hidden'>
+                <LandingHero featuredPosts={featuredPosts as []}/>
+              </div>
+              
+
+              <div className='grid grid-cols-1 lg:grid-cols-9 gap-4 '> 
+
+                <div className='lg:rounded-lg col-span1 lg:col-span-6 bg-background-light dark:bg-element-dark relative md:top-[15px] md:border-[1px] dark:border-0 border-border-light p-2 md:p-4 pb-[100px]'>
+                  {/* <section className='block rounded-lg relative w-auto top-0 md:top-[15px] z-10 flex flex-col bg-background-light dark:bg-background-dark border-[1px] dark:border-0 border-border-light overflow-hidden' style={{}}>
+
+                    <div className='relative bg-background-light dark:bg-background-dark block z-11'>
+
+                      <div className='py-[20px]'>
+                        <FeaturedGrid posts={posts} />
+                      </div>
+                      
+
+                    </div>
+
+                  </section> */}
+
+                  <div
+                    className='block relative divider py-[50px] pb-[50px] w-full flex flex-row items-center justify-center  text-[30px] md:text-[40px] font-inter font-[600] text-copy-light dark:text-copy-dark'
+                    >
+
+                      <span className='px-3'>
+                        Latest Posts
+                      </span>
+                        
+                  </div>
+
+                  {posts.map((post:any, index) => <PostCard post={post} key={post.title}/>)}
+                </div>
+
+                <div className='hidden lg:block lg:col-span-3  col-span-1'>
+
+                  <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
+
+                    
+                    <CollectionsWidget />
+
+                  </div>
+
+                </div>
+
+                <div className='block lg:hidden lg:col-span-3  col-span-1'>
+
+                  <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
+
+                    
+                    <SideBarWidget />
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              
+
+              
+            </div>
+
+            
+
+          </div>
+
+          
+        </section>
         
       </div>
   )

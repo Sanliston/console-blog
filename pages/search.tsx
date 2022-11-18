@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { truncate } from '../utils/utils';
 import { StateContext } from './_app';
 import { BsCloudMoonFill } from "react-icons/bs";
+import moment from 'moment';
+import SideBarWidget from '../components/SideBarWidget';
 
 interface SearchPostProps {
     posts: [],
@@ -121,8 +123,8 @@ const SearchPosts = () : JSX.Element => {
                                     <BsCloudMoonFill/>
                                 </div>
 
-                                <span className='text-2xl md:text-4xl font-[900] pt-[20px] text-center font-labelle'>
-                                    Console.blog();
+                                <span className='text-2xl md:text-4xl font-[900] pt-[20px] text-center font-inter'>
+                                    Console.blog()
                                 </span>
                                 
                             </div>
@@ -138,7 +140,7 @@ const SearchPosts = () : JSX.Element => {
                                 
                                 <input 
                                     type='text'
-                                    className='transition-all duration-500 p-4 px-4 m-4 outline-none w-full md:w-[70%] bg-element-dark/[0.1] dark:bg-black/[0.3] rounded-full focus:ring-2 focus:ring-white/[0.3] text-lg text-center'
+                                    className='transition-all duration-500 p-4 px-4 m-4 outline-none w-full md:w-[70%] bg-element-dark/[0.1] dark:bg-black/[0.3] rounded-full focus:ring-2 focus:ring-sky-400 text-lg text-center'
                                     placeholder='Your query'
                                     name='search'
                                     ref={searchEl}
@@ -169,66 +171,82 @@ const SearchPosts = () : JSX.Element => {
                 {posts.length > 0 ? 'Results for: '+ searchQuery : 'No results'}
             </h1>
 
-            <div className="container grid grid-cols-1 lg:grid-cols-5 gap-1">
+            <div className="container grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-                {/* <div className='hidden lg:block lg:col-span-1  col-span-1'>
+                <div className='hidden lg:block lg:col-span-3  col-span-1'>
 
                     <div className="lg:sticky relative top-[100px]">
 
-                        <CollectionsWidget />
+                        <SideBarWidget />
 
                     </div>
 
-                </div> */}
+                </div>
 
                 <div className="col-span-1 lg:col-span-5">
                     {posts.map((post:any, index:number) => (
                         <Link href={`/post/${post.slug}`} key={post.id}>
-                            <div className='flex flex-col md:flex-row justify-items-start items-center w-full md:h-[300px] mb-4 border-[1px] dark:border-0 bg-background-light dark:bg-element-dark/[0.3] rounded-lg overflow-hidden cursor-pointer'>
+                        <div className='search-result-show h-auto max-h-[450px] p-6 bg-cover border-0 hover:duration-300 transition flex flex-col md:flex-row justify-items-start md:justify-between items-center w-full mb-4 bg-element-light dark:bg-element-dark rounded-lg cursor-pointer'
+                            style={{
+                                opacity: 0,
+                                '--custom-delay': index*50+'ms',
+                                //backgroundImage: `url(${post.featuredImage.url})`
+                            }as React.CSSProperties}
+                        >
+                            
+                            <div className='text-copy-light dark:text-copy-dark h-auto flex flex-col justify-start self-start'>
 
-                                <div className='md:min-w-[200px] md:max-w-[200px] md:min-w-[270px] md:max-w-[270px] md:min-h-[100%] md:h-[100%] object-cover'>
-                                    <img
-                                        className=" min-w-[100%] min-h-[100%] object-cover md:h-auto md:rounded-none mr-5" 
-                                        src={post.featuredImage.url} 
+                                <div className='flex-row mb-4 relative items-end h-[50px]'> 
+                                    <img 
+                                        className='align-middle rounded-full inline-block mr-2'
+                                        alt={post.title}
+                                        height='50px'
+                                        width='50px'
+                                        src={post.author.photo.url}
                                     />
-                                </div>
-                                
-                                
-                                <div className='flex flex-col p-5 md:h-full flex-1'>
-                                    <span className='font-semibold py-5 flex-none'>
-                                        {post.title}
+
+                                    <span className='font-[600]'>
+                                        {post.author.name}
                                     </span>
 
-                                    <span className='flex-1 py-4 flex-none md:max-h-[150px] overflow-hidden'>
-                                        {
-                                            //why use a framework when you can roll your own?
-                                            truncate(post.excerpt, 250)
-                                        }
+                                    <span className='h-full min-w-[100px] ml-2'>
+                                        {moment(post.createdAt).format('MMM DD, YYYY')}
                                     </span>
-
-                                    <div className='flex-none flex flex-row flex-wrap w-full h-20 items-center justify-center'>
-                                        {post.categories.map((category:any)=>(
-
-                                            <Link href={`/tags/${category.slug}`} key={category.slug}>
-                                                <span className="relative transition duration-150 cursor-pointer absolute px-3 py-1 text-bold mx-2 bg-slate-400 dark:bg-slate-800 hover:bg-slate-700 text-white rounded-full text-sm">
-                                                    {`#${category.name}`}
-                                                </span>
-                                            </Link>
-                                        ))}
-                                    </div>
-                                    
-                                    
                                 </div>
+                                
+                                <span className='font-semibold text-xl pb-2'>
+                                    {post.title}
+                                </span>
+
+                                <span className='hidden xl:block text-copy-light dark:text-copy-dark/[0.7]'>
+                                    {truncate(post.excerpt, 100)}
+                                </span>
+
+                                <span className='block md:hidden text-copy-light dark:text-copy-dark/[0.7]'>
+                                    {truncate(post.excerpt, 100)}
+                                </span>
+
+                                <span className='hidden md:block xl:hidden text-copy-light dark:text-copy-dark/[0.7]'>
+                                    {truncate(post.excerpt, 100)}
+                                </span>
                                 
                             </div>
-                        </Link>
+
+                            <img
+                                className='h-auto w-full max-h-auto border-box md:w-auto max-w-[350px] md:max-w-[250px] rounded-lg mt-4 md:mt-0 md:ml-4'
+                                src={post.featuredImage.url}
+                            />
+                            
+                        </div>
+                    </Link>
                     ))}
                 </div>
-                {/* <div className="col-span-1 lg:col-span-1">
+
+                <div className="col-span-1 lg:col-span-3">
                     <div className="relative lg:sticky top-[100px]">
-                        <Categories />
+                        <CollectionsWidget />
                     </div>
-                </div> */}
+                </div>
             </div>
         </div>
     );

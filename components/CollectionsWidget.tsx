@@ -15,7 +15,7 @@ const CollectionsWidget = (): JSX.Element=> {
     }, []); //forgot the [] and it cost me 300,000 API calls - while developing for an hour!
 
   return (
-    <div className='rounded-lg p-6 m-4 dark:m-0 mb-8 text-copy-light dark:text-copy-dark bg-background-light dark:bg-background-dark border-[1px] dark:border-0 border-border-light'>
+    <div className='lg:rounded-lg p-6 my-4 mb-8 text-copy-light dark:text-copy-dark bg-background-light dark:bg-element-dark border-[1px] dark:border-0 border-border-light'>
 
       <h3 className='text-xl mb-8 border-b border-copy-light dark:border-copy-dark pb-4 pl-3'>
         {'Article Collections'}

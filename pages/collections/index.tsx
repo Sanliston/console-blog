@@ -2,12 +2,13 @@ import React, { useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 import { getCategories, getCollections, getTagPosts } from '../../services';
-import { PostCard, Categories, Loader, MenuWidget, PostWidget, SlidingCollections } from '../../components';
+import { PostCard, Categories, Loader, MenuWidget, PostWidget, SlidingCollections, SideTray } from '../../components';
 import { StateContext } from '../_app';
 import Link from 'next/link';
 import CollectionsWidget from '../../components/CollectionsWidget';
 import { useWindowScrollPositions } from '../../hooks/useWindowScrollPositions';
 import useScrollDirection from '../../hooks/useScrollDirection';
+import SideBarWidget from '../../components/SideBarWidget';
 
 interface TagIndexProps {
     collections: []
@@ -50,21 +51,20 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
                     </div>
                 </div>
 
-                <div className="flex flex-col lg:flex-row items-start justify-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-                    <div className='hidden lg:block lg:col-span-1  col-span-1'>
+                    <div className='hidden lg:block lg:col-span-3  col-span-1'>
 
-                        <div className={"lg:sticky relative transition-all duration-300 "
-                            + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
-                        }>
+                        <div className={"lg:sticky relative transition-all duration-300 top-0"
+                            }>
 
-                            <Categories />
+                            <SideBarWidget />
 
                         </div>
 
                     </div>
 
-                    <div ref={scrollRef} className="col-span-1 lg:col-span-3 flex flex-wrap flex-row justify-center items-start bg-background-light rounded-lg dark:bg-transparent">
+                    <div ref={scrollRef} className="col-span-1 lg:col-span-6 flex flex-wrap flex-row justify-center items-start bg-background-light rounded-lg dark:bg-transparent">
                         {collections.map((collection:any)=>(
 
                             <Link href={`/collections/${collection.slug}`} key={collection.slug}>
@@ -88,11 +88,11 @@ const CollectionsIndex = ({ collections }: TagIndexProps) : JSX.Element => {
                         ))}
                     </div>
 
-                    <div className="col-span-1">
-                        <div className={"relative lg:sticky transition-all duration-300 "
-                            + (scrollDirection === 'up' || scrollY < 30 ?  ' lg:top-[100px]' : ' lg:top-[20px]')
+                    <div className="col-span-1 lg:col-span-3">
+                        <div className={"relative lg:sticky transition-all duration-300 top-[100px]"
+           
                         }>
-                            <PostWidget />
+                            <Categories />
                         </div>
                     </div>
                 </div>

@@ -5,13 +5,20 @@ import { getRecentPosts, getSimilarPosts } from '../services';
 import {FaHome, FaColumns, FaRobot, FaFeather, FaQuestionCircle, FaLayerGroup } from "react-icons/fa";
 import { StateContext } from '../pages/_app';
 
+interface MenuWidgetProps {
+  popUp?: boolean
+}
 
-const MenuWidget = (): JSX.Element=> {
+const MenuWidget = ({popUp = true}: MenuWidgetProps): JSX.Element=> {
 
     const appState = useContext(StateContext);
     const [visibleItems, setVisibleItems] = useState([]);
 
     const handleClick = () => {
+
+      if(!popUp){
+        return; 
+      }
 
       appState.setAppState({
         ...appState,
@@ -21,6 +28,12 @@ const MenuWidget = (): JSX.Element=> {
 
     useEffect(()=>{
 
+      if(!popUp){
+
+        return; 
+
+      }
+
       if(appState.menu){
 
         updateVisibleItems(menuItems as []);
@@ -29,6 +42,15 @@ const MenuWidget = (): JSX.Element=> {
       }
 
     }, [appState.menu]);
+
+
+    useEffect(()=>{
+
+      if(!popUp){
+        updateVisibleItems(menuItems as []);
+      }
+
+    }, []); 
 
     var menuItems = [
         {
@@ -84,18 +106,23 @@ const MenuWidget = (): JSX.Element=> {
     
     <div className='rounded-lg p-8 mb-8'>
 
-      <h3 className='text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'>
-        {'Menu'}
-      </h3>
+      {
+        popUp &&
+
+        <h3 className='text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'>
+          {'Menu'}
+        </h3>
+      }
+      
       
       {menuItems.map((item: any, index: number)=>(
 
         
           <Link className='text-md text-copy-light dark:text-copy-dark' key={item.name} href={`${item.path}`}>
             <div 
-              className={'custom-animated-delay transition-all flex flex-grow flex-row mb-2 cursor-pointer duration-300 hover:bg-black/[0.2] py-3 px-4 rounded-full' + (appState.menu ? ' menu-item-show': ' menu-item-hide')}
+              className={'custom-animated-delay transition-all flex flex-grow flex-row mb-2 cursor-pointer duration-300 hover:bg-black/[0.2] py-3 px-4 rounded-full' + (appState.menu || !popUp ? ' menu-item-show': ' menu-item-hide')}
               style={{
-                opacity: appState.menu ? 0 : 1, //so animations don't flicker between change of state
+                opacity: appState.menu || !popUp ? 0 : 1, //so animations don't flicker between change of state
                 '--custom-delay': index*50+'ms '
               } as React.CSSProperties}
               key={item.name} onClick={handleClick}
@@ -117,9 +144,9 @@ const MenuWidget = (): JSX.Element=> {
           </Link>     
       ))}
 
-      <h3 className={'text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'+ (appState.menu ? ' menu-item-show': ' menu-item-hide')}
+      <h3 className={'text-xl mb-8 border-b pb-4 text-copy-light dark:text-copy-dark'+ (appState.menu || !popUp ? ' menu-item-show': ' menu-item-hide')}
         style={{
-          opacity: appState.menu ? 0 : 1, //so animations don't flicker between change of state
+          opacity: appState.menu || !popUp ? 0 : 1, //so animations don't flicker between change of state
           '--custom-delay': menuItems.length*50+50+'ms '
         } as React.CSSProperties}
         key={'darkModeTitle'}
@@ -127,9 +154,9 @@ const MenuWidget = (): JSX.Element=> {
       </h3>
 
       <div 
-        className={'custom-animated-delay transition-all flex flex-grow flex-row mb-2 duration-300 py-3 px-4 rounded-full' + (appState.menu ? ' menu-item-show': ' menu-item-hide')}
+        className={'custom-animated-delay transition-all flex flex-grow flex-row mb-2 duration-300 py-3 px-4 rounded-full' + (appState.menu || !popUp ? ' menu-item-show': ' menu-item-hide')}
         style={{
-          opacity: appState.menu ? 0 : 1, //so animations don't flicker between change of state
+          opacity: appState.menu || !popUp ? 0 : 1, //so animations don't flicker between change of state
           '--custom-delay': menuItems.length*50+100+'ms '
         } as React.CSSProperties}
         key={'darkMode'}
