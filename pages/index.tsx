@@ -168,9 +168,9 @@ const Home: NextPage<HomeProps> = ({ posts, collections, recentPosts, categories
 
             <div className="relative lg:col-span-9  col-span-1 px-0 lg:top-[40px]">
 
-              <div className='block lg:rounded-lg relative w-auto flex flex-col bg-background-light dark:bg-background-dark md:border-[1px] dark:border-0 border-border-light overflow-hidden'>
+              {/* <div className='block lg:rounded-lg relative w-auto flex flex-col bg-background-light dark:bg-background-dark md:border-[1px] dark:border-0 border-border-light overflow-hidden'>
                 <LandingHero featuredPosts={featuredPosts as []}/>
-              </div>
+              </div> */}
               
 
               <div className='grid grid-cols-1 lg:grid-cols-9 gap-4 '> 

@@ -10,16 +10,19 @@ export type Category = {
 }
 interface CategoriesProps {
     nested?:boolean,
-    categories?:[string]
+    passedCategories?:[string]
 }
 
-const Categories  = ({categories, nested = false}: CategoriesProps): JSX.Element => {
+const Categories  = ({passedCategories, nested = false}: CategoriesProps): JSX.Element => {
 
     const [tags, setTags] = useState<any>([]);
+    const { categories } = useContext(StateContext);
 
     useEffect(()=>{
 
-        if(categories){
+        if(passedCategories){
+            setTags(passedCategories);
+        }else {
             setTags(categories);
         }
 
@@ -32,7 +35,7 @@ const Categories  = ({categories, nested = false}: CategoriesProps): JSX.Element
                 Popular Tags
             </h3>
 
-            {(categories || tags).map((category:Category) => (
+            {(passedCategories || tags).map((category:Category) => (
                 <div key={category.name} className='flex flex-row items-center w-full lg:py-2 py-1' > 
 
 
