@@ -78,18 +78,18 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
         });
     }
 
-    useEffect(()=>{
-        //initial search on component load
+    // useEffect(()=>{
+    //     //initial search on component load
 
-        if(featuredPosts.length > 3){
-            setMoreInitialPosts(true);
-        }else{
-            setMoreInitialPosts(false);
-        }
+    //     if(featuredPosts.length > 3){
+    //         setMoreInitialPosts(true);
+    //     }else{
+    //         setMoreInitialPosts(false);
+    //     }
 
-        setInitialPosts(featuredPosts.filter((post:any, index:number)=>index < 3));
+    //     setInitialPosts(featuredPosts.filter((post:any, index:number)=>index < 3));
         
-    }, [featuredPosts]);
+    // }, [featuredPosts]);
 
     return (
 
