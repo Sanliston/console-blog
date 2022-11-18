@@ -23,7 +23,8 @@ interface HomeProps {
   posts: [],
   collections: [],
   recentPosts: [],
-  categories: [string]
+  categories: [string],
+  passedFeaturedPosts: []
 }
 
 //augmenting console object
@@ -40,20 +41,10 @@ console.blog = (userName: string) => {
 
 const Home: NextPage<HomeProps> = ({ posts, collections, recentPosts, categories }: HomeProps): JSX.Element => {
 
-  const [featuredPosts, setFeaturedPosts] = useState([]); 
+  const featuredPosts = posts.filter((post:any)=> post.featuredPost); //for SSR
   const {menu} = useContext(StateContext);
   const containerRef = useRef<HTMLDivElement>(null); 
 
-
-  useEffect(()=>{
-
-    if(posts){
-
-      let featured = posts.filter((post:any)=> post.featuredPost)
-      setFeaturedPosts(featured);
-    }
-    
-  }, [posts]);
   // const collectionOnScreen = useOnScreen(collectionsRef); 
   
   
@@ -258,11 +249,10 @@ export const getStaticProps = async () : Promise<{}> => {
     const collections = (await getCollections(6)) || [];
     const recentPosts = (await getRecentPosts()) || [];
     const categories = (await getCategories()) || [];
-
-    console.log();
+    const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
 
     return {
-      props: { posts, collections, recentPosts, categories }
+      props: { posts, collections, recentPosts, categories, featuredPosts }
     }
   }catch (e) {
 

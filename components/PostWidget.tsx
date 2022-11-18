@@ -71,7 +71,7 @@ const PostWidget = ({categories, slug, recentPosts, nested=false}: PostWidgetPro
         {slug ? 'Related Posts' : 'Recent Posts'}
       </h3>
 
-      {relatedPosts.map((post:any) => (
+      {(recentPosts || relatedPosts).map((post:any) => (
 
         <Link key={post.slug} href={`/post/${post.slug}`}>
           <div key={post.slug} className='cursor-pointer flex flex-row items-center w-full lg:py-2 py-1' > 

@@ -43,7 +43,7 @@ const CollectionsWidget = ({passedCollections, nested=false}: CollectionsWidgetP
         {'Article Collections'}
       </h3>
       
-      {collections.map((item: any)=>(
+      {(passedCollections || collections).map((item: any)=>(
 
         <Link className='text-md text-copy-light dark:text-copy-dark' key={item.title} href={`/collections/${item.slug}`}>
 

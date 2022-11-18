@@ -32,7 +32,7 @@ const Categories  = ({categories, nested = false}: CategoriesProps): JSX.Element
                 Popular Tags
             </h3>
 
-            {tags.map((category:Category) => (
+            {(categories || tags).map((category:Category) => (
                 <div key={category.name} className='flex flex-row items-center w-full lg:py-2 py-1' > 
 
 
