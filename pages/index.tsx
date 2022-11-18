@@ -218,7 +218,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections, recentPosts, categories
                   <div className="transition-all duration-300 lg:sticky relative lg:top-[90px]">
 
                     
-                    <SideBarWidget />
+                    <SideBarWidget categories={categories} recentPosts={recentPosts} />
 
                   </div>
 
