@@ -15,20 +15,20 @@ const CollectionsWidget = (): JSX.Element=> {
     }, []); //forgot the [] and it cost me 300,000 API calls - while developing for an hour!
 
   return (
-    <div className='rounded-lg p-8 mb-8'>
+    <div className='lg:rounded-lg p-6 my-4 mb-8 text-copy-light dark:text-copy-dark bg-background-light dark:bg-element-dark border-[1px] dark:border-0 border-border-light'>
 
-      <h3 className='text-xl mb-8 border-b pb-4 text-white'>
+      <h3 className='text-xl mb-8 border-b border-copy-light dark:border-copy-dark pb-4 pl-3'>
         {'Article Collections'}
       </h3>
       
       {collections.map((item: any)=>(
 
-        <Link className='text-md text-white' key={item.title} href={`/collections/${item.slug}`}>
+        <Link className='text-md text-copy-light dark:text-copy-dark' key={item.title} href={`/collections/${item.slug}`}>
 
-            <div className='flex flex-grow flex-row cursor-pointer transition duration-300 hover:bg-black/[0.2] py-3 px-5  rounded-full' key={item.name}> 
+            <div className='flex flex-grow flex-row cursor-pointer transition duration-300 hover:bg-black/[0.2] py-3 pl-3 rounded-full' key={item.name}> 
                     
 
-                    <span className='text-white text-sm'>
+                    <span className='text-sm'>
                         {item.title}
                     </span>
                 

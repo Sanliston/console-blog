@@ -9,10 +9,11 @@ export type Post = {
 }
 interface PostWidgetProps {
   categories?: [string],
-  slug?: string
+  slug?: string,
+  nested?:boolean
 }
 
-const PostWidget = ({categories, slug}: PostWidgetProps): JSX.Element=> {
+const PostWidget = ({categories, slug, nested=false}: PostWidgetProps): JSX.Element=> {
 
   const [ relatedPosts, setRelatedPosts ] = useState<[]>([]);
 
@@ -32,9 +33,9 @@ const PostWidget = ({categories, slug}: PostWidgetProps): JSX.Element=> {
   }, [slug]);
 
   return (
-    <div className='rounded-lg p-8 mb-8'>
+    <div className={'rounded-lg p-6 dark:m-0 bg-background-light dark:bg-element-dark '+ (nested ? '' : ' my-4 mb-8 border-[1px] dark:border-0 border-border-light')}>
 
-      <h3 className='text-xl mb-8 border-b pb-4 text-white'>
+      <h3 className='text-xl mb-8 border-b border-copy-light dark:border-copy-dark pb-4 text-copy-light dark:text-copy-dark'>
         {slug ? 'Related Posts' : 'Recent Posts'}
       </h3>
 
@@ -54,10 +55,10 @@ const PostWidget = ({categories, slug}: PostWidgetProps): JSX.Element=> {
             </div>
 
             <div className='flex-grow ml-4'> 
-              <p className='text-gray-300 text-xs'>
+              <p className='text-copy-light/[0.7] dark:text-copy-dark/[0.7] text-xs'>
                 {moment(post.createdAt).format('MMM DD, YYYY')}
               </p>
-                <span className='text-white text-sm'>
+                <span className='text-copy-light dark:text-copy-dark text-sm font-semibold'>
                   {post.title}
                 </span>
             </div>

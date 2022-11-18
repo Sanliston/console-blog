@@ -14,3 +14,7 @@ export {default as MenuWidget } from './MenuWidget';
 export {default as FeaturedCollections} from './FeaturedCollections';
 export {default as SlidingCollections } from './SlidingCollections';
 export {default as CollectionsWidget} from './CollectionsWidget'; 
+export {default as SlidingArticles} from './SlidingArticles';
+export {default as IntroBanner} from './IntroBanner'; 
+export {default as FeaturedGrid} from './FeaturedGrid'; 
+export {default as SideTray} from './SideTray';

@@ -1,0 +1,769 @@
+import Link from 'next/link';
+import React, {useState, useEffect, useRef, useContext} from 'react';
+import * as ReactDOM from 'react-dom';
+import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
+import { FiArrowDownCircle } from "react-icons/fi";
+import { getCollections } from '../services';
+import { truncate } from '../utils/utils';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import { useWindowScrollPositions } from '../hooks/useWindowScrollPositions';
+import { StateContext } from '../pages/_app';
+import { BsCloudMoonFill } from 'react-icons/bs';
+import {FaFeatherAlt} from 'react-icons/fa';
+
+interface SlidingCollectionsInterface  {
+    collectionsProp: [],
+    scrollRef: React.RefObject<HTMLDivElement>,
+    title: string,
+    featured: boolean,
+    windowOffset: number
+}
+
+const IntroBanner = ({collectionsProp, scrollRef, title, featured, windowOffset}: SlidingCollectionsInterface):JSX.Element => {
+    const [collections, setCollections] = useState<[] | any>([]);
+    const [parentBackgroundImage, setParentBackgroundImage] = useState('https://media.graphassets.com/XpiinIIuT0i52JKc1ijM');
+    const [featuredCollectionsPosition, setFeaturedCollectionsPosition] = useState({top:0, left: 0});
+    const [focusTransitioning, setFocusTransitioning] = useState(false);
+    const [focusedCollection, setFocusedCollection] = useState(null);
+
+    const parentRef = useRef<HTMLDivElement>(null);
+    const innerContainerRef = useRef<HTMLDivElement>(null);
+    const widgetRef = useRef<HTMLDivElement>(null); //ref for second widget in list, to be used as reference
+    const focusedRef = useRef<HTMLDivElement>(null);
+    const isFirstRender = useRef(true);
+
+    const {scrollX, scrollY} = useWindowScrollPositions(); 
+    const {windowHeight, windowWidth } = useWindowDimensions(); 
+
+    const {menu} = useContext(StateContext);
+
+    let dummyCollections = [
+
+        {
+            image: {
+                src: 'linear-gradient(to right,#B350FF,#03CBFF)'
+            },
+            title: 'Console.blog();',
+            subtitle: 'Who said blogs had to be basic?',
+            description: 'Lets make your articles an experience. ',
+            content: generateCodeContent(true),
+            shadowContent: generateCodeContent(false),
+            slug: 'tsdsd1',
+            icon: '',
+            focused: true,
+        },
+        {
+            image: {
+                src: 'linear-gradient(to right,#ea3f75,#da56f9)'
+            },
+            title: 'Typescript',
+            subtitle: 'test subtitle',
+            description: 'This is a test description',
+            content: generateCodeContent(true),
+            shadowContent: generateCodeContent(false),
+            slug: 'sdsdsd',
+            icon: '',
+            focused: false
+        },
+        {
+            image: {
+                src: 'url(https://media.graphassets.com/XpiinIIuT0i52JKc1ijM)'
+            },
+            title: 'React',
+            subtitle: 'test subtitle',
+            description: 'This is a test description',
+            content: generateLandingContent(true),
+            shadowContent: generateLandingContent(false),
+            slug: 'sdsdsdsdfdfd',
+            icon: '',
+            focused: false
+        },
+        {
+            image: {
+                src: 'linear-gradient(to right,#B350FF,#03CBFF)'
+            },
+            title: 'NodeJS',
+            subtitle: 'test subtitle',
+            description: 'This is a test description',
+            content: generateLandingContent(true),
+            shadowContent: generateLandingContent(false),
+            slug: 'tesasasdst4',
+            icon: '',
+            focused: false
+        }
+    ];
+
+    useEffect(()=>{
+        console.log('collection results: ', collectionsProp);
+
+            setCollections(dummyCollections.map((collection: any, index:number)=>{
+
+                collection.cleanup = false; 
+                return collection; 
+            }));
+
+            //setFocusedCollection(dummyCollections[0]);
+        
+    }, []);
+
+    useEffect(()=>{
+
+        if(isFirstRender.current && collections.length > 0){
+            focusCollection(0);
+            isFirstRender.current = false; 
+        }
+
+    }, [collections]);
+
+    useEffect(()=>{
+
+        let top = widgetRef.current?.offsetTop;
+        let left = widgetRef.current?.offsetLeft; 
+
+        setFeaturedCollectionsPosition({
+            top: typeof top !== 'undefined' ? top : 0,
+            left: typeof left !== 'undefined' ? left : 0
+        });
+
+    }, [widgetRef.current])
+
+
+    const focusCollection = (targetIndex:number) => {
+
+        console.log('featuredRef: ', widgetRef);
+        setFocusTransitioning(true);
+
+        //grab the target background image
+        var backgroundImage = collections[targetIndex].image.src; 
+        var newFocusedCollection = collections[targetIndex];
+        let buriedCollections: []| any = [];
+        let updatedCollections = collections.map((collection:any, index:number)=>{
+
+            //flag old focused for cleanup
+            if(collection.focused){
+                collection.cleanup = true; 
+            }
+
+            //remove all previous focused collections
+            collection.focused = false; 
+
+            if(index == targetIndex){
+
+                collection.focused = true; 
+
+            }
+
+            //put collections index < target index in buried collections
+
+            if(index < targetIndex){
+                buriedCollections.push(collection)
+            }
+
+            return collection; 
+        });
+
+        //start transition animation
+        const oldFocusEl = focusedRef.current; 
+        oldFocusEl?.classList.add('unfocus-transition');
+
+        //update colletions
+
+        ReactDOM.flushSync(()=>{
+            setCollections(updatedCollections);
+        });
+
+
+        //move targetIndex to start of list
+        let newCollections = [
+            ...collections.filter((c:any, index:number)=>index == targetIndex), 
+
+            //add non buried collections
+            ...collections.filter((c:any, index:number)=>index > targetIndex),
+
+            //add the buried collection to end of list
+            ...buriedCollections
+
+        ]
+
+        console.log('new collections: ', newCollections);
+
+        setTimeout(()=>{
+            ReactDOM.flushSync(()=>{
+                setCollections(newCollections.map((collection:any, index:number)=>{
+
+                    //remove cleanup flag
+                    if(collection.cleanup){
+                        collection.cleanup = false; 
+                    }
+    
+                    return collection; 
+                }));
+
+                setFocusTransitioning(false);
+            });
+        }, 700);
+        
+        setTimeout(()=>{
+
+            //set the background image of the parent to match the current focus
+            ReactDOM.flushSync(()=>{
+                setParentBackgroundImage(backgroundImage);
+                setFocusedCollection(newFocusedCollection);
+                /*Why am I doing this?
+                    So that when the next focus happens, the current focus'
+                    image will be the background, however it will be the parent div background
+                    and not the actual element. Creating the illusion of an infinte rotating parent
+                    child list. 
+                */
+            });
+            
+        }, 1500);
+
+
+
+        
+
+        
+    }
+
+    //experiment with setting this to fixed when you get the chance
+    const focusedStyle = 'fixed focused-animation-transition featured-collection-widget h-full ';
+    const unfocusedStyle = 'hover:rounded-t-2xl hover:h-[350px] hover:duration-300 fixed animation-transition featured-collection-widget xl:h-[300px] lg:h-[250px]  md:h-[200px] h-[150px] flex flex-col items-sart justify-end';
+    const cleanupStyle = 'duration-0 opacity-0';
+
+    const shadowFocusedStyle = 'fixed transition-none featured-collection-widget ';
+
+
+    const getLayout = (params:any) => {
+
+        return collections.map((collection:any, index:number)=>{
+
+            let marginBottom = params.marginBottom; //150; 
+            let marginLeft = params.marginLeft; //10; 
+            let offset = params.offset;
+
+            return (
+
+                <div
+                    key={collection.slug}
+                    className={
+                            'collection-image bg-cover overflow-hidden '
+                            + (collection.focused ? 
+                                focusedStyle : 
+                                collection.cleanup ? '' : unfocusedStyle)
+                            + (collection.cleanup ? cleanupStyle : '') 
+                            + (collection.focused ? '' :' custom-animation-delay : '+index*300+50+'ms ' )
+                        }
+                            
+                    style={{
+                        backgroundImage: `${collection.image.src}`,
+                        left: collection.focused ? 
+                            '0px' : 
+                            (windowWidth*0.333*(index-1))+ 'px',
+                        bottom: '0px',
+                        opacity: collection.focused ? 1 : 0,
+                        width: collection.focused ? ' 100%' : `${windowWidth*0.3333}px`,
+                        '--custom-delay': index*200+50+'ms '
+
+                    } as React.CSSProperties}
+
+                    ref = {index == 1 ? widgetRef : null}
+
+                    onClick={collection.focused ? ()=>{} : ()=>focusCollection(index)}
+                >
+
+                    <div
+                        
+                        className={(collection.focused ? ' no-blur overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] ': 'max-h-[0px] max-w-full') + ' transition-all focused-info bg-gradient-to-b from-black/[0.3] to-transparent'}
+                            
+                        style={{
+                            //for animating disappearing when focused
+                            
+
+                            opacity: (collection.focused) ? 1 : 0,
+                        } as React.CSSProperties}
+                        ref={collection.focused ? focusedRef : null}
+                    >
+
+                        {collection.focused && 
+                        
+                            <div className={
+                                ' flex flex-col h-full w-full items-center justify-center '
+                                + (( scrollY < (windowHeight*windowOffset + windowHeight*0.5)) && scrollY > (windowHeight*windowOffset-200)   ? ' collection-background-info-show ': '')
+                                + ( scrollY > (windowHeight*windowOffset + windowHeight*0.5) || scrollY < (windowHeight*windowOffset-200)  ? ' collection-background-info-hide ': ' opacity-0')
+                            }
+
+
+
+                            >
+                                { collection.content} 
+                            </div>
+                        }             
+
+                    </div>
+
+                    <div 
+                        className={
+                            'cursor-pointer flex flex-col h-full w-full items-start justify-start bg-gradient-to-b from-transparent to-black/[0.6] p-5 2xl:p-10'
+                            + (collection.focused ? ' collection-card-info-hide ': '')
+                        }
+                        style={{
+                            //for animating disappearing when focused
+
+                            opacity: collection.focused ? 0 : 1,
+                        } as React.CSSProperties}
+                        > 
+                        
+                        <div className='font-staatliches font-light text-white text-xl xl:text-2xl 2xl:text-4xl font-bold 2xl:pt-[180px] xl:pt-[160px] lg:pt-[80px] sm-short:pt-0'> 
+                            {collection.title}
+                        </div> 
+
+                        <div className='text-white text-xs lg:text-xs xl:text-md font-light'> 
+                            {truncate(collection.subtitle, 100)}
+                        </div>
+                    </div>
+                    
+
+                    
+
+                </div>
+
+            );
+            
+        });
+    }
+
+    const renderFocused = (collection: any) => {
+
+        return (
+
+            <div
+
+                    className={
+                            'collection-image bg-cover overflow-hidden w-full h-full '
+                            + shadowFocusedStyle 
+                            
+                    }
+                            
+                    style={{
+
+                        //backgroundImage: `url('${collection.image.url}')`,
+                        left:
+                            '0px' ,
+                        bottom: '0px' ,
+                        opacity: 1,
+
+                    } as React.CSSProperties}
+
+                >
+                    <div className={
+                            'fixed inline-block collection-image bg-cover w-full h-full'
+                            + (focusTransitioning ? ' focused-outro-transition' : ' ')
+                        }
+                        style={{
+                            //backgroundImage: `url('${collection.image.url}')`,
+                            backgroundImage: `${collection.image.src}`,
+                            left:
+                                '0px' ,
+                            bottom: '0px' ,
+                            opacity: 1,
+    
+                        } as React.CSSProperties}
+                    >
+
+                    </div>
+
+                    <div
+                                
+                        className={
+                            ' transition-none duration-0 fixed block overflow-hidden max-h-full max-w-full h-full w-full p-[60px] xl:p-[80px] 2xl:p-[150px] focused-info bg-gradient-to-b from-black/[0.3] to-transparent'
+                            
+                        }
+                            
+                        style={{
+                            //for animating disappearing when focused
+                            
+
+                            opacity: 1,
+                        } as React.CSSProperties}
+                        
+                    >
+
+                        
+                        
+                            <div
+
+                                className={
+                                    ' flex flex-col h-full w-full items-center justify-center'
+                                    + (focusTransitioning ? ' info-outro-transition' : ' ')
+                                }
+
+                                >
+
+                                {collection.shadowContent}
+                                
+                            </div>  
+                        
+                        
+                        
+                        
+
+                    </div>
+                </div>
+            
+        );
+    }
+
+
+    //created using function keyword to take advantage of hoisting
+    function generateLandingContent(animated:boolean = true) {
+
+        let animationClasses = animated ? ' collection-background-info-show' : '';
+        let initialOpacity = animated ? 0 : 1; 
+
+
+        return (
+            <>
+
+                <div
+                    className={
+                        'text-white/[0.4] mb-0 text-[16px] md:text-[20px] lg:text-[20px] xl:text-[30px] 2xl:text-[40px] font-bold font-labelle '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+
+                        '--custom-delay': 10+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                    >
+
+                    {`${featured ? 'Featured ': ''}Collection`}
+
+                </div>
+
+                <div
+                    className={
+                        'text-white mb-0 text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px] 2xl:text-[140px] font-bold font-staatliches '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+
+                        '--custom-delay': 100+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                    >
+
+                    Console.blog(); yo
+
+                </div>
+
+                <div
+                    className={
+                        'w-[100px] h-[1px] bg-white mb-[5px] md:mb-[30px] '
+                        + animationClasses
+                    }
+                    style={{
+                        //for animating disappearing when focused
+
+                        '--custom-delay': 150+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                    
+                >
+
+                </div>
+
+                <div
+                    className={
+                        'text-white text-xs md:text-md font-light delay-400 mb-5 max-w-[300px] '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+                        '--custom-delay': 200+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                >
+
+                    It does not have to be so boring!
+
+                </div>
+
+                <div
+                    className={
+                        'hidden md:block text-white text-xs md:text-sm lg:text-md xl:text-lg font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw] '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+                        '--custom-delay': 250+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                >
+
+                    Let the party begin
+
+                </div>
+
+                <div
+                    className={
+                        ' md:hidden text-white text-xs md:text-sm lg:text-md xl:text-md font-light delay-800 mb-5 md:max-w-[60vw] lg:max-w-[40vw] '
+                        + animationClasses
+                    }
+
+                    style={{
+                        //for animating disappearing when focused
+                        '--custom-delay': 250+'ms ',
+                        opacity: initialOpacity,
+                    } as React.CSSProperties}
+                >
+
+                    WHAT UP MY BORTHERS
+
+                </div>
+
+
+                <div className='flex flex-row items-center flex-wrap'>
+
+                    <Link href={`/collections`}>
+                        <div 
+                            className={
+                                'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm '
+                                + animationClasses
+                            }
+                            style={{
+                                //for animating disappearing when focused
+                                '--custom-delay': 300+'ms ',
+                                opacity: initialOpacity,
+                            } as React.CSSProperties}
+                            >
+                            <span>
+                                Discover Collection
+                            </span>
+                        </div>
+                    </Link>
+
+                    {featured && 
+                        <Link href={`/collections`}>
+                            <div 
+                                className={
+                                    'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm '
+                                    + animationClasses
+                                }
+                                style={{
+                                    //for animating disappearing when focused
+                                    '--custom-delay': 300+'ms ',
+                                    opacity: initialOpacity,
+                                } as React.CSSProperties}
+                                >
+                                <span>
+                                    View All
+                                </span>
+                            </div>
+                        </Link>
+                    }
+                    
+                </div>
+
+                
+                
+            </>
+        );
+    }
+
+
+    function generateCodeContent (animated:boolean = true) {
+
+        let animationClasses = animated ? ' collection-background-info-show' : '';
+        let initialOpacity = animated ? 0 : 1; 
+
+
+        return (
+
+            <div className='h-full w-full flex flex-col items-center md:mb-[200px] justify-start md:justify-center pt-[50px] md:pt-[0px]'>
+
+            
+
+                <div 
+                    className={
+                        'landing-title flex flex-col items-center justify-start col-span-1 lg:col-span-6 '
+                        + animationClasses
+                    }
+                    style={{
+                        '--custom-delay': 100+'ms '
+                    } as React.CSSProperties}
+                >
+                    <div className='flex flex-col items-center justify-center text-white mb-5'>
+
+                        <div className=' text-[90px] md:text-[150px] lg:text-[250px]  mb-5'>
+                            <BsCloudMoonFill />
+                        </div>
+
+                        <span className='text-2xl md:text-4xl lg:text-[60px] font-[900] text-white pt-[20px] text-center font-labelle'>
+                            Console.blog();
+                        </span>
+                        
+                    </div>
+
+                </div>
+
+                <div className={
+                        'text-white lg:mt-5 text-sm text-center md:text-xl '
+                        + animationClasses
+                    }
+                    style={{
+                        '--custom-delay': 200+'ms '
+                    } as React.CSSProperties}
+                >
+                    <span>
+                        A simple blog by developers, for developers. 
+                    </span>
+                </div>
+
+                <div className={
+                        'flex flex-col items-center justify-center '
+                        + animationClasses
+                    }
+                    style={{
+                        '--custom-delay': 300+'ms '
+                    } as React.CSSProperties}
+                >
+
+            
+                    <div 
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        <span>
+                            Featured
+                        </span>
+                    </div>
+
+                    <div 
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        <span>
+                            Search Articles
+                        </span>
+                    </div>
+
+                    <div 
+                        className={'button rounded-full cursor-pointer px-5 py-3 m-1 bg-button-color text-white text-xs xl:text-xs 2xl:text-sm'}>
+                        <span>
+                            Collections
+                        </span>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+            
+        );
+    }
+
+    return (
+        <div 
+            className={'fixed top-[0px] overflow-x-hidden overflow-y-visible bg-cover mobile-min-100vh mobile-max-100vh min-w-[100vw] w-[100vw] max-w-[100vh] bg-white flex flex-row items-end justify-end after:bg-gradient-to-b from-black/[0.4] to-transparent after:w-full after:block after:min-h-full after:content-[""] '
+                + (scrollY > (windowHeight*windowOffset + windowHeight*0.5)  || menu ? ' blur-filter ': ' ')
+                }
+            style={{
+                backgroundImage: `url('${parentBackgroundImage}')`,
+            }}
+            ref={parentRef}
+            >
+
+            <div className={
+                'fixed '
+                + (focusTransitioning? ' min-w-[200vw] h-[100vh]' : ' min-w-[100vw] h-[100vh]')
+                }>
+                {focusedCollection !== null ? renderFocused(focusedCollection) : ''}
+            </div>
+            
+
+            <div 
+                className='hidden sm-short:flex sm:hidden transition-all md:hidden lg:hidden xl:hidden 2xl:hidden flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: -115,
+                    marginBottom: 100,
+                    offset: windowWidth
+                })}
+            </div>
+
+            <div 
+                className='transition-all sm:flex sm-short:hidden md:hidden lg:hidden xl:hidden 2xl:hidden flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: -110,
+                    marginBottom: 150,
+                    offset: windowWidth
+                })}
+            </div>
+            
+            <div 
+                className='hidden transition-all md:flex lg:hidden xl:hidden 2xl:hidden flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: -110,
+                    marginBottom: 150,
+                    offset: windowWidth
+                })}
+            </div>
+
+            <div 
+                className='hidden transition-all lg:flex xl:hidden 2xl:hidden flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: -90,
+                    marginBottom: 120,
+                    offset: windowWidth
+                })}
+            </div>
+
+            <div 
+                className='hidden transition-all xl:flex 2xl:hidden flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: -50,
+                    marginBottom: 20,
+                    offset: windowWidth
+                })}
+            </div>
+
+            <div 
+                className='hidden transition-all xl:hidden 2xl:flex flex-row overflow-hidden'
+                ref={innerContainerRef}
+                >
+                {getLayout({
+                    marginLeft: 10,
+                    marginBottom: 30,
+                    offset: windowWidth
+                })}
+            </div>
+
+
+            {/* <div
+                className={'absolute cursor-pointer bottom-[20px] hover:text-white animate-bounce right-[46vw] text-white/[0.6] mb-0 text-[30px] xl:text-[50px] font-bold font-staatliches'}
+                onClick={()=>scrollRef!.current?.scrollIntoView({behavior: 'smooth'})}
+                >
+
+                <FiArrowDownCircle />
+
+            </div>
+             */}
+
+        </div>
+    );
+
+}
+
+export default IntroBanner; 
