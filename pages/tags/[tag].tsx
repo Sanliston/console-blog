@@ -23,8 +23,6 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
     return <Loader />;
   }
 
-  console.log("categories: ", categories, " tag: ", tag);
-
   return (
     <div className={"container text-copy-light dark:text-copy-dark flex flex-col items-center mx-auto md:px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500 pb-[200px]')}>
 
@@ -80,7 +78,6 @@ export default TagPost;
 // Fetch data at build time
 export async function getStaticProps({ params }:any) {
 
-    console.log("params: ", params);
   const posts = await getTagPosts(params.tag);
 
   return {

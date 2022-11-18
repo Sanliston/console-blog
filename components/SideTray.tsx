@@ -90,10 +90,7 @@ const SideTray = ({options = 'homeOptions'}:SideTrayProps):JSX.Element => {
 
     useEffect(()=>{
 
-        console.log('use effect for router called, router pathname: ', router.asPath, ' state pathname: ', pathname);
-
         if(router.asPath !== pathname){
-            console.log('router pathname has changed');
             setPathName(router.asPath);
 
             //execute animation as there's been a change of article

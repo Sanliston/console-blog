@@ -60,7 +60,6 @@ const comments = async (
             name: 'error'
         }
 
-        console.log("error: ", error);
     }
 
 

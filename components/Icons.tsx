@@ -13,9 +13,6 @@ const Burger3 = () => {
     const router = useRouter();
 
     const handleClick = () => {
-        console.log('handle click called');
-        console.log('App state: ', StateContext);
-        console.log('menu: ', appState.menu);
 
         appState.setAppState({
             ...appState,

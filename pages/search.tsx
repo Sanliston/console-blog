@@ -28,8 +28,6 @@ const SearchPosts = () : JSX.Element => {
     const [lastQuery, setLastQuery] = useState('');
     const [userSearched, setUserSearched] = useState(false);
 
-    console.log(router.query);
-
     const searchEl = useRef<HTMLInputElement>(null);
     useEffect(()=>{
 
@@ -50,11 +48,8 @@ const SearchPosts = () : JSX.Element => {
         const searchQuery:string = searchEl!.current!.value; 
 
         if(debounce && !force){
-            console.log("debounced");
             return; 
         }
-
-        console.log("searched, searchEl: ", searchEl!.current!.value);
 
         setDebounce(true);
         setTimeout(()=>{
@@ -74,7 +69,6 @@ const SearchPosts = () : JSX.Element => {
     const updatePosts = (searchQuery:string):void => {
 
         setSearchQuery(searchQuery);
-        console.log("last query set: ", searchQuery);
 
 
         //check if contains only white space

@@ -74,7 +74,6 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
     ];
 
     useEffect(()=>{
-        console.log('collection results: ', collectionsProp);
 
             setCollections(collectionsProp.map((collection: any, index:number)=>{
 
@@ -110,7 +109,6 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
 
     const focusCollection = (targetIndex:number) => {
 
-        console.log('featuredRef: ', widgetRef);
         setFocusTransitioning(true);
 
         //grab the target background image
@@ -164,8 +162,6 @@ const SlidingCollections = ({collectionsProp, scrollRef, title, featured, window
             ...buriedCollections
 
         ]
-
-        console.log('new collections: ', newCollections);
 
         setTimeout(()=>{
             ReactDOM.flushSync(()=>{

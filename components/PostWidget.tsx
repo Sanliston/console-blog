@@ -20,8 +20,6 @@ const PostWidget = ({categories, slug, nested=false}: PostWidgetProps): JSX.Elem
 
   useEffect(()=>{
 
-    console.log('post widget');
-
     if(slug){
       //means we are looking at a specific post
 

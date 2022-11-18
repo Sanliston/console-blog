@@ -83,7 +83,6 @@ export default TagsIndex;
 // Fetch data at build time
 export async function getStaticProps({ params }:any) {
 
-    console.log("params: ", params);
   const tags = await getCategories();
 
   return {

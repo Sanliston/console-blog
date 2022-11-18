@@ -36,11 +36,8 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
         const searchQuery:string = searchEl!.current!.value; 
 
         if(debounce && !force){
-            console.log("debounced");
             return; 
         }
-
-        console.log("searched, searchEl: ", searchEl!.current!.value);
 
         setDebounce(true);
         setTimeout(()=>{
@@ -60,7 +57,6 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
     const updatePosts = (searchQuery:string):void => {
 
         setLastQuery(searchQuery);
-        console.log("last query set: ", searchQuery);
 
 
         //check if contains only white space
@@ -91,8 +87,6 @@ const LandingHero = ({featuredPosts}:LandingHeroInterface): JSX.Element => {
         }else{
             setMoreInitialPosts(false);
         }
-
-        console.log('initial posts: ', featuredPosts);
 
         setInitialPosts(featuredPosts.filter((post:any, index:number)=>index < 3));
         

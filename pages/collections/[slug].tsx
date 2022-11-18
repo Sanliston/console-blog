@@ -28,8 +28,6 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
     return <Loader />;
   }
 
-  console.log("collection: ", collection , "posts: ", collection.posts, " slug: ", slug);
-
   return (
     <div className="flex flex-col items-center  mb-8 ">
 
@@ -249,8 +247,6 @@ export default TagPost;
 
 // Fetch data at build time
 export async function getStaticProps({ params }:any) {
-
-    console.log("params: ", params);
     const collection = await getCollection(params.slug);
 
   return {

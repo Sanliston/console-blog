@@ -143,8 +143,6 @@ export const searchPosts = async (searchQuery: string, max: number = 6): Promise
 
     const result = await request(graphqlAPI, query, {searchQuery, max});
 
-    console.log("results: ", result);
-
     return result.posts;
 }
 
@@ -343,7 +341,6 @@ export const getCollection = async (slug:string): Promise<{}> => {
 
     const result = await request(graphqlAPI, query, {slug});
 
-    console.log("getCollection result: ", result);
     return result.collection;
 
 }

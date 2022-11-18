@@ -101,7 +101,6 @@ const MenuWidget = ({popUp = true}: MenuWidgetProps): JSX.Element=> {
     }
 
     const toggleDarkMode = () => {
-      console.log('toggling darkMode: ', appState.darkMode);
       appState.setAppState({
         ...appState,
         darkMode: !appState.darkMode
