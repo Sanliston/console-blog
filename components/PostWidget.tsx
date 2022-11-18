@@ -17,8 +17,15 @@ interface PostWidgetProps {
 const PostWidget = ({categories, slug, nested=false}: PostWidgetProps): JSX.Element=> {
 
   const [ relatedPosts, setRelatedPosts ] = useState<[]>([]);
+  const [hydrated, setHydrated] = React.useState(false);
 
   useEffect(()=>{
+
+    if (!hydrated) { //remove this while running locally
+      // Returns [] on first render, so the client and server match
+      setHydrated(true);
+      return setRelatedPosts([]);
+    }
 
     if(slug){
       //means we are looking at a specific post

@@ -38,18 +38,10 @@ console.blog = (userName: string) => {
 
 const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Element => {
 
-  const searchRef = useRef(null);
   const featuredPosts = posts.filter((post:any)=> post.featuredPost); 
   const {menu} = useContext(StateContext);
-  const scrollDirection = useScrollDirection();
-  const {windowHeight} = useWindowDimensions();
-  const {scrollY} = useWindowScrollPositions();
-  const [scrollTop, setScrollTop] = useState(0);
-  const [lastScroll, setLastScroll] = useState(new Date());
-  const collectionsRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null); 
   // const collectionOnScreen = useOnScreen(collectionsRef); 
-  const [snapping, setSnapping] = useState(false);
   
   
 

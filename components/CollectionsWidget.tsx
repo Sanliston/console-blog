@@ -12,8 +12,15 @@ interface CollectionsWidgetProps {
 const CollectionsWidget = ({nested=false}: CollectionsWidgetProps): JSX.Element=> {
 
     const [collections, setCollections] = useState([]);
+    const [hydrated, setHydrated] = React.useState(false);
 
     useEffect(()=>{
+
+        if (!hydrated) { //remove this while running locally
+          // Returns [] on first render, so the client and server match
+          setHydrated(true);
+          return setCollections([]);
+        }
 
         let localCollections = getWithExpiry('collections');
         if(localCollections){
