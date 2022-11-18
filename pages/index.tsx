@@ -117,7 +117,7 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
   return (
 
-      <div ref={containerRef} className={"container flex flex-col items-center justify-center scroll-snap-parent mx-auto px-0 top-[0px] relative"} style={{minWidth: '100vw'}}
+      <div ref={containerRef} className={"container flex flex-col items-center justify-center scroll-snap-parent mx-auto px-0 top-[0px] relative pb-[300px]"} style={{minWidth: '100vw'}}
       
       >
         <Head>

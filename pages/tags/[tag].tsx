@@ -27,7 +27,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
   console.log("categories: ", categories, " tag: ", tag);
 
   return (
-    <div className={"container text-copy-light dark:text-copy-dark flex flex-col items-center mx-auto px-2 md:px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500')}>
+    <div className={"container text-copy-light dark:text-copy-dark flex flex-col items-center mx-auto px-2 md:px-10 mb-8 pt-[100px]"+(menu?' blur-filter': ' trans-500 pb-[200px]')}>
 
       <h1 className=' font-bold text-4xl py-10 font-inter'>
        {`#${tag} Articles`}
@@ -40,7 +40,7 @@ const TagPost = ({ posts, tag }: TagPostProps) : JSX.Element => {
               {categories.map((category:any)=>(
 
                   <Link href={`/tags/${category.slug}`} key={category.slug}>
-                      <span className={`relative cursor-pointer absolute px-3 py-2 m-2 bg-element-light dark:bg-element-dark hover:bg-slate-700 text-white rounded-lg text-sm dark:border-white ${tag === category.slug? ' bg-secondary-dark dark:bg-secondary-dark p-[20px] ': 'border-[0px]'}`}>
+                      <span className={`relative cursor-pointer absolute px-3 py-2 m-2 bg-element-light dark:bg-element-dark hover:bg-slate-700 text-gray rounded-lg text-sm dark:border-white ${tag === category.slug? ' bg-secondary-dark dark:bg-secondary-dark p-[20px] text-white ': 'border-[0px]'}`}>
                           {`#${category.name}`}
                       </span>
                   </Link>

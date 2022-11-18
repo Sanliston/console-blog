@@ -33,7 +33,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
   console.log("collection: ", collection , "posts: ", collection.posts, " slug: ", slug);
 
   return (
-    <div className="flex flex-col items-center  mb-8">
+    <div className="flex flex-col items-center  mb-8 ">
 
       <div className={' fixed bg-cover min-w-[100vw] min-h-[100vh] flex flex-col items-center justify-center shadow-xl'+(menu?' blur-filter': ' trans-100')}
 
@@ -191,7 +191,7 @@ const TagPost = ({ slug, collection }: TagPostProps) : JSX.Element => {
 
       </div>
 
-      <div className={'container relative top-[100vh] min-w-[100vw] bg-element-light dark:bg-background-dark container flex flex-col items-center mx-auto px-3 '+(menu?' blur-filter': ' trans-100')}
+      <div className={'container relative top-[100vh] min-w-[100vw] bg-element-light dark:bg-background-dark container flex flex-col items-center mx-auto px-3 pb-[200px] '+(menu?' blur-filter': ' trans-100')}
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
         }}
