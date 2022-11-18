@@ -248,11 +248,20 @@ const Home: NextPage<HomeProps> = ({ posts, collections }: HomeProps): JSX.Eleme
 
 export const getStaticProps = async () : Promise<{}> => {
 
-  const posts = (await getPosts()) || [];
-  const collections = (await getCollections()) || [];
+  try {
+    const posts = (await getPosts()) || [];
+    const collections = (await getCollections()) || [];
 
-  return {
-    props: { posts, collections }
+    console.log();
+
+    return {
+      props: { posts, collections }
+    }
+  }catch (e) {
+
+    console.log('error: ', e);
+
+    return Promise<{}>; 
   }
 }
 
